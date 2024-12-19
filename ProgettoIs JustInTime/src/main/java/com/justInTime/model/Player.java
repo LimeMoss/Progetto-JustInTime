@@ -17,7 +17,7 @@ import jakarta.persistence.Transient;
 
 
 @Entity
-public class Player   {
+public class Player implements UtenzaBridge  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  
@@ -31,6 +31,7 @@ public class Player   {
 
     @Transient
     private List<Carta> mano;
+
     private String name;  
 
     @ManyToMany(mappedBy = "giocatori", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

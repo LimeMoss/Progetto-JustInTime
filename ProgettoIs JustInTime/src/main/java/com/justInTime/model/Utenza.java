@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 
 @Entity
 public class Utenza implements UtenzaBridge{
@@ -79,7 +78,7 @@ public class Utenza implements UtenzaBridge{
 
     private  String tipo;
 
-    private String img;
+
 
     public Utenza( String tipo) {
    
@@ -98,15 +97,15 @@ public class Utenza implements UtenzaBridge{
         this.dataCreazioneAccount = dataCreazioneAccount;
         this.username = username;
         this.tipo = tipo;
-        this.img = img;
     }
 
     // Getters
-    public long getIdUtente() {
+    @Override
+    public Long getId() {
         return id;
     }
-
-    public String getNome() {
+    @Override
+    public String getName() {
         return nome;
     }
 
