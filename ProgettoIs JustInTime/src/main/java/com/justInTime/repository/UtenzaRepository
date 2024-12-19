@@ -1,0 +1,7 @@
+package com.justInTime.repository;
+
+@Repository
+public interface UtenzaRepository extends JpaRepository<Utenza, Long>{
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
+}

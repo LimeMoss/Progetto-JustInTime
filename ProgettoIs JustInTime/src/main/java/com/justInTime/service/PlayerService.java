@@ -3,29 +3,36 @@ package com.justInTime.service;
 import com.justInTime.model.Carta;
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
+import com.justInTime.model.Utenza;
 import com.justInTime.repository.PartitaRepository;
 import com.justInTime.repository.PlayerRepository;
+import com.justInTime.repository.UtenzaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
-
     private final PartitaRepository partitaRepository;
+    private final UtenzaRepository utenzaRepository;
 
-    public PlayerService(PlayerRepository playerRepository, PartitaRepository partitaRepository) {
+    public PlayerService(PlayerRepository playerRepository, PartitaRepository partitaRepository, UtenzaRepository utenzaRepository) {
         this.playerRepository = playerRepository;
         this.partitaRepository = partitaRepository;
+        this.utenzaRepository = utenzaRepository;
     }
 
     // Crea un nuovo giocatore
-    public Player creaGiocatore(String name, int maxScore) {
+    @Transactional
+    public Player creaGiocatore(String name, int maxScore, Long utenzaId) {
+        Utenza utenza = utenzaRepository.findById(utenzaId)
+                .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
+
         Player player = new Player(name, maxScore);
+        player.associaUtenza(utenza); // Associa il paese dell'utenza al giocatore
         return playerRepository.save(player);
     }
 
@@ -72,6 +79,7 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
+    // Elimina un giocatore
     public void deletePlayer(Long id) {
         Player player = playerRepository.findById(id).orElseThrow(() -> new RuntimeException("Player non trovato"));
 
@@ -79,7 +87,6 @@ public class PlayerService {
             partita.getGiocatori().remove(player);
             partitaRepository.save(partita);
         }
-
 
         playerRepository.deleteById(id);
     }

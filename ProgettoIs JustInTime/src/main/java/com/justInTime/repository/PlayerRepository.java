@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     Optional<Player> findByName(String name); //optional significa che il risultato della ricerca può essere null
+    List<Player> findAllByOrderByMaxScoreDesc();
 
 }
