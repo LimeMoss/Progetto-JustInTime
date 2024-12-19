@@ -1,86 +1,98 @@
-// PartitaService.java
 package com.justInTime.service;
 
 import com.justInTime.model.*;
+import com.justInTime.repository.PartitaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PartitaService {
 
-    // Avvia la partita e gestisce il flusso di gioco
-    public void play(Partita partita) {
-        if (partita.getGameState() == null) {
-            iniziaPartita(partita); // Se la partita non è ancora iniziata, avviala
-        }
+    @Autowired
+    private PartitaRepository partitaRepository;
 
-        while (!(partita.getGameState() instanceof EndGameState)) {
-            partita.getGameState().execute(partita);  // Esegui l'azione dello stato corrente
-        }
+    public Partita createPartita() {
+        Partita partita = new Partita();
+        return partitaRepository.save(partita);
     }
 
-    // Inizia la partita
-    public void iniziaPartita(Partita partita) {
-        partita.setGameState(new StartGameState()); // Inizializza lo stato di inizio partita
-        partita.setIndiceGiocatoreCorrente(0);
-        partita.getGameState().execute(partita);
+    public Partita getPartita(Long partitaId) {
+        return partitaRepository.findById(partitaId)
+            .orElseThrow(() -> new RuntimeException("Partita non trovata"));
     }
 
-    // Inizia il turno del giocatore corrente
-    public void iniziaTurno(Partita partita) {
-        Player giocatoreCorrente = partita.getGiocatoreCorrente();
-        System.out.println("Il turno di " + giocatoreCorrente.getName() + " è iniziato.");
-        
-        partita.setGameState(new TurnState());
-        partita.getGameState().execute(partita);
-    }
-
-    // Passa al prossimo giocatore
-    public void passaAlProssimoGiocatore(Partita partita) {
-        partita.setIndiceGiocatoreCorrente((partita.getIndiceGiocatoreCorrente() + 1) % partita.getGiocatori().size());
-    }
-
-    // Termina la partita
-    public void terminaPartita(Partita partita) {
-        if (!(partita.getGameState() instanceof EndGameState)) {
-            partita.setGameState(new EndGameState());
-            System.out.println("La partita è stata terminata.");
-        }
-    }
-
-    // Aggiunge un giocatore alla partita
-    public boolean aggiungiGiocatore(Partita partita, Player giocatore) {
+    public Partita aggiungiGiocatore(Long partitaId, Player giocatore) {
+        Partita partita = getPartita(partitaId);
         if (partita.getGiocatori().size() < 4 && !partita.getGiocatori().contains(giocatore)) {
             partita.getGiocatori().add(giocatore);
             giocatore.getPartite().add(partita);
-            return true;
-        } else {
-            System.out.println("Limite massimo di giocatori raggiunto o giocatore già presente.");
-            return false;
+            return partitaRepository.save(partita);
         }
+        throw new RuntimeException("Impossibile aggiungere il giocatore");
     }
 
-    // Rimuove un giocatore dalla partita
-    public boolean rimuoviGiocatore(Partita partita, Player giocatore) {
-        if (partita.getGiocatori().contains(giocatore)) {
-            partita.getGiocatori().remove(giocatore);
-            giocatore.getPartite().remove(partita);
-            return true;
-        } else {
-            System.out.println("Giocatore non presente in questa partita.");
-            return false;
-        }
+    public void rimuoviGiocatore(Long partitaId, Long giocatoreId) {
+        Partita partita = getPartita(partitaId);
+        partita.getGiocatori().removeIf(g -> g.getId().equals(giocatoreId));
+        partitaRepository.save(partita);
     }
 
-    // Distribuisci carte iniziali
-    public void distribuisciCarteIniziali(Partita partita) {
+    public Partita iniziaPartita(Long partitaId) {
+        Partita partita = getPartita(partitaId);
+        if (partita.getGiocatori().size() < 2) {
+            throw new RuntimeException("Numero insufficiente di giocatori");
+        }
+        distribuisciCarteIniziali(partita);
+        partita.setGameState(new StartGameState());
+        return partitaRepository.save(partita);
+    }
+
+    public Partita giocaCarta(Long partitaId, int cartaIndex) {
+        Partita partita = getPartita(partitaId);
+        Player giocatoreCorrente = partita.getGiocatoreCorrente();
+        Carta carta = giocatoreCorrente.getMano().get(cartaIndex);
+        
+        if (cartaGiocabile(partita, carta)) {
+            if (carta.getValore() == 99) {
+                carta.applicaEffetto(giocatoreCorrente);
+            }
+            giocatoreCorrente.getMano().remove(cartaIndex);
+            partita.getMazzoScarto().aggiungi(carta);
+            passaAlProssimoGiocatore(partita);
+            return partitaRepository.save(partita);
+        }
+        throw new RuntimeException("Carta non giocabile");
+    }
+
+    private boolean cartaGiocabile(Partita partita, Carta carta) {
+        int specialValue = 99;
+        MazzoScarto mazzoScarto = partita.getMazzoScarto();
+        if (mazzoScarto != null) {
+            int value = mazzoScarto.ultimaCartaScartata().getValore();
+            return carta.getValore() == value + 1 || 
+                   carta.getValore() == value - 1 || 
+                   carta.getValore() == specialValue;
+        }
+        throw new RuntimeException("Il mazzo non è un mazzo di scarto");
+    }
+
+    private void distribuisciCarteIniziali(Partita partita) {
         for (Player giocatore : partita.getGiocatori()) {
             for (int i = 0; i < 5; i++) {
-                
                 giocatore.aggiungiCartaAllaMano(partita.getMazzoNormale().pescaCarta());
             }
         }
     }
 
-    // Imposta lo stato della partita
-    public void setGameState(Partita partita, GameState gameState) {
-        partita.setGameState(gameState);
+    private void passaAlProssimoGiocatore(Partita partita) {
+        partita.setIndiceGiocatoreCorrente(
+            (partita.getIndiceGiocatoreCorrente() + 1) % partita.getGiocatori().size()
+        );
+    }
+
+    public void terminaPartita(Long partitaId) {
+        Partita partita = getPartita(partitaId);
+        partita.setGameState(new EndGameState());
+        partitaRepository.save(partita);
     }
 }
