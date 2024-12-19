@@ -26,6 +26,16 @@ public class Feedback{
         return this.stars;
     }
 
+    public void setFeedback(String feedback){
+
+        this.feedback=feedback;
+
+    }
+
+    public void setStars(long stars){
+        this.stars=stars;
+    }
+
     
     
 
