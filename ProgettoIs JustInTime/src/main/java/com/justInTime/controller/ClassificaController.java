@@ -1,7 +1,5 @@
 package com.justInTime.controller;
 
-package com.justInTime.controller;
-
 import com.justInTime.model.Player;
 import com.justInTime.service.ClassificaService;
 import org.springframework.web.bind.annotation.GetMapping;
