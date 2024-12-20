@@ -35,4 +35,14 @@ public class MazzoScarto extends Mazzo {
         }
         return null;
     }
+
+    public int getSize(){
+        return carteScartate.size();
+    }
+
+    public boolean searchCard(Carta carta){
+        return carteScartate.contains(carta);
+    }
+
+
 }

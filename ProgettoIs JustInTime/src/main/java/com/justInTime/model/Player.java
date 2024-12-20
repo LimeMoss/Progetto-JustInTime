@@ -93,4 +93,35 @@ public class Player implements UtenzaBridge {
     public String getName() {
         return name;
     }
+    public void setNome(String nome){
+        this.name=nome;
+
+    }
+
+    public int getDurataTurno() {
+        return this.durataTurno;
+    }
+
+    public void setDurataTurno(int durataTurno) {
+        this.durataTurno=durataTurno;
+    }
+
+    public List<Carta> getMano(){
+        return this.mano;
+    }
+
+    public boolean isTurnoInPausa(){
+        return turnoInPausa;
+
+    }
+
+    public int getMaxScore() {
+        return maxScore;
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = maxScore;
+    }
+
+
 }

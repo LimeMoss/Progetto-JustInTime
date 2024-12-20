@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 
+
 // Implementazione del MazzoPesca
 public class MazzoPesca extends Mazzo {
 
@@ -58,4 +59,14 @@ public class MazzoPesca extends Mazzo {
             carte.add(new Carta("Jolly"));
         }
     }
+
+    public int getSize(){
+        return carte.size();
+    }
+
+    public boolean searchCard(Carta carta){
+        return carte.contains(carta);
+    }
+
+    
 }
