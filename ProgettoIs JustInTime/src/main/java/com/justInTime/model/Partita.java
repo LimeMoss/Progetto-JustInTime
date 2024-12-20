@@ -17,7 +17,6 @@ public class Partita {
     @Transient
     private GameState gameState;
 
-    private boolean segnalato;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(

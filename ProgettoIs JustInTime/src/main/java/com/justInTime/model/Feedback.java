@@ -16,8 +16,8 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  
     private Long id;  // Identificativo univoco del feedback
     
-    private String feedback;  // Testo del feedback
-    private long stars;       // Punteggio in stelle associato al feedback
+    private String descrizione;  // Testo del feedback
+    private int stars;       // Punteggio in stelle associato al feedback
 
     /**
      * Costruttore predefinito per creare un'istanza di Feedback.
@@ -28,10 +28,10 @@ public class Feedback {
      * Costruttore per creare un'istanza di Feedback con testo e punteggio specificati.
      * 
      * @param stars Il numero di stelle del feedback.
-     * @param feedback Il testo del feedback.
+     * @param descrizione Il testo del feedback.
      */
-    public Feedback(long stars, String feedback) {
-        this.feedback = feedback;
+    public Feedback(int stars, String descrizione) {
+        this.descrizione = descrizione;
         this.stars = stars;
     }
 
@@ -41,7 +41,7 @@ public class Feedback {
      * @return Il testo del feedback.
      */
     public String getFeedback() {
-        return this.feedback;
+        return this.descrizione;
     }
 
     /**
@@ -49,7 +49,7 @@ public class Feedback {
      * 
      * @return Il numero di stelle.
      */
-    public long getStars() {
+    public int getStars() {
         return this.stars;
     }
 
@@ -67,7 +67,7 @@ public class Feedback {
      * 
      * @param stars Il nuovo numero di stelle.
      */
-    public void setStars(long stars) {
+    public void setStars(int stars) {
         this.stars = stars;
     }
 }
