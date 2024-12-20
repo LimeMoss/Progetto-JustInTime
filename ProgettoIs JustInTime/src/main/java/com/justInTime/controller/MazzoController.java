@@ -3,7 +3,7 @@ package com.justInTime.controller;
 import com.justInTime.model.Carta;
 import com.justInTime.service.MazzoPescaService;
 import com.justInTime.service.MazzoScartoService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public class MazzoController {
      * @param mazzoPescaService service per gestire il mazzo di pesca
      * @param mazzoScartoService service per gestire il mazzo degli scarti
      */
-    @Autowired
+
     public MazzoController(MazzoPescaService mazzoPescaService, MazzoScartoService mazzoScartoService) {
         this.mazzoPescaService = mazzoPescaService;
         this.mazzoScartoService = mazzoScartoService;

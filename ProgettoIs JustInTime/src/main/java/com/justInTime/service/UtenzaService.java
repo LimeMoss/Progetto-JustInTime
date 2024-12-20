@@ -2,17 +2,18 @@ package com.justInTime.service;
 
 import com.justInTime.model.Utenza;
 import com.justInTime.repository.UtenzaRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UtenzaService {
 
     private final UtenzaRepository utenzaRepository;
-    private PasswordEncoder passwordEncoder; // For secure password hashing
 
     public UtenzaService(UtenzaRepository utenzaRepository) {
         this.utenzaRepository = utenzaRepository;
@@ -39,7 +40,7 @@ public class UtenzaService {
     @Transactional
     public Utenza aggiornaUtenza(Long id, Utenza utenzaAggiornata) {
         Utenza utenza = trovaUtenza(id);
-        utenza.setNome(utenzaAggiornata.getNome());
+        utenza.setNome(utenzaAggiornata.getName());
         utenza.setCognome(utenzaAggiornata.getCognome());
         utenza.setPaese(utenzaAggiornata.getPaese());
         utenza.setTelefono(utenzaAggiornata.getTelefono());
@@ -47,7 +48,6 @@ public class UtenzaService {
         utenza.setPassword(utenzaAggiornata.getPassword());
         utenza.setDataCreazioneAccount(utenzaAggiornata.getDataCreazioneAccount());
         utenza.setUsername(utenzaAggiornata.getUsername());
-        utenza.setTipo(utenzaAggiornata.getTipo());
         return utenzaRepository.save(utenza);
     }
 
@@ -70,10 +70,10 @@ public class UtenzaService {
         }
 
         // Encrypt the password before saving
-        utenza.setPassword(passwordEncoder.encode(utenza.getPassword()));
+        utenza.setPassword((utenza.getPassword()));
 
         // Set account creation date
-        utenza.setDataCreazioneAccount(new Date());
+        utenza.setDataCreazioneAccount(LocalDate.now());
 
         return utenzaRepository.save(utenza);
     }
@@ -84,7 +84,7 @@ public class UtenzaService {
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
         // Validate the password
-        if (!passwordEncoder.matches(password, utenza.getPassword())) {
+        if (!(password == null ? utenza.getPassword() == null : password.equals(utenza.getPassword()))) {
             throw new RuntimeException("Invalid credentials.");
         }
 

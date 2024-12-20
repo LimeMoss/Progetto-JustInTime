@@ -28,8 +28,7 @@ public class PlayerService {
     // Crea un nuovo giocatore
     @Transactional
     public Player creaGiocatore(String name, int maxScore, Long utenzaId) {
-        Utenza utenza = utenzaRepository.findById(utenzaId)
-                .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
+        Utenza utenza = utenzaRepository.findById(utenzaId).orElseThrow(() -> new RuntimeException("Utenza non trovata."));
 
         Player player = new Player(name, maxScore);
         player.associaUtenza(utenza); // Associa il paese dell'utenza al giocatore
@@ -51,7 +50,7 @@ public class PlayerService {
     @Transactional
     public Player aggiornaNomeGiocatore(Long playerId, String nuovoNome) {
         Player player = trovaGiocatore(playerId);
-        player.setName(nuovoNome);
+        player.setNome(nuovoNome);
         return playerRepository.save(player);
     }
 
@@ -75,7 +74,7 @@ public class PlayerService {
     @Transactional
     public Player incrementaMaxScore(Long playerId) {
         Player player = trovaGiocatore(playerId);
-        player.IncreaseMaxScore();
+        player.increaseMaxScore();
         return playerRepository.save(player);
     }
 

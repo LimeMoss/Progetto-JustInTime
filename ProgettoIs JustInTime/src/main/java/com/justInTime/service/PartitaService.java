@@ -1,9 +1,16 @@
 package com.justInTime.service;
 
-import com.justInTime.model.*;
-import com.justInTime.repository.PartitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.justInTime.model.Carta;
+import com.justInTime.model.EndGameState;
+import com.justInTime.model.GameState;
+import com.justInTime.model.MazzoScarto;
+import com.justInTime.model.Partita;
+import com.justInTime.model.Player;
+import com.justInTime.model.StartGameState;
+import com.justInTime.repository.PartitaRepository;
 
 @Service
 public class PartitaService {
@@ -25,7 +32,6 @@ public class PartitaService {
         Partita partita = getPartita(partitaId);
         if (partita.getGiocatori().size() < 4 && !partita.getGiocatori().contains(giocatore)) {
             partita.getGiocatori().add(giocatore);
-            giocatore.getPartite().add(partita);
             return partitaRepository.save(partita);
         }
         throw new RuntimeException("Impossibile aggiungere il giocatore");
@@ -76,7 +82,7 @@ public class PartitaService {
         throw new RuntimeException("Il mazzo non è un mazzo di scarto");
     }
 
-    private void distribuisciCarteIniziali(Partita partita) {
+    public void distribuisciCarteIniziali(Partita partita) {
         for (Player giocatore : partita.getGiocatori()) {
             for (int i = 0; i < 5; i++) {
                 giocatore.aggiungiCartaAllaMano(partita.getMazzoNormale().pescaCarta());
@@ -84,7 +90,7 @@ public class PartitaService {
         }
     }
 
-    private void passaAlProssimoGiocatore(Partita partita) {
+    public void passaAlProssimoGiocatore(Partita partita) {
         partita.setIndiceGiocatoreCorrente(
             (partita.getIndiceGiocatoreCorrente() + 1) % partita.getGiocatori().size()
         );
@@ -94,5 +100,11 @@ public class PartitaService {
         Partita partita = getPartita(partitaId);
         partita.setGameState(new EndGameState());
         partitaRepository.save(partita);
+    }
+
+    public void setGameState(Partita partita, GameState gamestate){
+
+            partita.setGameState(gamestate);
+
     }
 }

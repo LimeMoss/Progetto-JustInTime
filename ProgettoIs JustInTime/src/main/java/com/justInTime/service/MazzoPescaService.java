@@ -2,11 +2,12 @@ package com.justInTime.service;
 
 
 
+import org.springframework.stereotype.Service;
+
 import com.justInTime.model.Carta;
 import com.justInTime.model.Mazzo;
 import com.justInTime.model.MazzoFactory;
 import com.justInTime.model.MazzoPesca;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MazzoPescaService {
@@ -32,4 +33,6 @@ public class MazzoPescaService {
     public Carta getCarta(int index) {
         return mazzoPesca.getCarta(index);
     }
+    
+    
 }
