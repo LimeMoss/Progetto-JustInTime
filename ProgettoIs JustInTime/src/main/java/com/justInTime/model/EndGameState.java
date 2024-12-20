@@ -27,7 +27,7 @@ public class EndGameState implements GameState {
         Player vincitore = determinaVincitore(partita);
 
         if (vincitore != null) {
-            // TODO: Implementare la logica per gestire il vincitore
+            // TODO: Implementare la logica per gestire il vincitore e aumentare punteggi
         }
 
         partitaService.terminaPartita(partita.getId());
