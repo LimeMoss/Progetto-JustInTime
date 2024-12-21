@@ -1,0 +1,50 @@
+/* Importa il font Jua da Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+/* Stile globale */
+body {
+    margin: 0;
+    font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
+    background-color: #a3c682; /* Verde di sfondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altezza completa della finestra */
+    text-align: center;
+}
+
+/* Contenitore principale */
+.welcome-container {
+    text-align: center;
+}
+
+#welcome{
+    font-size: 60px;
+}
+
+/* Titolo */
+.title {
+    font-size: 120px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Pulsante "Nuova Partita" */
+.new-game-button {
+    margin-top: 20px;
+    background-color: #E48826; /* Arancione pulsante */
+    color: #ffffff; /* Testo bianco */
+    border: none;
+    padding: 20px 50px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px; /* Pulsante arrotondato */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.new-game-button:hover {
+    background-color: #D9773B; /* Colore più scuro al passaggio */
+    transform: scale(1.05); /* Leggero ingrandimento */
+}
