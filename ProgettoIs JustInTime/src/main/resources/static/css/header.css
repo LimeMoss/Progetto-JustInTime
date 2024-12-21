@@ -83,4 +83,5 @@ header .logo-image > img{
 .nav-links a:hover {
     text-decoration: none;
     transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
 }

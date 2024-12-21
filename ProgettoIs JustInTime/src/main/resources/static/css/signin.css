@@ -83,6 +83,7 @@ label {
 .signin-button:hover {
     background-color: #D9773B; /* Arancione più scuro */
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
 }
 
 /* Stile per il footer */

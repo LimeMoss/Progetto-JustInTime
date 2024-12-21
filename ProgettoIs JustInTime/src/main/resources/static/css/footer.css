@@ -29,10 +29,10 @@ footer .nav-links a {
     text-decoration: none;
     font-size: 24px;
     margin-right: 20px;
-    transition: transform 0.2s, color 0.3s; /* Transizione per ingrandimento */
+    transition: transform 0.2s, color 0.3s;
 }
 
 footer .nav-links a:hover {
-    transform: scale(1.1); /* Leggero ingrandimento al passaggio */
+    transform: scale(1.1);
     cursor: pointer;
 }

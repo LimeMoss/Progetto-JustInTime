@@ -51,4 +51,5 @@ body {
 .new-game-button:hover {
     background-color: #D9773B;
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
 }
