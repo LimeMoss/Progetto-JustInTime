@@ -1,0 +1,59 @@
+body{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
+    background-color: #8BAC4F; /* Verde di sfondo */
+}
+
+.highscore-container{
+    margin-top: 100px;
+}
+
+button{
+    background-color: #E48826;
+    color: #ffffff;
+    border: none;
+    padding: 20px 50px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+
+button:hover{
+    background-color: #D9773B;
+    transform: scale(1.05);
+}
+
+
+.highscore-container h1 {
+    margin-bottom: 20px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px; /* Imposta una larghezza massima per il layout */
+}
+
+.left-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.below-button-text {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.highscoreglobalbutton {
+    margin-left: auto; /* Sposta il bottone a destra */
+}
