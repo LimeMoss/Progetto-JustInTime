@@ -1,30 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
-/* Reset stile */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Corpo */
 body {
     font-family: 'Jua', Arial, sans-serif;
-    background-color: #8BAC4F; /* Verde chiaro */
+    background-color: #8BAC4F;
     color: #F5ECD8;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-.archievement {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
 /* Contenitore degli obiettivi */
-.archievements-container {
+.achievements-container {
     margin: 120px;
     padding: 20px;
     max-width: 1000px;
@@ -33,18 +25,20 @@ body {
     align-items: flex-start;
 }
 
-.archievement {
-    margin: 120px 50px 0 50px;
+.achievement {
+    width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 /* Sezione sinistra: Nome utente e obiettivi */
-.archievements-left {
-    width: 70%;
+.achievements-left {
+    width: 90%;
 }
 
-.archievements-left h1 {
+.achievements-left h1 {
     font-size: 36px;
     margin-bottom: 20px;
 }
@@ -56,15 +50,21 @@ body {
     border-radius: 15px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
 }
 
 .achievement-card {
     background-color: #D1A376;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 87%;
 }
 
 .achievement-card h2 {
     font-size: 20px;
-    color: #F5ECD8; /* Testo avorio */
+    color: #F5ECD8;
 }
 
 .achievement-card p {
@@ -73,13 +73,14 @@ body {
 }
 
 .trophy{
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 20px;
+    margin-left: 40px;
 }
 
 /* Sezione destra: Trofei */
-.archievements-right {
+.achievements-right {
     width: 20%;
     display: flex;
     flex-direction: column;
@@ -96,13 +97,13 @@ body {
     margin-top: 40px;
 }
 
-.archievements-right h2 {
+.achievements-right h2 {
     font-size: 20px;
     margin-bottom: 10px;
     color: #2D3B1F;
 }
 
-.archievements-right .completed-count {
+.achievements-right .completed-count {
     font-size: 36px;
     color: #E48826;
     margin-bottom: 20px;

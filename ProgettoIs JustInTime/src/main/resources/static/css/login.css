@@ -38,6 +38,7 @@ body {
 .input-group {
     margin-bottom: 20px;
     text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 label {
@@ -68,6 +69,7 @@ button, .register-button{
     transition: background-color 0.3s, transform 0.2s;
     width: 120px;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .action-section {
@@ -76,19 +78,6 @@ button, .register-button{
     align-items: center;
     gap: 10px;
     margin-top: 20px;
-}
-
-.button, .register-button {
-    color: #F5ECD8;
-    border: none;
-    padding: 10px 20px;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    width: 120px;
-    text-align: center;
 }
 
 button:hover, .register-button:hover{

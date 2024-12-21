@@ -31,9 +31,10 @@ body {
     font-size: 18px;
     cursor: pointer;
     color: #F5ECD8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#archievement {
+#achievement {
     margin-left: 20%;
     width: 30%;
 }
@@ -56,6 +57,7 @@ body {
     left: 0;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .score {
