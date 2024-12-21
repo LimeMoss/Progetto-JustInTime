@@ -1,9 +1,9 @@
 /* Importa il font Jua da Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
-/* Stile globale */
+
 body {
-    margin: 0;
+    margin-top: 100px;
     font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
     background-color: #a3c682; /* Verde di sfondo */
     display: flex;
