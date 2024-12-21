@@ -48,6 +48,10 @@ header .logo-image > img{
     color: #DDA15E;
 }
 
+header .nav-links img{
+    width: 20%;
+}
+
 .nav-links {
     display: flex;
     gap: 20px;
