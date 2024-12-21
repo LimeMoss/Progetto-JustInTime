@@ -44,12 +44,19 @@ header .logo-image > img{
     color: #F5ECD8;
 }
 
-.logo-text span {
-    color: #DDA15E;
+#user-image {
+    height: 60px; /* Altezza ridotta */
+    display: flex;
+    align-items: center;
 }
 
-header .nav-links img{
-    width: 20%;
+#user-image img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.logo-text span {
+    color: #DDA15E;
 }
 
 .nav-links {
@@ -59,8 +66,9 @@ header .nav-links img{
     color: #F5ECD8;
     text-decoration: none;
     font-size: 40px;
-    padding-right: 20px;
+    padding: 20px;
     width: fit-content;
+    align-items: center;
 }
 
 .nav-links a {
