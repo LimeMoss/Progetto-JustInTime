@@ -1,13 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JustInTime</title>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/homepagestyle.css">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/homepagestyle.css" rel="stylesheet">
 </head>
 <body>
+
+<!-- Include dell'header -->
+<jsp:include page="../WEB-INF/header.jsp" />
+
 <!-- Contenuto principale -->
 <main>
     <div class="welcome-container">
@@ -18,5 +23,6 @@
         <button class="new-game-button">Nuova Partita</button>
     </div>
 </main>
+
 </body>
 </html>
