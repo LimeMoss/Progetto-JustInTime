@@ -17,6 +17,12 @@ body {
     min-height: 100vh;
 }
 
+.archievement {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 /* Contenitore degli obiettivi */
 .archievements-container {
     margin: 120px;
@@ -25,6 +31,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.archievement {
+    margin: 120px 50px 0 50px;
+    display: flex;
+    justify-content: space-between;
 }
 
 /* Sezione sinistra: Nome utente e obiettivi */
@@ -68,45 +80,30 @@ body {
 
 /* Sezione destra: Trofei */
 .archievements-right {
-    width: 25%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 20px;
-    background-color: #658B3F; /* Verde medio */
+    background-color: #658B3F;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    right: 0;
+    top: 120px;
+    margin-right: 10%;
+    margin-top: 40px;
 }
 
 .archievements-right h2 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #2D3B1F; /* Verde scuro */
+    color: #2D3B1F;
 }
 
 .archievements-right .completed-count {
     font-size: 36px;
-    color: #E48826; /* Arancione */
+    color: #E48826;
     margin-bottom: 20px;
-}
-
-/* Footer */
-.footer {
-    background-color: #2D3B1F; /* Verde scuro */
-    color: #F5ECD8;
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 16px;
-    margin-top: auto;
-}
-
-.footer .nav-links a {
-    color: #F5ECD8;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-.footer .nav-links a:hover {
-    text-decoration: underline;
 }
