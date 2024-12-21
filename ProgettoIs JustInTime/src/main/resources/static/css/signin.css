@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+/* Resetta margini e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F; /* Verde chiaro */
+    color: #F5ECD8; /* Bianco avorio */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.signin-container {
+    margin: auto;
+    padding: 30px;
+    margin-top: 7%;
+    background-color: #658B3F; /* Verde medio */
+    border-radius: 20px;
+    width: 80%; /* Adatta la larghezza */
+    max-width: 900px; /* Limita la larghezza */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Titolo */
+.signin-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #2D3B1F; /* Verde scuro */
+}
+
+/* Form */
+.signin-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #FFF7F7; /* Bianco avorio */
+    color: #2D3B1F; /* Testo verde scuro */
+}
+
+.action-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.signin-button {
+    background-color: #E48826; /* Arancione */
+    color: #F5ECD8;
+    border: none;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.signin-button:hover {
+    background-color: #D9773B; /* Arancione più scuro */
+    transform: scale(1.05);
+}
+
+/* Stile per il footer */
+.footer {
+    background-color: #2D3B1F; /* Verde scuro */
+    color: #F5ECD8;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: auto;
+}
+
+.footer .nav-links a {
+    color: #F5ECD8;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.footer .nav-links a:hover {
+    text-decoration: underline;
+}
