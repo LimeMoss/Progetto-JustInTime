@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+body {
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+.top-button, .bottom-button {
+    background-color: #DDA15E;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.main-button {
+    background-color: #E07A5F;
+    border: none;
+    border-radius: 20px;
+    padding: 20px 40px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    display: inline-block;
+    margin: 20px 0;
+}
+
+.score {
+    font-size: 24px;
+    color: white;
+    margin: 20px 0;
+}

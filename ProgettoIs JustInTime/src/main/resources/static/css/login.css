@@ -1,4 +1,4 @@
-/* Importa il font Jua */
+
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 * {
@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Jua', Arial, sans-serif;
-    background-color: #a3c682;
+    background-color: #8BAC4F;
     display: flex;
     justify-content: center;
     align-items: center;
