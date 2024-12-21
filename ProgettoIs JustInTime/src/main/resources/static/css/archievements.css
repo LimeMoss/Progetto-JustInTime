@@ -38,16 +38,16 @@ body {
 }
 
 /* Obiettivo card */
-.achievement-card {
-    background-color: #E48826; /* Arancione */
+.achievement-card.completed {
+    background-color: #E48826;
     padding: 15px;
     border-radius: 15px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.achievement-card.completed {
-    background-color: #D1A376; /* Marrone chiaro per completati */
+.achievement-card {
+    background-color: #D1A376;
 }
 
 .achievement-card h2 {
@@ -58,6 +58,12 @@ body {
 .achievement-card p {
     margin-top: 5px;
     font-size: 16px;
+}
+
+.trophy{
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
 }
 
 /* Sezione destra: Trofei */
@@ -83,12 +89,6 @@ body {
     font-size: 36px;
     color: #E48826; /* Arancione */
     margin-bottom: 20px;
-}
-
-.archievements-right img {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
 }
 
 /* Footer */
