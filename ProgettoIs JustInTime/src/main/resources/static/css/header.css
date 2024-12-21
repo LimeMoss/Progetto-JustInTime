@@ -1,17 +1,20 @@
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 header {
-    background-color: #2D3B1F; /* Verde scuro */
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #2D3B1F;
+    position: fixed;
     color: white;
     display: flex;
+    flex-direction: row;
+    top: 0;
+    left: 0;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    height: 30px;
+    width: 100%;
+    height: 100px;
     object-fit: contain;
+    z-index: 2;
 }
 
 .logo {
@@ -20,34 +23,49 @@ header {
 }
 
 header .logo-image {
-    margin-right: 10px;
+    height: 100px;
+    margin-left: 10px;
+}
+
+header .logo-image > img{
     box-sizing: border-box;
 
     object-fit: cover;
+    height: 100px;
 }
 
 .logo-text {
-    font-size: 20px;
-    color: #F5ECD8; /* Colore abbinato all'immagine */
-    font-family: 'Arial', sans-serif; /* Stesso font dell'immagine */
+    font-size: 50px;
+    color: #F5ECD8;
 }
 
 .logo-text span {
-    color: #FF8000; /* Arancione */
+    color: #FF8000;
 }
 
 .nav-links {
     display: flex;
     gap: 20px;
+    justify-content: space-around;
+    color: #F5ECD8;
+    text-decoration: none;
+    font-size: 40px;
+    padding-right: 20px;
+    width: fit-content;
+}
+
+.nav-links a:last-child {
+    margin-right: 30px;
 }
 
 .nav-links a {
-    color: #F5ECD8; /* Colore del testo a destra */
+    color: #F5ECD8;
     text-decoration: none;
-    font-family: 'Arial', sans-serif; /* Font per Regolamento e Login */
     font-size: 16px;
+    margin: 5px;
 }
 
 .nav-links a:hover {
+    background-color: #c7c1b8;
     text-decoration: underline;
 }
