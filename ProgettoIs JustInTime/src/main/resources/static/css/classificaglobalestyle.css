@@ -1,0 +1,30 @@
+body{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
+    background-color: #a3c682; /* Verde di sfondo */
+}
+
+.highscore-container{
+    margin-top: 100px;
+}
+
+button{
+    background-color: #E48826;
+    color: #ffffff;
+    border: none;
+    padding: 20px 50px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+
+button:hover{
+    background-color: #D9773B;
+    transform: scale(1.05);
+}
