@@ -45,7 +45,7 @@ header .logo-image > img{
 }
 
 .logo-text span {
-    color: #FF8000;
+    color: #DDA15E;
 }
 
 .nav-links {
@@ -59,18 +59,16 @@ header .logo-image > img{
     width: fit-content;
 }
 
-.nav-links a:last-child {
-    margin-right: 30px;
-}
-
 .nav-links a {
     color: #F5ECD8;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
     margin: 5px;
+    margin-right: 20px;
+    transition: transform 0.2s;
 }
 
 .nav-links a:hover {
-    background-color: #c7c1b8;
-    text-decoration: underline;
+    text-decoration: none;
+    transform: scale(1.1);
 }

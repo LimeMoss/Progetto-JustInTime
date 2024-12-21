@@ -17,7 +17,7 @@ body {
 /* Contenitore principale */
 .welcome-container {
     text-align: center;
-    margin-top: 25%;
+    margin-top: 12%;
 }
 
 #welcome {
@@ -27,9 +27,10 @@ body {
 
 /* Titolo */
 .title {
-    font-size: 120px;
+    font-size: 160px;
     font-weight: bold;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* Pulsante "Nuova Partita" */
