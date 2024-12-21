@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    background-color: #2D3B1F; /* Verde scuro */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo-image {
+    margin-right: 10px;
+    box-sizing: border-box;
+
+    object-fit: cover;
+}
+
+.logo-text {
+    font-size: 20px;
+    color: #F5ECD8; /* Colore abbinato all'immagine */
+    font-family: 'Arial', sans-serif; /* Stesso font dell'immagine */
+}
+
+.logo-text span {
+    color: #FF8000; /* Arancione */
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #F5ECD8; /* Colore del testo a destra */
+    text-decoration: none;
+    font-family: 'Arial', sans-serif; /* Font per Regolamento e Login */
+    font-size: 16px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
