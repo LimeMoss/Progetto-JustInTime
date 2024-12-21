@@ -1,0 +1,11 @@
+body {
+    margin-top: 100px;
+    font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
+    background-color: #8BAC4F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 99%;
+    text-align: center;
+}

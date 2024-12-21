@@ -1,0 +1,23 @@
+body {
+    margin-top: 100px;
+    font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
+    background-color: #8BAC4F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 99%;
+    text-align: center;
+}
+button {
+    background-color: #E48826;
+    color: #ffffff;
+    border: none;
+    padding: 20px 50px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
