@@ -20,18 +20,16 @@ body {
     margin: auto;
     padding: 30px;
     margin-top: 7%;
-    background-color: #658B3F; /* Verde medio */
     border-radius: 20px;
     width: 80%; /* Adatta la larghezza */
     max-width: 900px; /* Limita la larghezza */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Titolo */
 .signin-title {
     font-size: 36px;
     margin-bottom: 20px;
-    color: #2D3B1F; /* Verde scuro */
+    color: #FFEDDC;
 }
 
 /* Form */
