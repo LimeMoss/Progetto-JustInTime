@@ -6,8 +6,13 @@ body{
     background-color: #8BAC4F; /* Verde di sfondo */
 }
 
+p{
+    font-size: 40px;
+}
+
 .highscore-container{
     margin-top: 7%;
+    color: #FFEDDC;
 }
 
 .highscore-container-right{
@@ -16,6 +21,7 @@ body{
     margin-right: 2%;
 }
 #globaltitle{
+    font-size: 60px;
     margin-top: 8%;
     margin-left: 2%;
     color: #FFEDDC;

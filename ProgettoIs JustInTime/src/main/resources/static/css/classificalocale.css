@@ -6,8 +6,13 @@ body{
     background-color: #8BAC4F; /* Verde di sfondo */
 }
 
+p{
+    font-size: 20px;
+}
+
 .highscore-container{
     margin-top: 7%;
+    color: #FFEDDC;
 }
 
 .highscore-container-right{
