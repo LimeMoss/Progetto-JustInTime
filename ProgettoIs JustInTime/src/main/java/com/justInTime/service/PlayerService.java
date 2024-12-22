@@ -1,16 +1,16 @@
 package com.justInTime.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.justInTime.model.Carta;
-import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
 import com.justInTime.model.Utenza;
 import com.justInTime.repository.PartitaRepository;
 import com.justInTime.repository.PlayerRepository;
 import com.justInTime.repository.UtenzaRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class PlayerService {
@@ -80,13 +80,6 @@ public class PlayerService {
 
     // Elimina un giocatore
     public void deletePlayer(Long id) {
-        Player player = playerRepository.findById(id).orElseThrow(() -> new RuntimeException("Player non trovato"));
-
-        for (Partita partita : player.getPartite()) {
-            partita.getGiocatori().remove(player);
-            partitaRepository.save(partita);
-        }
-
-        playerRepository.deleteById(id);
+  
     }
 }

@@ -1,12 +1,13 @@
 package com.justInTime.controller;
 
-import com.justInTime.model.Player;
-import com.justInTime.service.ClassificaService;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.justInTime.model.Utenza;
+import com.justInTime.service.ClassificaService;
 
 @RestController
 @RequestMapping("/classifica")
@@ -24,7 +25,7 @@ public class ClassificaController {
      * @return Lista di giocatori ordinata.
      */
     @GetMapping
-    public List<Player> getClassifica() {
+    public List<Utenza> getClassifica() {
         return classificaService.getClassifica();
     }
 }
