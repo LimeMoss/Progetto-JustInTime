@@ -71,7 +71,11 @@ button:hover{
 .scores {
     display: flex;
     justify-content: space-between;
-    width: 60%;
+    width: 50%;
+    background-color: #2d3b1f;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .scores div {
@@ -88,10 +92,11 @@ button:hover{
 
 .first {
     font-size: 40px;
+    color: #E48826;
 }
 
 .second {
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .third {
@@ -105,4 +110,13 @@ button:hover{
 h1 {
     color: #F5ECD8;
     font-size: 60px;
+}
+
+#homebutton {
+    width: 10%
+}
+
+.trophy {
+    width: 70px;
+    height: 70px;
 }
