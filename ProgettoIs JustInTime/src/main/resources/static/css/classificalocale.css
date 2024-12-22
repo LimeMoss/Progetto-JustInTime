@@ -7,7 +7,19 @@ body{
 }
 
 .highscore-container{
-    margin-top: 100px;
+    margin-top: 7%;
+}
+
+.highscore-container-right{
+    margin-left: auto;
+    margin-top: 7%;
+    margin-right: 2%;
+}
+
+#localtitle{
+    margin-top: 8%;
+    margin-left: 2%;
+    color: #FFEDDC;
 }
 
 button{
