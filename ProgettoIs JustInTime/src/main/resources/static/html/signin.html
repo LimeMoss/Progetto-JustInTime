@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="../css/signin.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <script src="../script/PhoneNumberValidation.js"></script>
+    <script src="../script/FormValidation.js"></script>
 
     <script>
         function togglePasswordMessage() {
@@ -41,15 +43,15 @@
         <form class="signin-form">
             <div class="input-group">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" placeholder="Inserisci nome">
+                <input type="text" id="nome" placeholder="Inserisci nome" name="nome">
             </div>
             <div class="input-group">
                 <label for="cognome">Cognome</label>
-                <input type="text" id="cognome" placeholder="Inserisci cognome">
+                <input type="text" id="cognome" placeholder="Inserisci cognome" name="cognome">
             </div>
             <div class="input-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Inserisci username">
+                <input type="text" id="username" placeholder="Inserisci username" name="username">
             </div>
             <div class="input-group">
                 <label for="telefono">Telefono</label>
@@ -118,12 +120,12 @@
                         <option value="+967">+967</option>
                     </select>
 
-                    <input type="tel" id="telefono" placeholder="111 111 1111">
+                    <input type="tel" id="telefono" placeholder="111 111 1111" name="phoneNumber">
                 </div>
             </div>
             <div class="input-group">
                 <label for="datanascita">Data di nascita</label>
-                <input type="date" id="datanascita" placeholder="gg/mm/aaaa">
+                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="birth-date">
             </div>
 
             <div class="input-group">
@@ -193,7 +195,7 @@
                         <label for="password">Password</label>
                         <img src="../images/question.png" alt="question icon" class="question-icon" onclick="togglePasswordMessage()">
                     </div>
-                        <input type="password" id="password" placeholder="Inserisci password">
+                    <input type="password" id="password" placeholder="Inserisci password"  name="password">
                 </div>
                 <div class="password-message">
                     <h3>Indicazioni sulla password</h3>
@@ -208,14 +210,14 @@
             </div>
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="text" id="email" placeholder="text@text.text">
+                <input type="text" id="email" placeholder="text@text.text" name="email">
             </div>
             <div class="input-group">
                 <label for="confirmpassword">Conferma Password</label>
-                <input type="password" id="confirmpassword" placeholder="Inserisci password">
+                <input type="password" id="confirmpassword" placeholder="Inserisci password" name="password-check">
             </div>
             <div class="input-group">
-                    <button type="submit" class="signin-button">Conferma registrazione</button>
+                <button type="submit" class="signin-button">Conferma registrazione</button>
             </div>
 
         </form>
