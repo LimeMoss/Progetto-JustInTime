@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.justInTime.model.Utenza;
+import com.justInTime.model.Utente;
 
 @Repository
-public interface UtenzaRepository extends JpaRepository<Utenza, Long>{
+public interface UtenzaRepository extends JpaRepository<Utente, Long>{
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
-    Optional<Utenza> findByUsernameOrEmail(String username, String email);
-     List<Utenza> findAllByOrderByMaxScoreDesc();
+    Optional<Utente> findByUsernameOrEmail(String username, String email);
+     List<Utente> findAllByOrderByMaxScoreDesc();
 }

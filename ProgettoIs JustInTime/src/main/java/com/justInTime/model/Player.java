@@ -46,7 +46,7 @@ public class Player extends User {
         return this.id;
     }
     
-    @Override
+
     public void setName(String name) {
         ((PlayerImplementor)this.implementor).setName(name);
     }
@@ -86,4 +86,27 @@ public class Player extends User {
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTurnoInPausa(boolean turnoInPausa) {
+        this.turnoInPausa = turnoInPausa;
+    }
+
+    public void setMano(List<Carta> mano) {
+        this.mano = mano;
+    }
+
+    public List<Partita> getPartite() {
+        return partite;
+    }
+
+    public void setPartite(List<Partita> partite) {
+        this.partite = partite;
+    }
+
+
+
 }

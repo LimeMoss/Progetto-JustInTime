@@ -21,7 +21,7 @@ public class PlayerService {
 
     @Transactional
     public Player creaGiocatore(String name, int maxScore, Long utenzaId) {
-        Utenza utenza = utenzaRepository.findById(utenzaId)
+        Utente utenza = utenzaRepository.findById(utenzaId)
             .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
         Player player = new Player(name, maxScore);
         player.setCountry(utenza.getCountry());
@@ -67,5 +67,46 @@ public class PlayerService {
 
     public void deletePlayer(Long id) {
         playerRepository.deleteById(id);
+    }
+    @Transactional
+    public Player aggiungiGiocatoreAPartita(Long playerId, Long partitaId) {
+        Player player = trovaGiocatore(playerId);
+        Partita partita = partitaRepository.findById(partitaId)
+                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+        
+        // Verifica se il giocatore è già nella partita
+        if (!partita.getGiocatori().contains(player)) {
+            partita.getGiocatori().add(player);
+            player.getPartite().add(partita);
+            partitaRepository.save(partita);
+        }
+        
+        return playerRepository.save(player);
+    }
+
+    @Transactional
+    public Player rimuoviGiocatoreDaPartita(Long playerId, Long partitaId) {
+        Player player = trovaGiocatore(playerId);
+        Partita partita = partitaRepository.findById(partitaId)
+                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+        
+        partita.getGiocatori().remove(player);
+        player.getPartite().remove(partita);
+        partitaRepository.save(partita);
+        
+        return playerRepository.save(player);
+    }
+
+    @Transactional
+    public List<Partita> getPartiteGiocatore(Long playerId) {
+        Player player = trovaGiocatore(playerId);
+        return player.getPartite();
+    }
+
+    @Transactional
+    public boolean isGiocatoreInPartita(Long playerId, Long partitaId) {
+        Player player = trovaGiocatore(playerId);
+        return player.getPartite().stream()
+                .anyMatch(partita -> partita.getId().equals(partitaId));
     }
 }

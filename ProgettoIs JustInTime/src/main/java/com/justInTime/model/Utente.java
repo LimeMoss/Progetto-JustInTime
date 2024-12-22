@@ -27,19 +27,19 @@ public class Utente extends User {
 
     }
 
-      public Utenza(String nome, String cognome, Date dataNascita, String paese,
-                 String telefono, String email, String password, String username) {
-        super(new UtenzaImplementor());
-        UtenzaImplementor impl = (UtenzaImplementor)this.implementor;
-        impl.setFirstName(nome);
-        impl.setLastName(cognome);
-        impl.setCountry(paese);
-        impl.setPhone(telefono);
-        this.email = email;
-        this.password = password;
-        this.username = username;
-        this.dataCreazioneAccount = LocalDate.now();
-    }
+    public Utente(String nome, String cognome, Date dataNascita, String paese,
+    String telefono, String email, String password, String username) {
+super(new UtenteImplementor());
+UtenteImplementor impl = (UtenteImplementor)this.implementor;
+impl.setFirstName(nome);
+impl.setLastName(cognome);
+impl.setCountry(paese);
+impl.setPhone(telefono);
+this.email = email;
+this.password = password;
+this.username = username;
+this.dataCreazioneAccount = LocalDate.now();
+}
     
     @Override
     public String getDisplayName() {
@@ -92,6 +92,9 @@ public class Utente extends User {
     public void setDataCreazioneAccount(LocalDate dataCreazioneAccount) {
         this.dataCreazioneAccount = dataCreazioneAccount;
     }
+
+
+ 
 
 
 }

@@ -1,6 +1,6 @@
 package com.justInTime.model;
 
-public class Utente Implementor implements UserImplementor {
+public class UtenteImplementor implements UserImplementor {
     private String firstName;
     private String lastName;
     private String country;

@@ -11,7 +11,7 @@ import java.util.List;
 public class UtenzaService {
     private final UtenzaRepository utenzaRepository;
 
-    public UtenteService(UtenzaRepository utenzaRepository) {
+    public UtenzaService(UtenzaRepository utenzaRepository) {
         this.utenzaRepository = utenzaRepository;
     }
 
@@ -32,19 +32,19 @@ public class UtenzaService {
     @Transactional
     public Utente aggiornaUtente(Long id, Utente utenteAggiornato) {
         Utente utente = trovaUtente(id);
-        utente.setName(utenteAggiornata.getDisplayName());
-        utente.setCountry(utenteAggiornata.getCountry());
-        utente.setEmail(utenteAggiornata.getEmail());
-        Utente.setPassword(utenteAggiornata.getPassword());
-        Utente.setDataCreazioneAccount(utenteAggiornata.getDataCreazioneAccount());
-        Utente.setUsername(utenteAggiornata.getUsername());
-        return utenzaRepository.save(Utente);
+        utente.setName(utenteAggiornato.getDisplayName());
+        utente.setCountry(utenteAggiornato.getCountry());
+        utente.setEmail(utenteAggiornato.getEmail());
+        utente.setPassword(utenteAggiornato.getPassword());
+        utente.setDataCreazioneAccount(utenteAggiornato.getDataCreazioneAccount());
+        utente.setUsername(utenteAggiornato.getUsername());
+        return utenzaRepository.save(utente);
     }
 
     @Transactional
     public void eliminaUtente(Long id) {
         Utente utente = trovaUtente(id);
-        utenzaRepository.delete(Utente);
+        utenzaRepository.delete(utente);
     }
 
     public Utente registerUser(Utente utente) {
@@ -55,7 +55,7 @@ public class UtenzaService {
             throw new RuntimeException("Username already taken.");
         }
         utente.setDataCreazioneAccount(LocalDate.now());
-        return utenzaRepository.save(Utente);
+        return utenzaRepository.save(utente);
     }
 
     public Utente login(String usernameOrEmail, String password) {
@@ -64,6 +64,6 @@ public class UtenzaService {
         if (!password.equals(utente.getPassword())) {
             throw new RuntimeException("Invalid credentials.");
         }
-        return Utente;
+        return utente;
     }
 }
