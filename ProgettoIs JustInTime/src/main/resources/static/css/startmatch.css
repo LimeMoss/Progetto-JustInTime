@@ -22,7 +22,12 @@ body {
     font-size: 75px;
     color: #FFEDDC;
 }
-
+.usernametitle2 {
+    text-align: center;
+    margin-top: 12%;
+    font-size: 75px;
+    color: #FFEDDC;
+}
 
 .start-button {
     margin-top: 20px;

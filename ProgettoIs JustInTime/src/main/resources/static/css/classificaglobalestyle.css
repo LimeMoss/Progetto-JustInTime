@@ -11,11 +11,34 @@ p{
     margin-right: 20%;
 }
 
-.highscore-players{
+.highscore-players {
     display: flex;
-    justify-content: space-between;
-    padding-right: 50%;
+    width: 80%;
+    margin: initial;
+    padding: 10px;
 }
+
+.highscore-players p {
+    margin: 0;
+    font-size: 1.5em;
+    color: #FFEDDC;
+}
+
+.highscore-players .position {
+    text-align: right;
+}
+
+.highscore-players .name {
+    flex: 3;
+    text-align: center;
+
+}
+
+.highscore-players .points {
+    flex: 1;
+    text-align: left;
+}
+
 
 .highscore-container{
     margin-top: 110px;
@@ -24,6 +47,7 @@ p{
     margin-right: 20px;
     margin-left: 20px;
 }
+
 .top-buttons {
     display: flex;
     justify-content: space-between;
@@ -54,6 +78,7 @@ p{
 #globaltitle{
     font-size: 3vw;
     color: #FFEDDC;
+    margin-top: 15px;
 }
 
 button:hover{
