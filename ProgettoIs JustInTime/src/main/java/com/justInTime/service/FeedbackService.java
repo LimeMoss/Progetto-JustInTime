@@ -16,7 +16,7 @@ public class FeedbackService {
         this.feedbackRepository= feedbackRepository;
     }
 
-  public Feedback creaFeedback(String Feedback, Long stars) {
+  public Feedback creaFeedback(String Feedback, int stars) {
         Feedback feedback = new Feedback();
         feedback.setFeedback(Feedback);
         feedback.setStars(stars);

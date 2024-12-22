@@ -58,8 +58,8 @@ public class Feedback {
      * 
      * @param feedback Il nuovo testo del feedback.
      */
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setFeedback(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     /**

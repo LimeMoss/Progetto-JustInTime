@@ -21,7 +21,6 @@ public class StartGameState implements GameState {
         
         // Passiamo allo stato di turno
         partitaService.setGameState(partita, new TurnState());
-        
-        System.out.println("Partita iniziata! Turno del primo giocatore.");
+    
     }
 }

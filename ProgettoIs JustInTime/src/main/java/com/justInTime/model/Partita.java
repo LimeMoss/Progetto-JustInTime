@@ -1,9 +1,19 @@
 package com.justInTime.model;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Partita {
@@ -37,7 +47,6 @@ public class Partita {
 
     public Partita() {
         this.dataInizio = new Date();
-        this.segnalato = false;
         this.gameState = new StartGameState();
         this.giocatori = new ArrayList<>();
         this.mazzoNormale = MazzoFactory.createMazzo("pesca");
@@ -112,11 +121,4 @@ public class Partita {
         this.dataInizio = dataInizio;
     }
 
-    public boolean isSegnalato() {
-        return segnalato;
-    }
-
-    public void setSegnalato(boolean segnalato) {
-        this.segnalato = segnalato;
-    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 // Implementazione del MazzoPesca
 public class MazzoPesca extends Mazzo {
 
-    private List<Carta> carte;
+    private final List<Carta> carte;
 
     public MazzoPesca() {
         carte = new ArrayList<>();

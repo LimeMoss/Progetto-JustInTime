@@ -1,12 +1,11 @@
 package com.justInTime.model;
-
 /**
  * Classe che rappresenta una Carta di gioco. Ogni carta ha un tipo e un valore associato,
  * e può applicare un effetto a un giocatore in base al proprio tipo.
  */
 public class Carta {
-    private String tipo;  // Tipo della carta (es. "Accelera", "Rallenta", "numerata")
-    private int valore;   // Valore della carta (solo per carte numerate)
+    private final String tipo;  // Tipo della carta (es. "Accelera", "Rallenta", "numerata")
+    private final int valore;   // Valore della carta (solo per carte numerate)
 
     /**
      * Costruttore per creare una carta con un tipo specifico.
