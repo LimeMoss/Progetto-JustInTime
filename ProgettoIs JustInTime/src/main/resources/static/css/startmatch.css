@@ -19,14 +19,11 @@ body {
 .usernametitle {
     text-align: center;
     margin-top: 12%;
-    font-size: 75px;
+    font-size: 50px;
     color: #FFEDDC;
 }
-.usernametitle2 {
-    text-align: center;
-    margin-top: 12%;
+#username {
     font-size: 75px;
-    color: #FFEDDC;
 }
 
 .start-button {

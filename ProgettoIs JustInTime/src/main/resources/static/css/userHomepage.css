@@ -32,6 +32,7 @@ body {
     cursor: pointer;
     color: #F5ECD8;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #achievement {
@@ -57,6 +58,7 @@ body {
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .score {
