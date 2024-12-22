@@ -9,10 +9,10 @@ import java.util.List;
 @Service
 public class ClassificaService {
 
-    private final PlayerRepository playerRepository;
+    private final UtenzaRepository utenzaRepository;
 
-    public ClassificaService(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
+    public ClassificaService(UtenzaRepository utenzaRepository) {
+        this.utenzaRepository = utenzaRepository;
     }
 
     /**
@@ -21,6 +21,6 @@ public class ClassificaService {
      * @return Lista di giocatori ordinata per punteggio.
      */
     public List<Player> getClassifica() {
-        return playerRepository.findAllByOrderByMaxScoreDesc();
+        return utenzaRepository.findAllByOrderByMaxScoreDesc();
     }
 }
