@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+
+body {
+    margin-top: 100px;
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 99%;
+    text-align: center;
+}
+
+.turnof-container{
+    margin-top: 150px;
+}
+.usernametitle {
+    text-align: center;
+    margin-top: 12%;
+    font-size: 75px;
+    color: #FFEDDC;
+}
+
+
+.start-button {
+    margin-top: 20px;
+    background-color: #E48826;
+    color: #F5ECD8;
+    border: none;
+    padding: 20px 50px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.start-button:hover {
+    background-color: #D9773B;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
+}
