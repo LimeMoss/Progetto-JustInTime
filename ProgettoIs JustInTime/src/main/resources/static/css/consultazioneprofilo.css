@@ -28,7 +28,7 @@ body {
 }
 
 .top-scores p{
-    color: #DDA15E;
+    color: #E48826;
     font-weight: bold;
     text-align: center;
  }
@@ -97,4 +97,8 @@ body {
     background-color: #D9773B;
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
+}
+
+.dati {
+    color: #2D3B1F;
 }
