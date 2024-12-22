@@ -1,94 +1,69 @@
 package com.justInTime.service;
 
-import com.justInTime.model.Utenza;
+import com.justInTime.model.Utente;
 import com.justInTime.repository.UtenzaRepository;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class UtenzaService {
-
     private final UtenzaRepository utenzaRepository;
 
-    public UtenzaService(UtenzaRepository utenzaRepository) {
+    public UtenteService(UtenzaRepository utenzaRepository) {
         this.utenzaRepository = utenzaRepository;
     }
 
-    // Crea una nuova utenza
     @Transactional
-    public Utenza creaUtenza(Utenza utenza) {
-        return utenzaRepository.save(utenza);
+    public Utente creaUtente(Utente utente) {
+        return utenzaRepository.save(utente);
     }
 
-    // Trova un'utenza per ID
-    public Utenza trovaUtenza(Long id) {
+    public Utente trovaUtente(Long id) {
         return utenzaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
+                .orElseThrow(() -> new RuntimeException("Utente non trovata."));
     }
 
-    // Trova tutte le utenze
-    public List<Utenza> trovaTutteUtenze() {
+    public List<Utente> trovaTutteUtenze() {
         return utenzaRepository.findAll();
     }
 
-    // Aggiorna i dettagli di un'utenza
     @Transactional
-    public Utenza aggiornaUtenza(Long id, Utenza utenzaAggiornata) {
-        Utenza utenza = trovaUtenza(id);
-        utenza.setNome(utenzaAggiornata.getName());
-        utenza.setCognome(utenzaAggiornata.getCognome());
-        utenza.setPaese(utenzaAggiornata.getPaese());
-        utenza.setTelefono(utenzaAggiornata.getTelefono());
-        utenza.setEmail(utenzaAggiornata.getEmail());
-        utenza.setPassword(utenzaAggiornata.getPassword());
-        utenza.setDataCreazioneAccount(utenzaAggiornata.getDataCreazioneAccount());
-        utenza.setUsername(utenzaAggiornata.getUsername());
-        return utenzaRepository.save(utenza);
+    public Utente aggiornaUtente(Long id, Utente utenteAggiornato) {
+        Utente utente = trovaUtente(id);
+        utente.setName(utenteAggiornata.getDisplayName());
+        utente.setCountry(utenteAggiornata.getCountry());
+        utente.setEmail(utenteAggiornata.getEmail());
+        Utente.setPassword(utenteAggiornata.getPassword());
+        Utente.setDataCreazioneAccount(utenteAggiornata.getDataCreazioneAccount());
+        Utente.setUsername(utenteAggiornata.getUsername());
+        return utenzaRepository.save(Utente);
     }
 
-    // Elimina un'utenza per ID
     @Transactional
-    public void eliminaUtenza(Long id) {
-        Utenza utenza = trovaUtenza(id);
-        utenzaRepository.delete(utenza);
+    public void eliminaUtente(Long id) {
+        Utente utente = trovaUtente(id);
+        utenzaRepository.delete(Utente);
     }
 
-
-
-    public Utenza registerUser(Utenza utenza) {
-        // Check if email or username already exists
-        if (utenzaRepository.existsByEmail(utenza.getEmail())) {
+    public Utente registerUser(Utente utente) {
+        if (utenzaRepository.existsByEmail(utente.getEmail())) {
             throw new RuntimeException("Email already registered.");
         }
-        if (utenzaRepository.existsByUsername(utenza.getUsername())) {
+        if (utenzaRepository.existsByUsername(utente.getUsername())) {
             throw new RuntimeException("Username already taken.");
         }
-
-        // Encrypt the password before saving
-        utenza.setPassword((utenza.getPassword()));
-
-        // Set account creation date
-        utenza.setDataCreazioneAccount(LocalDate.now());
-
-        return utenzaRepository.save(utenza);
+        utente.setDataCreazioneAccount(LocalDate.now());
+        return utenzaRepository.save(Utente);
     }
 
-    public Utenza login(String usernameOrEmail, String password) {
-        // Retrieve the user by username or email
-        Utenza utenza = utenzaRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+    public Utente login(String usernameOrEmail, String password) {
+        Utente utente = utenzaRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> new RuntimeException("User not found."));
-
-        // Validate the password
-        if (!(password == null ? utenza.getPassword() == null : password.equals(utenza.getPassword()))) {
+        if (!password.equals(utente.getPassword())) {
             throw new RuntimeException("Invalid credentials.");
         }
-
-        // Return the authenticated user
-        return utenza;
+        return Utente;
     }
 }

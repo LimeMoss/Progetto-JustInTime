@@ -1,127 +1,89 @@
 package com.justInTime.model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
-
 @Entity
-public class Player implements UtenzaBridge {
-
+public class Player extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @Transient
     private int durataTurno;
-
+    
     @Transient
     private boolean turnoInPausa;
-
+    
     @Transient
     private List<Carta> mano;
-
-    private String name;
-
+    
+    private int maxScore;
+    
     @ManyToMany(mappedBy = "giocatori", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Partita> partite = new ArrayList<>();
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "utenza_id")
-    private UtenzaBridge utenzaBridge;
-
-    private int maxScore;
-    private String paese; // Aggiungi il campo "paese" in Player
-
-    // Costruttori
+    
     public Player() {
-        mano = new ArrayList<Carta>();
+        super(new PlayerImplementor());
+        this.mano = new ArrayList<>();
     }
-
+    
     public Player(String name, int maxScore) {
-        this.name = name;
+        super(new PlayerImplementor());
+        ((PlayerImplementor)this.implementor).setName(name);
         this.maxScore = maxScore;
-        mano = new ArrayList<Carta>();
+        this.mano = new ArrayList<>();
     }
-
-    // Getter e Setter
-    public String getPaese() {
-        return paese;
+    
+    @Override
+    public String getDisplayName() {
+        return implementor.getName();
     }
-
-    public void setPaese(String paese) {
-        this.paese = paese;
+    
+    @Override
+    public Long getId() {
+        return this.id;
     }
-
-    // Metodo per associare un Player con un'utenza
-    public void associaUtenza(Utenza utenza) {
-        this.utenzaBridge = utenza; // Associa l'utenza al player
-        if (utenza != null) {
-            this.paese = utenza.getPaese(); // Imposta il paese del player uguale a quello dell'utenza
-        }
+    
+    @Override
+    public void setName(String name) {
+        ((PlayerImplementor)this.implementor).setName(name);
     }
-
-    // Metodi Utility
+    
     public void aggiungiCartaAllaMano(Carta carta) {
         this.mano.add(carta);
     }
-
+    
     public boolean rimuoviCartaDallaMano(Carta carta) {
         return this.mano.remove(carta);
     }
-
+    
     public void increaseMaxScore() {
         this.maxScore++;
     }
-
-    // Metodi Override (UtenzaBridge)
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-    public void setNome(String nome){
-        this.name=nome;
-
-    }
-
+    
     public int getDurataTurno() {
         return this.durataTurno;
     }
-
+    
     public void setDurataTurno(int durataTurno) {
-        this.durataTurno=durataTurno;
+        this.durataTurno = durataTurno;
     }
-
-    public List<Carta> getMano(){
+    
+    public List<Carta> getMano() {
         return this.mano;
     }
-
-    public boolean isTurnoInPausa(){
+    
+    public boolean isTurnoInPausa() {
         return turnoInPausa;
-
     }
-
+    
     public int getMaxScore() {
         return maxScore;
     }
-
+    
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
-
-
 }
