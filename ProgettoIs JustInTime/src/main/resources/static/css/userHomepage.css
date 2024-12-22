@@ -28,14 +28,14 @@ body {
     border: none;
     border-radius: 15px;
     padding: 15px 30px;
-    font-size: 18px;
+    font-size: 1.5vw;
     cursor: pointer;
     color: #F5ECD8;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #achievement {
-    margin-left: 20%;
+    margin-left: 25%;
     width: 30%;
 }
 
@@ -49,8 +49,7 @@ body {
     cursor: pointer;
     color: #F5ECD8;
     display: flex;
-    margin: 40px;
-    margin-left: 50px;
+    margin: 40px 40px 40px 50px;
     height: 35%;
     width: 50%;
     position: absolute;
