@@ -15,6 +15,11 @@ body{
     margin-top: 7%;
     margin-right: 2%;
 }
+#globaltitle{
+    margin-top: 8%;
+    margin-left: 2%;
+    color: #FFEDDC;
+}
 button{
     background-color: #E48826;
     color: #FFEDDC;
