@@ -72,13 +72,6 @@ body {
     font-size: 16px;
 }
 
-.trophy{
-    width: 70px;
-    height: 70px;
-    margin-bottom: 20px;
-    margin-left: 40px;
-}
-
 /* Sezione destra: Trofei */
 .achievements-right {
     width: 20%;
@@ -107,4 +100,11 @@ body {
     font-size: 36px;
     color: #E48826;
     margin-bottom: 20px;
+}
+
+.trophy{
+    width: 70px;
+    height: 70px;
+    margin-bottom: 20px;
+    margin-left: 40px;
 }
