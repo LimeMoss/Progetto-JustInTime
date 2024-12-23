@@ -16,16 +16,20 @@ body {
 }
 
 .modify-container {
+    background-color: #2d3b1f;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     margin: auto;
     padding: 30px;
-    margin-top: 5%;
+    margin-top: 7%;
+    border-radius: 20px;
     width: 80%;
+    max-width: 900px;
 }
 
 .modify-form {
     display: flex;
-    flex-direction: column;
-    margin-left: 33%;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 20px;
 }
 
