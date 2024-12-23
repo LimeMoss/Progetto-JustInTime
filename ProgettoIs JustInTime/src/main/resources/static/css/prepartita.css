@@ -103,6 +103,7 @@ input {
 }
 
 button {
+    visibility: visible;
     background-color: #DDA15E;
     color: #F5ECD8;
     border: none;
@@ -138,4 +139,9 @@ button:hover {
     margin-left: 20px;
     flex-shrink: 0;
     width: 50%;
+}
+
+button:disabled {
+    visibility: hidden;
+    cursor: not-allowed;
 }
