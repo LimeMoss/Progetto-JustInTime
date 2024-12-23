@@ -145,3 +145,7 @@ button:disabled {
     visibility: hidden;
     cursor: not-allowed;
 }
+
+#registrationB1 {
+    visibility: visible;
+}

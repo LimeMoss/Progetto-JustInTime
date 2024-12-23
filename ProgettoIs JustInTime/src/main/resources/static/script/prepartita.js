@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const playersForm = document.querySelector('.players-form');
     const addPlayerButton = document.getElementById('addplayer');
     const removePlayerButton = document.getElementById('removeplayer');
+    document.getElementById('registrationB1').disabled = true;
 
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
@@ -36,6 +37,22 @@ document.addEventListener('DOMContentLoaded', function() {
             playersForm.removeChild(playersForm.lastElementChild);
             updateButtons();
         }
+    });
+
+    function toggleRegistration(button) {
+        if (button.innerText === 'X') {
+            button.innerText = ''; // Rimuove la X
+        } else {
+            button.innerText = 'X'; // Aggiunge la X
+        }
+    }
+
+    const initialButtons = playersForm.querySelectorAll('.registeredplayerbuttons');
+    initialButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            event.preventDefault()
+            toggleRegistration(button);
+        });
     });
 
     updateButtons();
