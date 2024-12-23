@@ -2,10 +2,27 @@ body {
     margin-top: 100px;
     font-family: 'Jua', Arial, sans-serif; /* Usa il font Jua */
     background-color: #8BAC4F;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100%;
     width: 99%;
-    text-align: center;
+}
+
+.deck-waste{
+    margin-top: 120px;
+    margin-left: 20px;
+}
+.deck-waste label, .deck label{
+    color: #FFEDDC;
+    font-size: 40px;
+    right: 15px;
+}
+
+.deck-waste img, .deck img{
+    width: 150px;
+    margin-right: 10px;
+}
+
+.deck {
+    position: absolute;
+    top: 120px;
+    right: 25px;
 }
