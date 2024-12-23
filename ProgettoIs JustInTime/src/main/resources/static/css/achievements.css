@@ -95,7 +95,7 @@ button:hover {
     border-radius: 15px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 87%;
+    width: 88%;
 }
 
 .achievement-card h2 {
@@ -143,4 +143,12 @@ button:hover {
     height: 70px;
     margin-bottom: 20px;
     margin-left: 40px;
+}
+
+.trophy.disabled {
+    visibility: hidden;
+}
+
+.trophy.enabled {
+    visibility: visible;
 }
