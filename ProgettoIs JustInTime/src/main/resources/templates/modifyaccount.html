@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../static/css/modifyaccount.css">
     <link rel="stylesheet" href="../static/css/header.css">
     <link rel="stylesheet" href="../static/css/footer.css">
-    <script src="../static/script/PhoneNumberValidation.js"></script>
     <script src="../static/script/FormValidation.js"></script>
 
     <script>
@@ -125,13 +124,13 @@
             </div>
             <div class="input-group">
                 <label for="datanascita">Data di nascita</label>
-                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="birth-date">
+                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="birthDate">
             </div>
 
             <div class="input-group">
                 <label for="country">Paese</label>
 
-                <select class="input-field" id="country">
+                <select class="input-field" id="country" name="country">
                     <option value="">Seleziona la nazione</option>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Algeria">Algeria</option>
@@ -214,7 +213,7 @@
             </div>
             <div class="input-group">
                 <label for="confirmpassword">Conferma Password</label>
-                <input type="password" id="confirmpassword" placeholder="Inserisci password" name="password-check">
+                <input type="password" id="confirmpassword" placeholder="Inserisci password" name="passwordCheck">
             </div>
 
             <div class="input-group">
