@@ -20,21 +20,38 @@ public class FeedbackService {
     /**
      * Crea un nuovo feedback e lo salva nel database.
      *
-     * @param Feedback Il testo del feedback.
+     * @param feedbackDescription La descrizione del feedback.
      * @param stars Il numero di stelle del feedback.
      * @return Il feedback appena creato.
+     *
+     * @throws IllegalArgumentException Se la descrizione del feedback supera i 255
+     *                                   caratteri o se le stelle sono un valore
+     *                                   non compreso tra 1 e 5.
      */
-  public Feedback creaFeedback(String Feedback, int stars) {
+    public Feedback creaFeedback(String feedbackDescription, Integer stars) {
+
+        // Verifica se la descrizione del feedback supera i 255 caratteri
+        if (feedbackDescription == null || feedbackDescription.length() > 255) {
+            throw new IllegalArgumentException("La descrizione non può superare i 255 caratteri.");
+        }
+
+        // Verifica se le stelle sono un valore non compreso tra 1 e 5
+        if (stars == null) {
+            throw new IllegalArgumentException("Il valore delle stelle non può essere null.");
+        }
+
+        if (stars < 1 || stars > 5) {
+            throw new IllegalArgumentException("Le stelle devono essere un valore tra 1 e 5.");
+        }
+
+        // Crea un nuovo feedback e lo salva nel database
         Feedback feedback = new Feedback();
-        feedback.setFeedback(Feedback);
+        feedback.setFeedback(feedbackDescription);
         feedback.setStars(stars);
+
         return feedbackRepository.save(feedback);
     }
-    /**
-     * Restituisce la lista di tutti i feedback.
-     *
-     * @return La lista di tutti i feedback.
-     */
+
 
 public List<Feedback> getAllFeedback() {
     return feedbackRepository.findAll();
