@@ -4,16 +4,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.justInTime.model.Utente;
-import com.justInTime.repository.UtenzaRepository;
+import com.justInTime.model.Player;
+import com.justInTime.repository.PlayerRepository;
+
 
 @Service
 public class ClassificaService {
 
-    private final UtenzaRepository utenzaRepository;
+    private final PlayerRepository playerRepository;
 
-    public ClassificaService(UtenzaRepository utenzaRepository) {
-        this.utenzaRepository = utenzaRepository;
+    public ClassificaService(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
     }
 
     /**
@@ -21,7 +22,7 @@ public class ClassificaService {
      *
      * @return Lista di giocatori ordinata per punteggio.
      */
-    public List<Utente> getClassifica() {
-        return utenzaRepository.findAllByOrderByMaxScoreDesc();
+    public List<Player> getClassifica() {
+        return playerRepository.findAllByOrderByMaxScoreDesc();
     }
 }

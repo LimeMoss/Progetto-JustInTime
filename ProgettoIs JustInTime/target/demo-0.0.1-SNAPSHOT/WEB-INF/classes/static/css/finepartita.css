@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+body {
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    display: flex;
+    color: #F5ECD8;
+    height: 100vh;
+    margin: 0;
+}
+
+.left {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    margin: 120px 50px 0 50px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-button{
+    height: 10%;
+    width: 20%;
+    margin: 20px 20px 20px 0;
+    background-color: #E48826;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 30px;
+    font-size: 1.5vw;
+    cursor: pointer;
+    color: #F5ECD8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#feedback {
+    background-color: #DDA15E;
+}
+
+button:hover{
+    background-color: #d9773b;
+    transform: scale(1.05);
+}
+
+.button-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.button-container .top-button {
+    width: 100%;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12%;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    background-color: #2d3b1f;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.scores div {
+    text-align: center;
+}
+
+.scores div:first-child {
+    align-self: flex-end;
+}
+
+.scores div:last-child {
+    align-self: flex-end;
+}
+
+.first {
+    font-size: 40px;
+    color: #E48826;
+}
+
+.second {
+    font-size: 35px;
+}
+
+.third {
+    font-size: 25px;
+}
+
+.points {
+    font-size: 20px;
+}
+
+h1 {
+    color: #F5ECD8;
+    font-size: 60px;
+}
+
+#homebutton {
+    width: 10%
+}
+
+.trophy {
+    width: 70px;
+    height: 70px;
+}

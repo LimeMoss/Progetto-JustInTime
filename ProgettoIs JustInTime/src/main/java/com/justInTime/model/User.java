@@ -10,6 +10,7 @@ public abstract class User {
     public abstract String getDisplayName();
     public abstract Long getId();
     public abstract void setName(String name);
+
     
     public String getCountry() {
         return implementor.getCountry();
