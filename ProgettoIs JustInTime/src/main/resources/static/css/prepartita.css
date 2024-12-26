@@ -192,3 +192,9 @@ button:disabled {
 .loginText {
     color: #2D3B1F;
 }
+#error-message-start {
+    color: #d9773b;
+    display: none;
+    margin-top: 10px;
+    font-size: 1.2em;
+}
