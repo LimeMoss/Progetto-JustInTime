@@ -18,31 +18,6 @@ public class PartitaService {
     @Autowired
     private PartitaRepository partitaRepository;
 
-    public Partita createPartita() {
-        Partita partita = new Partita();
-        return partitaRepository.save(partita);
-    }
-
-    public Partita getPartita(Long partitaId) {
-        return partitaRepository.findById(partitaId)
-            .orElseThrow(() -> new RuntimeException("Partita non trovata"));
-    }
-
-    public Partita aggiungiGiocatore(Long partitaId, Player giocatore) {
-        Partita partita = getPartita(partitaId);
-        if (partita.getGiocatori().size() < 4 && !partita.getGiocatori().contains(giocatore)) {
-            partita.getGiocatori().add(giocatore);
-            return partitaRepository.save(partita);
-        }
-        throw new RuntimeException("Impossibile aggiungere il giocatore");
-    }
-
-    public void rimuoviGiocatore(Long partitaId, Long giocatoreId) {
-        Partita partita = getPartita(partitaId);
-        partita.getGiocatori().removeIf(g -> g.getId().equals(giocatoreId));
-        partitaRepository.save(partita);
-    }
-
     public Partita iniziaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
         if (partita.getGiocatori().size() < 2) {
@@ -52,6 +27,12 @@ public class PartitaService {
         partita.setGameState(new StartGameState());
         return partitaRepository.save(partita);
     }
+    
+    public Partita getPartita(Long partitaId) {
+        return partitaRepository.findById(partitaId)
+            .orElseThrow(() -> new RuntimeException("Partita non trovata"));
+    }
+
 
     public Partita giocaCarta(Long partitaId, int cartaIndex) {
         Partita partita = getPartita(partitaId);

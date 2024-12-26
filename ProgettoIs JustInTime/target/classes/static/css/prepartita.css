@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.players {
+    padding: 40px;
+    width: 50%;
+    margin-right: 20px;
+}
+
+.input-group {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.input-selections {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+label {
+    font-size: 2vw;
+    color: #FFEDDC;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff7f7;
+    height: fit-content;
+}
+
+.profilebuttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    height: 80px;
+}
+
+.profilebuttons button{
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#initbutton {
+    width: 70%;
+    background-color: #e48826;
+    padding: 20px;
+    font-size: 2em;
+    height: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.registeredplayerbuttons {
+    background-color: #FFEDDC;
+    color: #2D3B1F;
+    border: none;
+    padding: 10px 20px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 60px;
+    text-align: center;
+    margin-left: 60px;
+    margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.registeredplayerlabels {
+    color: #2D3B1F;
+}
+
+button {
+    visibility: visible;
+    background-color: #DDA15E;
+    color: #FFEDDC;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+    text-align: center;
+}
+
+.action-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #d9773b;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
+}
+
+#addplayer {
+    margin-right: 20px;
+}
+
+.start-game {
+    margin-left: 20px;
+    flex-shrink: 0;
+    width: 50%;
+}
+
+button:disabled {
+    visibility: hidden;
+    cursor: not-allowed;
+}
+
+#registrationB1 {
+    visibility: visible;
+}

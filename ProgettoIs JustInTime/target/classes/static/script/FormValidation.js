@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const phoneNumberInput = document.querySelector('input[name="phoneNumber"]');
     const emailInput = document.querySelector('input[name="email"]');
     const passwordInput = document.querySelector('input[name="password"]');
-    const passwordCheckInput = document.querySelector('input[name="password-check"]');
-    const dateInput = document.querySelector('input[name="birth-date"]');
+    const passwordCheckInput = document.querySelector('input[name="passwordCheck"]');
+    const dateInput = document.querySelector('input[name="birthDate"]');
     dateInput.addEventListener('change', validateDate);
     passwordCheckInput.addEventListener('change', validatePasswordCheck);
     passwordInput.addEventListener('change', validatePassword);

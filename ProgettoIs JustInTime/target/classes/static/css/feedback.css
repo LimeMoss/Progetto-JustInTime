@@ -89,4 +89,11 @@ body {
     width: 20%;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 25p
+    margin-top: 25px;
+}
+
+.submit-button:hover {
+    background-color: #d9773b;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
+}

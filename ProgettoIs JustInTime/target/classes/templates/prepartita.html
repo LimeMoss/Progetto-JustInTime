@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuova Partita</title>
+    <link rel="stylesheet" href="../static/css/prepartita.css">
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <script src="../static/script/prepartita.js"></script>
+</head>
+<body>
+<div id="header-container">
+    <header class="header">
+        <div class="logo">
+            <a title="" href="" class="logo-image" id="logo-image">
+                <img src="../static/images/logo.png" alt="">
+            </a>
+            <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="#rules">Regolamento</a>
+            <div class="logo">
+                <a title="" href="" class="logo-image" id="user-image">
+                    <img src="../static/images/user.png" alt="">
+                </a>
+            </div>
+            <a href="#logout">Logout</a>
+        </nav>
+    </header>
+</div>
+
+<div class="content">
+    <div class="players">
+        <form class="players-form">
+            <div class="input-group">
+                <label for="player1">Giocatore 1</label> <!--utente già registrato-->
+                <div class="input-selections">
+                    <input type="text" id="player1" placeholder="Username" readonly>
+                    <button class="registeredplayerbuttons" id="registrationB1">X</button>
+                    <label class="registeredplayerlabels">Registrato</label>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="player2">Giocatore 2</label>
+                <div class="input-selections">
+                    <input type="text" id="player2" placeholder="Username">
+                    <button class="registeredplayerbuttons"></button>
+                    <label class="registeredplayerlabels">Registrato</label>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="player3">Giocatore 3</label>
+                <div class="input-selections">
+                    <input type="text" id="player3" placeholder="Username">
+                    <button class="registeredplayerbuttons"></button>
+                    <label class="registeredplayerlabels">Registrato</label>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="player3">Giocatore 4</label>
+                <div class="input-selections">
+                    <input type="text" id="player4" placeholder="Username">
+                    <button class="registeredplayerbuttons"></button>
+                    <label class="registeredplayerlabels">Registrato</label>
+                </div>
+            </div>
+        </form>
+        <div class="profilebuttons">
+            <button id="addplayer">Aggiungi giocatore</button>
+            <button id="removeplayer">Elimina giocatore</button>
+        </div>
+    </div>
+
+    <div class="start-game">
+        <button id="initbutton">Inizia partita</button>
+    </div>
+</div>
+
+<div id="footer-container">
+    <footer class="footer">
+        <div class="nav-links">
+            <a href="#contatti">Contatti</a>
+        </div>
+        <div class="logo">
+            <img class="logo-image" src="../static/images/logo.png" alt="">
+        </div>
+    </footer>
+</div>
+</body>
+</html>

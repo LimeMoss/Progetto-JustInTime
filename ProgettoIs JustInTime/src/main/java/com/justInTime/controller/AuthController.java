@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.justInTime.model.Utenza;
+import com.justInTime.model.Utente;
 import com.justInTime.service.UtenzaService;
 
 @RestController
@@ -19,7 +19,7 @@ public class AuthController {
     private UtenzaService utenzaService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Utenza utenza) {
+    public ResponseEntity<?> register(@RequestBody Utente utenza) {
         try {
             // Validate input (basic example)
             if (utenza.getEmail() == null || !utenza.getEmail().matches(".+@.+\\..+")) {
@@ -33,7 +33,7 @@ public class AuthController {
             }
 
             // Register the user
-            Utenza registeredUser = utenzaService.registerUser(utenza);
+            Utente registeredUser = utenzaService.registerUser(utenza);
 
             // Build success response
             return ResponseEntity.ok("Registration successful! User ID: " + registeredUser.getId());

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
+import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
 
 @RestController
@@ -21,10 +22,11 @@ public class PartitaController {
 
     @Autowired
     private PartitaService partitaService;
+    private PartitaConfigService partitaConfigService;
 
     @PostMapping
-    public ResponseEntity<Partita> createPartita() {
-        Partita partita = partitaService.createPartita();
+    public ResponseEntity<Partita> creaPartita() {
+        Partita partita = partitaConfigService.createPartita();
         return ResponseEntity.ok(partita);
     }
 
@@ -32,14 +34,14 @@ public class PartitaController {
     public ResponseEntity<Partita> aggiungiGiocatore(
             @PathVariable Long partitaId,
             @RequestBody Player giocatore) {
-        return ResponseEntity.ok(partitaService.aggiungiGiocatore(partitaId, giocatore));
+        return ResponseEntity.ok(partitaConfigService.aggiungiGiocatore(partitaId, giocatore));
     }
 
     @DeleteMapping("/{partitaId}/giocatori/{giocatoreId}")
     public ResponseEntity<Void> rimuoviGiocatore(
             @PathVariable Long partitaId,
             @PathVariable Long giocatoreId) {
-        partitaService.rimuoviGiocatore(partitaId, giocatoreId);
+        partitaConfigService.rimuoviGiocatore(partitaId, giocatoreId);
         return ResponseEntity.ok().build();
     }
 

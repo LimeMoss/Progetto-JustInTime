@@ -1,6 +1,6 @@
 package com.justInTime.controller;
 
-import com.justInTime.model.Utenza;
+import com.justInTime.model.Utente;
 import com.justInTime.service.UtenzaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,32 +20,32 @@ public class UtenzaController {
     // Crea una nuova utenza
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Utenza creaUtenza(@RequestBody Utenza utenza) {
-        return utenzaService.creaUtenza(utenza);
+    public Utente creaUtenza(@RequestBody Utente utenza) {
+        return utenzaService.creaUtente(utenza);
     }
 
     // Ottieni una utenza per ID
     @GetMapping("/{id}")
-    public Utenza trovaUtenza(@PathVariable Long id) {
-        return utenzaService.trovaUtenza(id);
+    public Utente trovaUtenza(@PathVariable Long id) {
+        return utenzaService.trovaUtente(id);
     }
 
     // Ottieni tutte le utenze
     @GetMapping
-    public List<Utenza> trovaTutteUtenze() {
+    public List<Utente> trovaTutteUtenze() {
         return utenzaService.trovaTutteUtenze();
     }
 
     // Aggiorna un'utenza esistente
     @PutMapping("/{id}")
-    public Utenza aggiornaUtenza(@PathVariable Long id, @RequestBody Utenza utenzaAggiornata) {
-        return utenzaService.aggiornaUtenza(id, utenzaAggiornata);
+    public Utente aggiornaUtenza(@PathVariable Long id, @RequestBody Utente utenzaAggiornata) {
+        return utenzaService.aggiornaUtente(id, utenzaAggiornata);
     }
 
     // Elimina un'utenza
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminaUtenza(@PathVariable Long id) {
-        utenzaService.eliminaUtenza(id);
+        utenzaService.eliminaUtente(id);
     }
 }

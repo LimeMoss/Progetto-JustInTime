@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.justInTime.model.Utenza;
+import com.justInTime.model.Utente;
 import com.justInTime.service.ClassificaService;
 
 @RestController
@@ -25,7 +25,7 @@ public class ClassificaController {
      * @return Lista di giocatori ordinata.
      */
     @GetMapping
-    public List<Utenza> getClassifica() {
+    public List<Utente> getClassifica() {
         return classificaService.getClassifica();
     }
 }

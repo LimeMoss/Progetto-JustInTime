@@ -144,3 +144,11 @@ button:hover {
     margin-bottom: 20px;
     margin-left: 40px;
 }
+
+.trophy.disabled {
+    visibility: hidden;
+}
+
+.trophy.enabled {
+    visibility: visible;
+}

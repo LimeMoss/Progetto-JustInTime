@@ -107,6 +107,11 @@ public class Player extends User {
         this.partite = partite;
     }
 
+    public boolean hasFinishedTurn() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'hasFinishedTurn'");
+    }
+
 
 
 }
