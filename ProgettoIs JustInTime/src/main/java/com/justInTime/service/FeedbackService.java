@@ -31,8 +31,8 @@ public class FeedbackService {
     public Feedback creaFeedback(String feedbackDescription, Integer stars) {
 
         // Verifica se la descrizione del feedback supera i 255 caratteri
-        if (feedbackDescription == null || feedbackDescription.length() > 255) {
-            throw new IllegalArgumentException("La descrizione non può superare i 255 caratteri.");
+        if (feedbackDescription == null || feedbackDescription.length() > 255 || feedbackDescription.isEmpty()) {
+            throw new IllegalArgumentException("La descrizione non può essere vuota o superare i 255 caratteri.");
         }
 
         // Verifica se le stelle sono un valore non compreso tra 1 e 5
