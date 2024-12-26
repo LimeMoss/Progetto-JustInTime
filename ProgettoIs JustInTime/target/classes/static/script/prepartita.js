@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const addPlayerButton = document.getElementById('addplayer');
     const removePlayerButton = document.getElementById('removeplayer');
     document.getElementById('registrationB1').disabled = true;
+    const newGameButton = document.getElementById('initbutton');
+    const errorMessage = document.getElementById('error-message-start');
 
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
@@ -22,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
                     <input type="text" id="player${newPlayerNumber}" placeholder="Username">
-                    <button class="registeredplayerbuttons" data-player="${newPlayerNumber}">Registrato</button>
+                    <button class="registeredplayerbuttons" data-player="${newPlayerNumber}"></button>
                     <label class="registeredplayerlabels">Registrato</label>
                 </div>
             `;
@@ -41,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function openLoginModal(playerId) {
+        resetLoginForm(); // Reset the form fields
         document.getElementById('login-modal').style.display = 'block';
         document.getElementById('login-form').dataset.player = playerId;
     }
@@ -62,6 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 toggleRegistration(button);
             });
         });
+    }
+
+    function resetLoginForm() {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('error-message').style.display = 'none';
     }
 
     attachEventListeners();
@@ -104,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Errore:', error);
-                document.getElementById('error-message').textContent = 'Username o password errati';
+                document.getElementById('error-message').textContent = 'An error occurred during registration.';
                 document.getElementById('error-message').style.display = 'block';
             });
     });
@@ -115,4 +124,21 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('login-modal').style.display = 'none';
         }
     }
+
+    newGameButton.addEventListener('click', function(event) {
+        const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
+        let allRegistered = true;
+
+        visibleButtons.forEach(function(button) {
+            if (button.innerText !== 'X') {
+                allRegistered = false;
+            }
+        });
+
+        if (!allRegistered) {
+            event.preventDefault();
+            errorMessage.textContent = 'Tutti i giocatori devono essere registrati.';
+            errorMessage.style.display = 'block';
+        }
+    });
 });
