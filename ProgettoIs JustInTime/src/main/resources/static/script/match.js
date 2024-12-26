@@ -1,45 +1,71 @@
-// match.js
-
 document.addEventListener("DOMContentLoaded", function() {
-    const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
-    const onTableCards = document.getElementById('ontable-cards').querySelector('img');
-    const deck = document.getElementById('deck').querySelector('img');
     const onHandContainer = document.getElementById('onhand-cards');
+    const onTableCard = document.getElementById('ontable-cards').querySelector('img');
+    const deck = document.getElementById('deck').querySelector('img');
+    const alertBanner = document.getElementById('alert-banner');
 
-    onhandCards.forEach(card => {
-        card.addEventListener('click', function() {
+    function addCardToHand() {
+        const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
+        if (onhandCards.length >= 22) {
+            showAlertBanner();
+            return;
+        }
+        // Crea una nuova carta e aggiungila alla mano
+        const newCard = document.createElement('img');
+        newCard.src = '../static/images/justcardbase.png'; // Assumi che sia questa l'immagine della nuova carta
+        newCard.alt = 'onhand-card';
+        newCard.classList.add('clickable-card');
+        newCard.addEventListener('click', function() {
             // Sposta la carta cliccata al tavolo
-            onTableCard.src = card.src;
-            card.remove(); // Rimuove la carta dalla mano
+            onTableCard.src = newCard.src;
+            newCard.remove(); // Rimuove la carta dalla mano
             updateCardSizes();
+            closeBanner(); // Chiudi il banner se una carta viene cliccata
         });
-    });
+        onHandContainer.appendChild(newCard);
+        updateCardSizes();
+    }
 
     function updateCardSizes() {
         const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
         const cardCount = onhandCards.length;
         const containerWidth = onHandContainer.clientWidth;
-        const cardWidth = Math.min(containerWidth / cardCount - 10, 150); // 150px è la larghezza massima per carta
+        const minCardWidth = 150;
+        const maxCardWidth = 200;
+        let cardWidth = Math.min((containerWidth - 10 * (cardCount - 1)) / cardCount, maxCardWidth);
+
+        if (cardWidth < minCardWidth) {
+            cardWidth = minCardWidth;
+        }
 
         onhandCards.forEach(card => {
-            card.style.flexBasis = `${cardWidth}px`;
+            card.style.width = `${cardWidth}px`;
         });
     }
 
-    deck.addEventListener('click', function() {
-        // Crea una nuova carta e aggiungila alla mano
-        const newCard = document.createElement('img');
-        newCard.src = '../static/images/justcardbase.png'; // Assumi che sia questa l'immagine della nuova carta
-        newCard.alt = 'onhand-card';
-        newCard.addEventListener('click', function() {
+    function showAlertBanner() {
+        alertBanner.style.display = 'block';
+    }
+
+    function closeBanner() {
+        alertBanner.style.display = 'none';
+    }
+
+    deck.addEventListener('click', addCardToHand);
+    window.addEventListener('resize', updateCardSizes);
+
+    // Aggiungi l'event listener a tutte le carte attuali in mano
+    document.querySelectorAll('.onhand-cards .clickable-card').forEach(card => {
+        card.addEventListener('click', function() {
             // Sposta la carta cliccata al tavolo
-            const tempSrc = onTableCards.src;
-            onTableCards.src = newCard.src;
-            newCard.src = tempSrc;
+            onTableCard.src = card.src;
+            card.remove(); // Rimuove la carta dalla mano
+            updateCardSizes();
+            closeBanner(); // Chiudi il banner se una carta viene cliccata
         });
-        onHandContainer.appendChild(newCard);
-        updateCardSizes();
     });
 
-    window.addEventListener('resize', updateCardSizes); // Aggiorna le dimensioni delle carte al ridimensionamento della finestra
+    window.closeBanner = closeBanner; // Assicura che la funzione closeBanner sia accessibile globalmente
+
+    updateCardSizes(); // Assicura che le dimensioni delle carte siano aggiornate all'avvio
 });
