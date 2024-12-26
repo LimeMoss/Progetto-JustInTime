@@ -29,36 +29,59 @@ public class Utente extends User {
     }
 
     public Utente(String nome, String cognome, Date dataNascita, String paese,
-    String telefono, String email, String password, String username) {
+    Long telefono, String email, String password, String username) {
 super(new UtenteImplementor());
 UtenteImplementor impl = (UtenteImplementor)this.implementor;
-impl.setFirstName(nome);
-impl.setLastName(cognome);
-impl.setCountry(paese);
-impl.setPhone(telefono);
+impl.setNome(nome);
+impl.setCognome(cognome);
+impl.setPaese(paese);
+impl.setTelefono(telefono);
 this.email = email;
 this.password = password;
 this.username = username;
 this.dataCreazioneAccount = LocalDate.now();
 }
     
+    /**
+     * Returns the display name of the user, which is the concatenation of the first name and the last name.
+     * @return the display name of the user
+     */
     @Override
-    public String getDisplayName() {
-        return implementor.getName();
+    public String getVisualizzaNome() {
+        return implementor.getNome();
     }
     
+
+/**
+ * Retrieves the unique identifier of the user.
+ * 
+ * @return the ID of the user
+ */
+
+
+    /**
+     * Retrieves the unique identifier of the user.
+     * 
+     * @return the ID of the user
+     */
     @Override
     public Long getId() {
         return this.id;
     }
     
+
+    /**
+     * Sets the name of the user, splitting it into first name and last name using a single space as separator.
+     * If the name does not contain any space, the first name will be set to the entire name and the last name will be empty.
+     * @param name the name of the user
+     */
     @Override
-    public void setName(String name) {
+    public void setNome(String name) {
         String[] parts = name.split(" ", 2);
         UtenteImplementor impl = (UtenteImplementor)this.implementor;
-        impl.setFirstName(parts[0]);
+        impl.setNome(parts[0]);
         if (parts.length > 1) {
-            impl.setLastName(parts[1]);
+            impl.setCognome(parts[1]);
         }
     }
     

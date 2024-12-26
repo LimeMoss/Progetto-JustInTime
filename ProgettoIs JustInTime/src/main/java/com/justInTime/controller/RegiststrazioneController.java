@@ -72,8 +72,7 @@ public class RegiststrazioneController {
             String birthDateFormatted = reformatDate(birthDate, "yyyy-MM-dd", "dd/MM/yyyy");
             Date birthDateObj = convertStringToDate(birthDateFormatted, "dd/MM/yyyy");
 
-            Utente user = new Utente(nome, cognome, birthDateObj, country,
-                    countryCode + " " + phoneNumber, email, password, username);
+            Utente user = new Utente();
 
             utenzaService.registerUser(user);
             return "redirect:/login";

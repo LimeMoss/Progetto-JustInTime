@@ -32,8 +32,8 @@ public class UtenzaService {
     @Transactional
     public Utente aggiornaUtente(Long id, Utente utenteAggiornato) {
         Utente utente = trovaUtente(id);
-        utente.setName(utenteAggiornato.getDisplayName());
-        utente.setCountry(utenteAggiornato.getCountry());
+        utente.setNome(utenteAggiornato.getVisualizzaNome());
+        utente.setPaese(utenteAggiornato.getPaese());
         utente.setEmail(utenteAggiornato.getEmail());
         utente.setPassword(utenteAggiornato.getPassword());
         utente.setDataCreazioneAccount(utenteAggiornato.getDataCreazioneAccount());
@@ -49,10 +49,10 @@ public class UtenzaService {
 
     public Utente registerUser(Utente utente) {
         if (utenzaRepository.existsByEmail(utente.getEmail())) {
-            throw new RuntimeException("Email already registered.");
+            throw new RuntimeException("Email già resgistrata.");
         }
         if (utenzaRepository.existsByUsername(utente.getUsername())) {
-            throw new RuntimeException("Username already taken.");
+            throw new RuntimeException("Username già registrato.");
         }
         utente.setDataCreazioneAccount(LocalDate.now());
         return utenzaRepository.save(utente);
@@ -60,9 +60,9 @@ public class UtenzaService {
 
     public Utente login(String usernameOrEmail, String password) {
         Utente utente = utenzaRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new RuntimeException("User not found."));
+                .orElseThrow(() -> new RuntimeException("User non trovato."));
         if (!password.equals(utente.getPassword())) {
-            throw new RuntimeException("Invalid credentials.");
+            throw new RuntimeException("Credenziali non valide.");
         }
         return utente;
     }

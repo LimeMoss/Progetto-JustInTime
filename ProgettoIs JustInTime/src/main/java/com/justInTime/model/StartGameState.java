@@ -11,15 +11,22 @@ public class StartGameState implements GameState {
     @Autowired
     private PartitaService partitaService;
 
+    /**
+     * Esegue le operazioni necessarie all'inizio di una partita.
+     * Distribuisce le carte iniziali ai giocatori, imposta il primo giocatore
+     * corrente e passa allo stato di turno.
+     * 
+     * @param partita La partita su cui eseguire le operazioni.
+     */
+    
     @Override
     public void execute(Partita partita) {
-        // Distribuiamo le carte iniziali
+    
         partitaService.distribuisciCarteIniziali(partita);
         
-        // Impostiamo il primo giocatore
+      
         partita.setIndiceGiocatoreCorrente(0);
         
-        // Passiamo allo stato di turno
         partitaService.setGameState(partita, new TurnState());
     
     }

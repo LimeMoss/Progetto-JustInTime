@@ -1,49 +1,40 @@
 package com.justInTime.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.justInTime.model.Utente;
 import com.justInTime.service.UtenzaService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    
+    private final UtenzaService utenzaService;
 
-    @Autowired
-    private UtenzaService utenzaService;
+    public AuthController(UtenzaService utenzaService) {
+        this.utenzaService = utenzaService;
+    }
 
+    // Endpoint per la registrazione
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Utente utenza) {
+    public ResponseEntity<Utente> registerUser(@RequestBody Utente utente) {
         try {
-            // Validate input (basic example)
-            if (utenza.getEmail() == null || !utenza.getEmail().matches(".+@.+\\..+")) {
-                return ResponseEntity.badRequest().body("Invalid email format.");
-            }
-            if (utenza.getPassword() == null || utenza.getPassword().length() < 6) {
-                return ResponseEntity.badRequest().body("Password must be at least 6 characters.");
-            }
-            if (utenza.getUsername() == null || utenza.getUsername().isEmpty()) {
-                return ResponseEntity.badRequest().body("Username is required.");
-            }
-
-            // Register the user
-            Utente registeredUser = utenzaService.registerUser(utenza);
-
-            // Build success response
-            return ResponseEntity.ok("Registration successful! User ID: " + registeredUser.getId());
-
+            Utente nuovoUtente = utenzaService.registerUser(utente);
+            return new ResponseEntity<>(nuovoUtente, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            // Handle custom exceptions from the service layer
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            // Handle unexpected errors
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during registration.");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Endpoint per il login
+    @PostMapping("/login")
+    public ResponseEntity<Utente> login(@RequestParam String usernameOrEmail, @RequestParam String password) {
+        try {
+            Utente utente = utenzaService.login(usernameOrEmail, password);
+            return new ResponseEntity<>(utente, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.justInTime.model;
 
 public interface UserImplementor {
-    String getName();
-    String getCountry();
-    void setCountry(String country);
+    String getNome();
+    String getPaese();
+    void setPaese(String paese);
 }

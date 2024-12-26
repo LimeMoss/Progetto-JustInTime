@@ -31,14 +31,14 @@ public class Player extends User {
     
     public Player(String name, int maxScore) {
         super(new PlayerImplementor());
-        ((PlayerImplementor)this.implementor).setName(name);
+        ((PlayerImplementor)this.implementor).setNome(name);
         this.maxScore = maxScore;
         this.mano = new ArrayList<>();
     }
     
     @Override
-    public String getDisplayName() {
-        return implementor.getName();
+    public String getVisualizzaNome() {
+        return implementor.getNome();
     }
     
     @Override
@@ -47,8 +47,8 @@ public class Player extends User {
     }
     
 
-    public void setName(String name) {
-        ((PlayerImplementor)this.implementor).setName(name);
+    public void setNome(String name) {
+        ((PlayerImplementor)this.implementor).setNome(name);
     }
     
     public void aggiungiCartaAllaMano(Carta carta) {

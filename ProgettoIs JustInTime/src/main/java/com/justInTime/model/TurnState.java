@@ -18,7 +18,7 @@ public class TurnState implements GameState {
     public void execute(Partita partita) {
         Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
         //TODO//NOTIFY
-        System.out.println("Turno di " + giocatoreCorrente.getDisplayName());
+        System.out.println("Turno di " + giocatoreCorrente.getVisualizzaNome());
 
         // Impostiamo la durata del turno
         giocatoreCorrente.setDurataTurno(DURATA_TURNO);
@@ -34,7 +34,7 @@ public class TurnState implements GameState {
             // Riduce il tempo
             tempoRestante--;
             giocatoreCorrente.setDurataTurno(tempoRestante);
-            System.out.println("Tempo rimasto per " + giocatoreCorrente.getDisplayName() + ": " + tempoRestante + " secondi.");
+            System.out.println("Tempo rimasto per " + giocatoreCorrente.getVisualizzaNome() + ": " + tempoRestante + " secondi.");
 
             try {
                 Thread.sleep(1000); // Simula il passare del tempo

@@ -24,7 +24,7 @@ public class PlayerService {
         Utente utenza = utenzaRepository.findById(utenzaId)
             .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
         Player player = new Player(name, maxScore);
-        player.setCountry(utenza.getCountry());
+        player.setPaese(utenza.getPaese());
         return playerRepository.save(player);
     }
 
@@ -40,7 +40,7 @@ public class PlayerService {
     @Transactional
     public Player aggiornaNomeGiocatore(Long playerId, String nuovoNome) {
         Player player = trovaGiocatore(playerId);
-        player.setName(nuovoNome);
+        player.setNome(nuovoNome);
         return playerRepository.save(player);
     }
 

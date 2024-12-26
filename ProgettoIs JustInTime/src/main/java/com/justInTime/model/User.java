@@ -7,16 +7,15 @@ public abstract class User {
         this.implementor = implementor;
     }
     
-    public abstract String getDisplayName();
+    public abstract String getVisualizzaNome();
     public abstract Long getId();
-    public abstract void setName(String name);
-
+    public abstract void setNome(String name);
     
-    public String getCountry() {
-        return implementor.getCountry();
+    public String getPaese() {
+        return implementor.getPaese();
     }
     
-    public void setCountry(String country) {
-        implementor.setCountry(country);
+    public void setPaese(String paese) {
+        implementor.setPaese(paese);
     }
 }

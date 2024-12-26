@@ -1,39 +1,39 @@
 package com.justInTime.model;
 
 public class UtenteImplementor implements UserImplementor {
-    private String firstName;
-    private String lastName;
-    private String country;
-    private String phone;
+    private String nome;
+    private String cognome;
+    private String paese;
+    private Long telefono;
     
     @Override
-    public String getName() {
-        return firstName + " " + lastName;
+    public String getNome() {
+        return nome + " " + cognome;
     }
     
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    @Override
-    public String getCountry() {
-        return country;
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
     
     @Override
-    public void setCountry(String country) {
-        this.country = country;
+    public String getPaese() {
+        return paese;
     }
     
-    public String getPhone() {
-        return phone;
+    @Override
+    public void setPaese(String paese) {
+        this.paese = paese;
     }
     
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public Long getTelefono() {
+        return telefono;
+    }
+    
+    public void setTelefono(Long telefono) {
+        this.telefono = telefono;
     }
 }
