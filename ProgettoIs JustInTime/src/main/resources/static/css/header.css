@@ -41,7 +41,7 @@ header .logo-image > img{
 
 .logo-text {
     font-size: 50px;
-    color: #F5ECD8;
+    color: #FFEDDC;
 }
 
 #user-image {
@@ -63,7 +63,7 @@ header .logo-image > img{
     display: flex;
     gap: 20px;
     justify-content: space-around;
-    color: #F5ECD8;
+    color: #FFEDDC;
     text-decoration: none;
     font-size: 40px;
     padding: 20px;
@@ -72,7 +72,7 @@ header .logo-image > img{
 }
 
 .nav-links a {
-    color: #F5ECD8;
+    color: #FFEDDC;
     text-decoration: none;
     font-size: 20px;
     margin: 5px;
@@ -83,5 +83,4 @@ header .logo-image > img{
 .nav-links a:hover {
     text-decoration: none;
     transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
 }
