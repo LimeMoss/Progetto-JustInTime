@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
                     <input type="text" id="player${newPlayerNumber}" placeholder="Username">
-                    <button class="registeredplayerbuttons" data-player="${newPlayerNumber}">Registrato</button>
+                    <button class="registeredplayerbuttons" data-player="${newPlayerNumber}"></button>
                     <label class="registeredplayerlabels">Registrato</label>
                 </div>
             `;
