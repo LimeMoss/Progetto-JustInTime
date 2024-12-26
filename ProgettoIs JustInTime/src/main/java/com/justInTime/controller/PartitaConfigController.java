@@ -18,7 +18,7 @@ import com.justInTime.service.PartitaService;
 
 @RestController
 @RequestMapping("/api/partite")
-public class PartitaController {
+public class PartitaConfigController {
 
     
     @Autowired
