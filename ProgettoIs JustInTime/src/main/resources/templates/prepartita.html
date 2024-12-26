@@ -45,7 +45,7 @@
                 <label for="player2">Giocatore 2</label>
                 <div class="input-selections">
                     <input type="text" id="player2" placeholder="Username">
-                    <button class="registeredplayerbuttons"></button>
+                    <button class="registeredplayerbuttons" id="registrationB2"></button>
                     <label class="registeredplayerlabels">Registrato</label>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <label for="player3">Giocatore 3</label>
                 <div class="input-selections">
                     <input type="text" id="player3" placeholder="Username">
-                    <button class="registeredplayerbuttons"></button>
+                    <button class="registeredplayerbuttons" id="registrationB3"></button>
                     <label class="registeredplayerlabels">Registrato</label>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 <label for="player4">Giocatore 4</label>
                 <div class="input-selections">
                     <input type="text" id="player4" placeholder="Username">
-                    <button class="registeredplayerbuttons"></button>
+                    <button class="registeredplayerbuttons" id="registrationB4"></button>
                     <label class="registeredplayerlabels">Registrato</label>
                 </div>
             </div>
@@ -74,6 +74,25 @@
 
     <div class="start-game">
         <button id="initbutton">Inizia partita</button>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-modal">&times;</span>
+            <h2 class="loginText">Login Giocatore</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username" class="loginText">Nome utente</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password" class="loginText">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <p id="error-message" style="color: red; display: none;">Nome utente o password errati</p>
+        </div>
     </div>
 </div>
 
