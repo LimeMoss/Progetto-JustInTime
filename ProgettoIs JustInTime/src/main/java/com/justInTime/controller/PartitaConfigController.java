@@ -20,32 +20,32 @@ import com.justInTime.service.PartitaService;
 @RequestMapping("/api/partite")
 public class PartitaController {
 
+    
     @Autowired
     private PartitaService partitaService;
     private PartitaConfigService partitaConfigService;
 
-
-    
-    @PostMapping("/{partitaId}/start")
-    public ResponseEntity<Partita> iniziaPartita(@PathVariable Long partitaId) {
-        return ResponseEntity.ok(partitaService.iniziaPartita(partitaId));
+        @PostMapping
+    public ResponseEntity<Partita> creaPartita() {
+        Partita partita = partitaConfigService.createPartita();
+        return ResponseEntity.ok(partita);
     }
 
-    @PostMapping("/{partitaId}/gioca-carta")
-    public ResponseEntity<Partita> giocaCarta(
+    @PostMapping("/{partitaId}/giocatori")
+    public ResponseEntity<Partita> aggiungiGiocatore(
             @PathVariable Long partitaId,
-            @RequestParam int cartaIndex) {
-        return ResponseEntity.ok(partitaService.giocaCarta(partitaId, cartaIndex));
+            @RequestBody Player giocatore) {
+        return ResponseEntity.ok(partitaConfigService.aggiungiGiocatore(partitaId, giocatore));
     }
 
-    @GetMapping("/{partitaId}/stato")
-    public ResponseEntity<Partita> getStatoPartita(@PathVariable Long partitaId) {
-        return ResponseEntity.ok(partitaService.getPartita(partitaId));
-    }
-
-    @PostMapping("/{partitaId}/termina")
-    public ResponseEntity<Void> terminaPartita(@PathVariable Long partitaId) {
-        partitaService.terminaPartita(partitaId);
+    @DeleteMapping("/{partitaId}/giocatori/{giocatoreId}")
+    public ResponseEntity<Void> rimuoviGiocatore(
+            @PathVariable Long partitaId,
+            @PathVariable Long giocatoreId) {
+        partitaConfigService.rimuoviGiocatore(partitaId, giocatoreId);
         return ResponseEntity.ok().build();
     }
+
+
+
 }
