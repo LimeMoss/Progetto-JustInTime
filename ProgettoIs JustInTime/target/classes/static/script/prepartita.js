@@ -22,12 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
                     <input type="text" id="player${newPlayerNumber}" placeholder="Username">
-                    <button class="registeredplayerbuttons"></button>
+                    <button class="registeredplayerbuttons" data-player="${newPlayerNumber}">Registrato</button>
                     <label class="registeredplayerlabels">Registrato</label>
                 </div>
             `;
             playersForm.appendChild(newInputGroup);
             updateButtons();
+            attachEventListeners(); // Attach event listeners to new buttons
         }
     });
 
@@ -39,21 +40,79 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function openLoginModal(playerId) {
+        document.getElementById('login-modal').style.display = 'block';
+        document.getElementById('login-form').dataset.player = playerId;
+    }
+
     function toggleRegistration(button) {
         if (button.innerText === 'X') {
             button.innerText = ''; // Rimuove la X
         } else {
-            button.innerText = 'X'; // Aggiunge la X
+            const playerId = button.dataset.player;
+            openLoginModal(playerId); // Apre la finestra di dialogo solo se la X non è presente
         }
     }
 
-    const initialButtons = playersForm.querySelectorAll('.registeredplayerbuttons');
-    initialButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            event.preventDefault()
-            toggleRegistration(button);
+    function attachEventListeners() {
+        const buttons = playersForm.querySelectorAll('.registeredplayerbuttons');
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleRegistration(button);
+            });
         });
+    }
+
+    attachEventListeners();
+    updateButtons();
+
+    // Chiudi la finestra di dialogo
+    document.getElementById('close-modal').addEventListener('click', function() {
+        document.getElementById('login-modal').style.display = 'none';
     });
 
-    updateButtons();
+    // Gestisci il submit del form di login
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const email = "default@example.com"; // Assume an email for now
+        const playerId = this.dataset.player;
+
+        // Invia la richiesta al backend
+        fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password, email })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (response.ok) {
+                    // Login riuscito
+                    document.getElementById('player' + playerId).value = username;
+                    document.querySelector(`[data-player="${playerId}"]`).textContent = 'X';
+                    document.getElementById('login-modal').style.display = 'none';
+                } else {
+                    // Login fallito
+                    document.getElementById('error-message').textContent = data;
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                document.getElementById('error-message').textContent = 'Username o password errati';
+                document.getElementById('error-message').style.display = 'block';
+            });
+    });
+
+    // Chiudi la finestra di dialogo quando si clicca fuori di essa
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('login-modal')) {
+            document.getElementById('login-modal').style.display = 'none';
+        }
+    }
 });

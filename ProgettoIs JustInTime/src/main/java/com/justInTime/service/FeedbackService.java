@@ -30,12 +30,12 @@ public class FeedbackService {
      */
     public Feedback creaFeedback(String feedbackDescription, Integer stars) {
 
-        // Verifica se la descrizione del feedback supera i 255 caratteri
+    
         if (feedbackDescription == null || feedbackDescription.length() > 255 || feedbackDescription.isEmpty()) {
             throw new IllegalArgumentException("La descrizione non può essere vuota o superare i 255 caratteri.");
         }
 
-        // Verifica se le stelle sono un valore non compreso tra 1 e 5
+
         if (stars == null) {
             throw new IllegalArgumentException("Il valore delle stelle non può essere null.");
         }
@@ -44,7 +44,7 @@ public class FeedbackService {
             throw new IllegalArgumentException("Le stelle devono essere un valore tra 1 e 5.");
         }
 
-        // Crea un nuovo feedback e lo salva nel database
+
         Feedback feedback = new Feedback();
         feedback.setFeedback(feedbackDescription);
         feedback.setStars(stars);
