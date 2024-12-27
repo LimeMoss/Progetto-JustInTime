@@ -5,36 +5,37 @@ import com.justInTime.service.UtenzaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/")
 public class AuthController {
-    
+
     private final UtenzaService utenzaService;
 
     public AuthController(UtenzaService utenzaService) {
         this.utenzaService = utenzaService;
     }
 
-    // Endpoint per la registrazione
     @PostMapping("/register")
-    public ResponseEntity<Utente> registerUser(@RequestBody Utente utente) {
+    public ResponseEntity<RedirectView> registraUtente(@RequestBody Utente utente) {
         try {
-            Utente nuovoUtente = utenzaService.registerUser(utente);
-            return new ResponseEntity<>(nuovoUtente, HttpStatus.CREATED);
+            utenzaService.registerUser(utente);
+            RedirectView redirectView = new RedirectView("/login");
+            return new ResponseEntity<>(redirectView, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    // Endpoint per il login
     @PostMapping("/login")
-    public ResponseEntity<Utente> login(@RequestParam String usernameOrEmail, @RequestParam String password) {
+    public ResponseEntity<RedirectView> login(@RequestParam String usernameOrEmail, @RequestParam String password) {
         try {
-            Utente utente = utenzaService.login(usernameOrEmail, password);
-            return new ResponseEntity<>(utente, HttpStatus.OK);
+            utenzaService.login(usernameOrEmail, password);
+            RedirectView redirectView = new RedirectView("/homepage");
+            return new ResponseEntity<>(redirectView, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 }

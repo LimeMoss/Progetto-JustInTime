@@ -23,14 +23,11 @@ com\justInTime\model\Feedback.class
 com\justInTime\model\TurnState.class
 com\justInTime\model\Utente.class
 com\justInTime\repository\PlayerRepository.class
-com\justInTime\controller\RegiststrazioneController.class
 com\justInTime\model\GameState.class
 com\justInTime\service\PlayerService.class
-com\justInTime\controller\LoginController.class
 com\justInTime\model\PauseState.class
 com\justInTime\model\MazzoPesca.class
 com\justInTime\repository\PartitaRepository.class
-com\justInTime\controller\HomeController.class
 com\justInTime\model\Classifica.class
 com\justInTime\model\UtenteImplementor.class
 com\justInTime\repository\UtenzaRepository.class

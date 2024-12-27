@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class UtenzaService {
+
     private final UtenzaRepository utenzaRepository;
 
     public UtenzaService(UtenzaRepository utenzaRepository) {
@@ -47,16 +49,26 @@ public class UtenzaService {
         utenzaRepository.delete(utente);
     }
 
+    @Transactional
     public Utente registerUser(Utente utente) {
+        
+        validaUsername(utente.getUsername());
+        validaNome(utente.getVisualizzaNome());
+        validaEmail(utente.getEmail());
+        validaPassword(utente.getPassword());
+
+       
         if (utenzaRepository.existsByEmail(utente.getEmail())) {
-            throw new RuntimeException("Email già resgistrata.");
+            throw new RuntimeException("Email già registrata.");
         }
         if (utenzaRepository.existsByUsername(utente.getUsername())) {
             throw new RuntimeException("Username già registrato.");
         }
+
         utente.setDataCreazioneAccount(LocalDate.now());
         return utenzaRepository.save(utente);
     }
+
 
     public Utente login(String usernameOrEmail, String password) {
         Utente utente = utenzaRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
@@ -65,5 +77,33 @@ public class UtenzaService {
             throw new RuntimeException("Credenziali non valide.");
         }
         return utente;
+    }
+
+
+    private void validaUsername(String username) {
+        if (!Pattern.matches("^[A-z0-9]{2,30}$", username)) {
+            throw new RuntimeException("Username non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
+        }
+    }
+
+
+    private void validaNome(String nome) {
+        if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", nome)) {
+            throw new RuntimeException("Nome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
+        }
+    }
+
+
+    private void validaEmail(String email) {
+        if (!Pattern.matches("^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$", email)) {
+            throw new RuntimeException("Email non valida.");
+        }
+    }
+
+
+    private void validaPassword(String password) {
+        if (!Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", password)) {
+            throw new RuntimeException("Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.");
+        }
     }
 }
