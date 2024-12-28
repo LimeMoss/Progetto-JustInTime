@@ -1,9 +1,11 @@
 package com.justInTime.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,35 +17,46 @@ import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
 
 @RestController
-@RequestMapping("/api/partite")
+@RequestMapping("/api/game-config")
 public class PartitaConfigController {
-
+    
+    @Autowired
+    private PartitaConfigService partitaConfigService;
     
     @Autowired
     private PartitaService partitaService;
-    private PartitaConfigService partitaConfigService;
-
-        @PostMapping
-    public ResponseEntity<Partita> creaPartita() {
-        Partita partita = partitaConfigService.createPartita();
-        return ResponseEntity.ok(partita);
+    
+    @PostMapping("/players")
+    public ResponseEntity<Void> addPlayer(@RequestBody Player player) {
+        try {
+            partitaConfigService.aggiungiGiocatore(player);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
-
-    @PostMapping("/{partitaId}/giocatori")
-    public ResponseEntity<Partita> aggiungiGiocatore(
-            @PathVariable Long partitaId,
-            @RequestBody Player giocatore) {
-        return ResponseEntity.ok(partitaConfigService.aggiungiGiocatore(partitaId, giocatore));
-    }
-
-    @DeleteMapping("/{partitaId}/giocatori/{giocatoreId}")
-    public ResponseEntity<Void> rimuoviGiocatore(
-            @PathVariable Long partitaId,
-            @PathVariable Long giocatoreId) {
-        partitaConfigService.rimuoviGiocatore(partitaId, giocatoreId);
+    
+    @DeleteMapping("/players")
+    public ResponseEntity<Void> removePlayer(@RequestBody Player player) {
+        partitaConfigService.rimuoviGiocatore(player);
         return ResponseEntity.ok().build();
     }
-
-
-
+    
+    @GetMapping("/players")
+    public ResponseEntity<List<Player>> getConfiguredPlayers() {
+        return ResponseEntity.ok(partitaConfigService.getGiocatoriInConfigurazione());
+    }
+    
+    @PostMapping("/create-and-start")
+    public ResponseEntity<Partita> createAndStartGame() {
+        try {
+            Partita newPartita = partitaConfigService.creaPartita();
+        
+            partitaService.iniziaPartita(newPartita.getId());
+            
+            return ResponseEntity.ok(newPartita);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

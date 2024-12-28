@@ -18,14 +18,13 @@ public class PartitaService {
     @Autowired
     private PartitaRepository partitaRepository;
 
-    public Partita iniziaPartita(Long partitaId) {
+    public void iniziaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
         distribuisciCarteIniziali(partita);
         partita.setGameState(new StartGameState());
-        return partitaRepository.save(partita);
     }
     
     public Partita getPartita(Long partitaId) {

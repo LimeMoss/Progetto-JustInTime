@@ -4,7 +4,6 @@ com\justInTime\model\Mazzo.class
 com\justInTime\repository\FeedbackRepository.class
 com\justInTime\service\FeedbackService.class
 com\justInTime\service\PartitaService.class
-com\justInTime\model\User.class
 com\justInTime\controller\PlayerController.class
 com\justInTime\model\MazzoFactory.class
 com\justInTime\model\Carta.class
@@ -18,7 +17,6 @@ com\justInTime\controller\PartitaConfigController.class
 com\justInTime\model\EndGameState.class
 com\justInTime\controller\PartitaController.class
 com\justInTime\service\MazzoPescaService.class
-com\justInTime\model\PlayerImplementor.class
 com\justInTime\model\Feedback.class
 com\justInTime\model\TurnState.class
 com\justInTime\model\Utente.class
@@ -29,11 +27,9 @@ com\justInTime\model\PauseState.class
 com\justInTime\model\MazzoPesca.class
 com\justInTime\repository\PartitaRepository.class
 com\justInTime\model\Classifica.class
-com\justInTime\model\UtenteImplementor.class
 com\justInTime\repository\UtenzaRepository.class
 com\justInTime\model\Partita.class
 com\justInTime\model\Player.class
-com\justInTime\model\UserImplementor.class
 com\justInTime\service\MazzoScartoService.class
 com\justInTime\service\PartitaConfigService.class
 com\justInTime\service\UtenzaService.class

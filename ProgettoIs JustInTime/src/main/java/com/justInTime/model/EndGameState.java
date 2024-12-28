@@ -27,10 +27,8 @@ public class EndGameState implements GameState {
         Player vincitore = determinaVincitore(partita);
 
         if (vincitore != null) {
-            // TODO: Implementare la logica per gestire il vincitore
+            partitaService.terminaPartita(partita.getId());
         }
-
-        partitaService.terminaPartita(partita.getId());
     }
 
     /**
@@ -41,8 +39,6 @@ public class EndGameState implements GameState {
      * @return Il giocatore vincitore, o {@code null} se nessun vincitore è determinato.
      */
     private Player determinaVincitore(Partita partita) {
-        // Implementa la logica per determinare il vincitore
-        // Per esempio, il primo giocatore che ha finito le carte
         for (Player player : partita.getGiocatori()) {
             if (player.getMano().isEmpty()) {
                 return player;

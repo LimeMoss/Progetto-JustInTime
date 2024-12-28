@@ -12,15 +12,14 @@ public class TurnState implements GameState {
     @Autowired
     private PartitaService partitaService;
     
-    private static final int DURATA_TURNO = 30; // 30 secondi per turno
+    private static final int DURATA_TURNO = 15; 
 
     @Override
     public void execute(Partita partita) {
         Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
-        //TODO//NOTIFY
-        System.out.println("Turno di " + giocatoreCorrente.getVisualizzaNome());
+    
 
-        // Impostiamo la durata del turno
+    
         giocatoreCorrente.setDurataTurno(DURATA_TURNO);
         
         int tempoRestante = giocatoreCorrente.getDurataTurno();
@@ -31,20 +30,17 @@ public class TurnState implements GameState {
                 break;
             }
 
-            // Riduce il tempo
+       
             tempoRestante--;
             giocatoreCorrente.setDurataTurno(tempoRestante);
-            System.out.println("Tempo rimasto per " + giocatoreCorrente.getVisualizzaNome() + ": " + tempoRestante + " secondi.");
 
             try {
-                Thread.sleep(1000); // Simula il passare del tempo
+                Thread.sleep(1000); 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        // Alla fine del turno, passiamo allo stato di pausa
         partitaService.setGameState(partita, new PauseState());
-        System.out.println("Turno terminato. In attesa del prossimo giocatore...");
     }
 }

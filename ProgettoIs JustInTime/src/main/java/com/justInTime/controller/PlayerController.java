@@ -5,14 +5,12 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
-import com.justInTime.model.Carta;
+
 import com.justInTime.model.Player;
 import com.justInTime.service.PlayerService;
 
@@ -26,52 +24,31 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    // Crea un nuovo giocatore
-    @PostMapping("/crea")
-    public ResponseEntity<Player> creaGiocatore(@RequestParam String name, @RequestParam int maxScore, @RequestParam Long id ) {
-        Player player = playerService.creaGiocatore(name, maxScore, id);
-        return ResponseEntity.ok(player);
-    }
 
-    // Trova un giocatore per ID
+
+    /**
+     * Endpoint per trovare un giocatore per ID.
+     *
+     * @param playerId l'ID del giocatore da trovare
+     * @return ResponseEntity contenente l'oggetto Player se trovato
+     */
     @GetMapping("/{playerId}")
     public ResponseEntity<Player> trovaGiocatore(@PathVariable Long playerId) {
         Player player = playerService.trovaGiocatore(playerId);
         return ResponseEntity.ok(player);
     }
 
-    // Ottieni tutti i giocatori
+
+
+    /**
+     * Endpoint per ottenere la lista di tutti i giocatori.
+     * 
+     * @return lista di Player
+     */
     @GetMapping("/tutti")
     public ResponseEntity<List<Player>> trovaTuttiGiocatori() {
         List<Player> players = playerService.trovaTuttiGiocatori();
         return ResponseEntity.ok(players);
     }
 
-    // Aggiorna il nome del giocatore
-    @PutMapping("/{playerId}/aggiorna-nome")
-    public ResponseEntity<Player> aggiornaNomeGiocatore(@PathVariable Long playerId, @RequestParam String nuovoNome) {
-        Player player = playerService.aggiornaNomeGiocatore(playerId, nuovoNome);
-        return ResponseEntity.ok(player);
-    }
-
-    // Aggiungi una carta alla mano del giocatore
-    @PostMapping("/{playerId}/aggiungi-carta")
-    public ResponseEntity<Player> aggiungiCartaAllaMano(@PathVariable Long playerId, @RequestBody Carta carta) {
-        Player player = playerService.aggiungiCartaAllaMano(playerId, carta);
-        return ResponseEntity.ok(player);
-    }
-
-    // Rimuovi una carta dalla mano del giocatore
-    @PostMapping("/{playerId}/rimuovi-carta")
-    public ResponseEntity<Player> rimuoviCartaDallaMano(@PathVariable Long playerId, @RequestBody Carta carta) {
-        Player player = playerService.rimuoviCartaDallaMano(playerId, carta);
-        return ResponseEntity.ok(player);
-    }
-
-    // Incrementa il punteggio massimo del giocatore
-    @PostMapping("/{playerId}/incrementa-punteggio")
-    public ResponseEntity<Player> incrementaMaxScore(@PathVariable Long playerId) {
-        Player player = playerService.incrementaMaxScore(playerId);
-        return ResponseEntity.ok(player);
-    }
 }

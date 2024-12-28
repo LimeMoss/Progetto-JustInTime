@@ -24,7 +24,6 @@ public class PlayerService {
         Utente utenza = utenzaRepository.findById(utenzaId)
             .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
         Player player = new Player(name, maxScore);
-        player.setPaese(utenza.getPaese());
         return playerRepository.save(player);
     }
 
@@ -37,12 +36,6 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    @Transactional
-    public Player aggiornaNomeGiocatore(Long playerId, String nuovoNome) {
-        Player player = trovaGiocatore(playerId);
-        player.setNome(nuovoNome);
-        return playerRepository.save(player);
-    }
 
     @Transactional
     public Player aggiungiCartaAllaMano(Long playerId, Carta carta) {
@@ -64,6 +57,8 @@ public class PlayerService {
         player.increaseMaxScore();
         return playerRepository.save(player);
     }
+
+    
 
     public void deletePlayer(Long id) {
         playerRepository.deleteById(id);

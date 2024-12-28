@@ -22,7 +22,6 @@ public class StartGameState implements GameState {
     @Override
     public void execute(Partita partita) {
     
-        partitaService.distribuisciCarteIniziali(partita);
         
       
         partita.setIndiceGiocatoreCorrente(0);

@@ -24,5 +24,15 @@ public class PagesController {
         return "registrazione";
     }
 
+    @GetMapping("/achievements")
+    public String achievements() {
+        return "achievements";
+    }
+
+    @GetMapping("/prepartita")
+    public String prepartita() {
+        return "prepartita";
+    }
+
     
 }

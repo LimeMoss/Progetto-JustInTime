@@ -1,124 +1,132 @@
 package com.justInTime.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+
 import java.util.Date;
 
-@Entity
-public class Utente extends User {
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+public class Utente implements abstractUtente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
+
+
     
+
+    private String nome;
+    private String cognome;
+    private Date dataNascita;
+    private String paese;
+    private String telefono;
     private String email;
     private String password;
-    private LocalDate dataCreazioneAccount;
     private String username;
-    
+  
 
-    
-    
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "player_id")
+    @JoinColumn(name = "Utenza_id", referencedColumnName = "id")
     private Player player;
 
-    public Utente(){
-        super(new UtenteImplementor());
+    @Transient
+    private abstractPlayer abstractPlayer;
 
+    // Costruttori
+    public Utente() {}
+
+    public Utente(String nome, String cognome, Date dataNascita, String paese, String telefono, 
+                  String email, String password, String username) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataNascita = dataNascita;
+        this.paese = paese;
+        this.telefono = telefono;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+      
     }
 
-    public Utente(String nome, String cognome, Date dataNascita, String paese,
-    Long telefono, String email, String password, String username) {
-super(new UtenteImplementor());
-UtenteImplementor impl = (UtenteImplementor)this.implementor;
-impl.setNome(nome);
-impl.setCognome(cognome);
-impl.setPaese(paese);
-impl.setTelefono(telefono);
-this.email = email;
-this.password = password;
-this.username = username;
-this.dataCreazioneAccount = LocalDate.now();
-}
-    
-    /**
-     * Returns the display name of the user, which is the concatenation of the first name and the last name.
-     * @return the display name of the user
-     */
+
+    // Getter e Setter
     @Override
-    public String getVisualizzaNome() {
-        return implementor.getNome();
+    public String getPaese() {
+        return paese;
     }
-    
-
-/**
- * Retrieves the unique identifier of the user.
- * 
- * @return the ID of the user
- */
 
 
-    /**
-     * Retrieves the unique identifier of the user.
-     * 
-     * @return the ID of the user
-     */
+    @Override
+    public void setPaese(String paese) {
+        this.paese = paese;
+    }
+    @Override
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     @Override
     public Long getId() {
-        return this.id;
+        return id;
     }
-    
 
-    /**
-     * Sets the name of the user, splitting it into first name and last name using a single space as separator.
-     * If the name does not contain any space, the first name will be set to the entire name and the last name will be empty.
-     * @param name the name of the user
-     */
     @Override
-    public void setNome(String name) {
-        String[] parts = name.split(" ", 2);
-        UtenteImplementor impl = (UtenteImplementor)this.implementor;
-        impl.setNome(parts[0]);
-        if (parts.length > 1) {
-            impl.setCognome(parts[1]);
-        }
+    public String getName() {
+        return nome;
     }
-    
-    public String getEmail() {
-        return email;
+    @Override
+    public String getCognome() {
+        return cognome;
     }
-    
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-    
-    public String getPassword() {
-        return password;
+    @Override
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
+    @Override
     public String getUsername() {
         return username;
     }
-    
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
-    
-    public LocalDate getDataCreazioneAccount() {
-        return dataCreazioneAccount;
+    @Override
+    public Date getDataNascita() {
+        return dataNascita;
     }
-    
-    public void setDataCreazioneAccount(LocalDate dataCreazioneAccount) {
-        this.dataCreazioneAccount = dataCreazioneAccount;
+    @Override
+    public void setDataNascita(Date dataNascita) {
+        this.dataNascita = dataNascita;
     }
-
-
- 
-
+    @Override
+    public String getTelefono() {
+        return telefono;
+    }
+    @Override
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+    @Override
+    public String getEmail() {
+        return email;
+    }
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    @Override
+    public String getPassword() {
+        return password;
+    }
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }
+

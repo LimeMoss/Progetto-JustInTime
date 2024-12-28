@@ -5,6 +5,8 @@ import com.justInTime.repository.UtenzaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -34,11 +36,10 @@ public class UtenzaService {
     @Transactional
     public Utente aggiornaUtente(Long id, Utente utenteAggiornato) {
         Utente utente = trovaUtente(id);
-        utente.setNome(utenteAggiornato.getVisualizzaNome());
+        utente.setNome(utenteAggiornato.getName());
         utente.setPaese(utenteAggiornato.getPaese());
         utente.setEmail(utenteAggiornato.getEmail());
         utente.setPassword(utenteAggiornato.getPassword());
-        utente.setDataCreazioneAccount(utenteAggiornato.getDataCreazioneAccount());
         utente.setUsername(utenteAggiornato.getUsername());
         return utenzaRepository.save(utente);
     }
@@ -50,22 +51,24 @@ public class UtenzaService {
     }
 
     @Transactional
-    public Utente registerUser(Utente utente) {
-        
+    public Utente registerUser(Utente utente, String password2) {
+    
         validaUsername(utente.getUsername());
-        validaNome(utente.getVisualizzaNome());
+        validaNome(utente.getName());
+        validaCognome(utente.getCognome());
         validaEmail(utente.getEmail());
-        validaPassword(utente.getPassword());
+        validaPassword(utente.getPassword(), password2);
+        validaDataNascita(utente.getDataNascita());
+        validaTelefono(utente.getTelefono());
+        validaPaese(utente.getPaese()); 
 
-       
         if (utenzaRepository.existsByEmail(utente.getEmail())) {
             throw new RuntimeException("Email già registrata.");
         }
         if (utenzaRepository.existsByUsername(utente.getUsername())) {
             throw new RuntimeException("Username già registrato.");
         }
-
-        utente.setDataCreazioneAccount(LocalDate.now());
+   
         return utenzaRepository.save(utente);
     }
 
@@ -78,6 +81,33 @@ public class UtenzaService {
         }
         return utente;
     }
+
+    
+    private void validaDataNascita(Date dataNascita) {
+    if (dataNascita == null) {
+        throw new RuntimeException("La data di nascita non può essere vuota.");
+    }
+
+    LocalDate currentDate = LocalDate.now();
+    LocalDate birthDate = dataNascita.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    
+    // Controlla se l'utente ha almeno 18 anni
+    if (birthDate.isAfter(currentDate.minusYears(18))) {
+        throw new RuntimeException("L'utente deve avere almeno 18 anni.");
+    }
+}
+
+private void validaTelefono(String telefono) {
+    if (telefono == null || telefono.isEmpty()) {
+        throw new RuntimeException("Il numero di telefono non può essere vuoto.");
+    }
+    // Puoi usare una regex per validare il formato del numero di telefono
+    String phoneRegex = "^\\+?[0-9]{10,15}$";
+    if (!telefono.matches(phoneRegex)) {
+        throw new RuntimeException("Formato numero di telefono non valido.");
+    }
+}
+
 
 
     private void validaUsername(String username) {
@@ -93,6 +123,12 @@ public class UtenzaService {
         }
     }
 
+    private void validaCognome(String cognome) {
+        if (cognome == null || cognome.isEmpty()) {
+            throw new RuntimeException("Cognome non può essere vuoto.");
+        }
+    }
+
 
     private void validaEmail(String email) {
         if (!Pattern.matches("^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$", email)) {
@@ -101,9 +137,19 @@ public class UtenzaService {
     }
 
 
-    private void validaPassword(String password) {
+    private void validaPassword(String password, String password2) {
+        if (!password.equals(password2)) {
+            throw new RuntimeException("Le password non corrispondono."); 
+        }
         if (!Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", password)) {
             throw new RuntimeException("Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.");
+        }
+  
+    }
+
+    private void validaPaese(String paese) {
+        if (paese == null || paese.isEmpty()) {
+            throw new RuntimeException("Il paese non può essere vuoto.");
         }
     }
 }

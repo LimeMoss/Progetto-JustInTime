@@ -18,9 +18,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RedirectView> registraUtente(@RequestBody Utente utente) {
+    public ResponseEntity<RedirectView> registraUtente(@RequestBody Utente utente, @RequestParam String password2) {
         try {
-            utenzaService.registerUser(utente);
+            utenzaService.registerUser(utente, password2);
             RedirectView redirectView = new RedirectView("/login");
             return new ResponseEntity<>(redirectView, HttpStatus.CREATED);
         } catch (RuntimeException e) {
