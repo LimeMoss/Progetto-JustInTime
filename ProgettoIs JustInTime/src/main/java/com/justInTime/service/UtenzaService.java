@@ -94,7 +94,7 @@ private void validaTelefono(String telefono) {
         throw new RuntimeException("Il numero di telefono non può essere vuoto.");
     }
     // Puoi usare una regex per validare il formato del numero di telefono
-    String phoneRegex = "^\\+\\d{2}\\s[0-9]{3}\\s[0-9]{3}\\s[0-9]{4}$";
+    String phoneRegex = "^\\+[0-9]{1,3}\\s[0-9]{3}\\s[0-9]{3}\\s[0-9]{4}$";
     if (!telefono.matches(phoneRegex)) {
         throw new RuntimeException("Formato numero di telefono non valido.");
     }
