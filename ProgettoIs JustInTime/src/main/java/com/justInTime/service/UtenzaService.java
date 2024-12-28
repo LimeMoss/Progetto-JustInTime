@@ -87,14 +87,6 @@ public class UtenzaService {
     if (dataNascita == null) {
         throw new RuntimeException("La data di nascita non può essere vuota.");
     }
-
-    LocalDate currentDate = LocalDate.now();
-    LocalDate birthDate = dataNascita.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    
-    // Controlla se l'utente ha almeno 18 anni
-    if (birthDate.isAfter(currentDate.minusYears(18))) {
-        throw new RuntimeException("L'utente deve avere almeno 18 anni.");
-    }
 }
 
 private void validaTelefono(String telefono) {
@@ -102,7 +94,7 @@ private void validaTelefono(String telefono) {
         throw new RuntimeException("Il numero di telefono non può essere vuoto.");
     }
     // Puoi usare una regex per validare il formato del numero di telefono
-    String phoneRegex = "^\\+?[0-9]{10,15}$";
+    String phoneRegex = "^[0-9]{3}\\s[0-9]{3}\\s[0-9]{4}$";
     if (!telefono.matches(phoneRegex)) {
         throw new RuntimeException("Formato numero di telefono non valido.");
     }
@@ -124,8 +116,8 @@ private void validaTelefono(String telefono) {
     }
 
     private void validaCognome(String cognome) {
-        if (cognome == null || cognome.isEmpty()) {
-            throw new RuntimeException("Cognome non può essere vuoto.");
+        if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", cognome)) {
+            throw new RuntimeException("Cognome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
         }
     }
 
