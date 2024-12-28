@@ -19,14 +19,27 @@ public class PartitaConfigService {
     private List<Player> giocatoriInConfigurazione = new ArrayList<>();
 
 
-    public void aggiungiGiocatore(Player giocatore) {
+    public void aggiungiGiocatore(String usernameOrEmail, String password) {  {
         if (giocatoriInConfigurazione.size() >= 4) {
             throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
         }
-        if (giocatoriInConfigurazione.contains(giocatore)) {
-            throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
+        /* 
+        for (Player giocatore : giocatoriInConfigurazione) {
+            if (giocatore.getName().equals(usernameOrEmail)) {
+                throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
+            }
+            if (giocatore.getEmail().equals(usernameOrEmail)) {
+                throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
+            }
         }
-        giocatoriInConfigurazione.add(giocatore);
+            */
+
+        //TODO BRIDGE PATTERN//
+        /* 
+       UtenzaService utenzaService;
+        giocatoriInConfigurazione.add(utenzaService.login(usernameOrEmail, password));
+        */
+    }
     }
 
 

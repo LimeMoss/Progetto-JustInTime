@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.justInTime.model.Partita;
@@ -25,11 +26,13 @@ public class PartitaConfigController {
     
     @Autowired
     private PartitaService partitaService;
+
+
     
-    @PostMapping("/players")
-    public ResponseEntity<Void> addPlayer(@RequestBody Player player) {
+    @PostMapping("/add-players")
+    public ResponseEntity<Void> addPlayer(@RequestParam String usernameOrEmail, @RequestParam String password) {
         try {
-            partitaConfigService.aggiungiGiocatore(player);
+            partitaConfigService.aggiungiGiocatore(usernameOrEmail, password);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();

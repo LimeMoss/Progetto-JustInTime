@@ -51,6 +51,7 @@ public class Player implements abstractPlayer {
         mano = new ArrayList<Carta>();
     }
 
+
     public Player(String name, int maxScore) {
         this.nome=name;
         this.maxScore = maxScore;
@@ -132,6 +133,8 @@ public class Player implements abstractPlayer {
 
         throw new UnsupportedOperationException("Unimplemented method 'hasFinishedTurn'");
     }
+
+
 
 
 }
