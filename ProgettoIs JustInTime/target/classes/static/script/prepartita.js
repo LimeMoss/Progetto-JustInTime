@@ -49,11 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function toggleRegistration(button) {
-        if (button.innerText === 'X') {
-            button.innerText = ''; // Rimuove la X
+        if (button.innerText === 'Login effettuato!') {
+            button.innerText = '';
         } else {
             const playerId = button.dataset.player;
-            openLoginModal(playerId); // Apre la finestra di dialogo solo se la X non è presente
+            openLoginModal(playerId);
         }
     }
 
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     // Login riuscito
                     document.getElementById('player' + playerId).value = username;
-                    document.querySelector(`[data-player="${playerId}"]`).textContent = 'X';
+                    document.querySelector(`[data-player="${playerId}"]`).textContent = 'Login effettuato!';
                     document.getElementById('login-modal').style.display = 'none';
                 } else {
                     // Login fallito

@@ -112,7 +112,7 @@ public class UtenzaService {
         Utente utente = utenzaRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> new RuntimeException("User non trovato."));
         if (!password.equals(utente.getPassword())) {
-            throw new RuntimeException("Credenziali non valide.");
+            throw new IllegalArgumentException("Credenziali non valide.");
         }
         return utente;
     }
@@ -122,7 +122,7 @@ public class UtenzaService {
     
     private void validaDataNascita(Date dataNascita) {
     if (dataNascita == null) {
-        throw new RuntimeException("La data di nascita non può essere vuota.");
+        throw new IllegalArgumentException("La data di nascita non può essere vuota.");
     }
 
 
@@ -130,11 +130,11 @@ public class UtenzaService {
 
 private void validaTelefono(String telefono) {
     if (telefono == null || telefono.isEmpty()) {
-        throw new RuntimeException("Il numero di telefono non può essere vuoto.");
+        throw new IllegalArgumentException("Il numero di telefono non può essere vuoto.");
     }
     String phoneRegex = "^\\+?[0-9]{10,15}$";
     if (!telefono.matches(phoneRegex)) {
-        throw new RuntimeException("Formato numero di telefono non valido.");
+        throw new IllegalArgumentException("Formato numero di telefono non valido.");
     }
 }
 
@@ -142,44 +142,44 @@ private void validaTelefono(String telefono) {
 
     private void validaUsername(String username) {
         if (!Pattern.matches("^[A-z0-9]{2,30}$", username)) {
-            throw new RuntimeException("Username non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
+            throw new IllegalArgumentException("Username non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
         }
     }
 
 
     private void validaNome(String nome) {
         if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", nome)) {
-            throw new RuntimeException("Nome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
+            throw new IllegalArgumentException("Nome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
         }
     }
 
     private void validaCognome(String cognome) {
         if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", cognome)) {
-            throw new RuntimeException("Cognome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
+            throw new IllegalArgumentException("Cognome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
         }
     }
 
 
     private void validaEmail(String email) {
         if (!Pattern.matches("^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$", email)) {
-            throw new RuntimeException("Email non valida.");
+            throw new IllegalArgumentException("Email non valida.");
         }
     }
 
 
     private void validaPassword(String password, String password2) {
         if (!password.equals(password2)) {
-            throw new RuntimeException("Le password non corrispondono."); 
+            throw new IllegalArgumentException("Le password non corrispondono."); 
         }
         if (!Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", password)) {
-            throw new RuntimeException("Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.");
+            throw new IllegalArgumentException("Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.");
         }
   
     }
 
     private void validaPaese(String paese) {
         if (paese == null || paese.isEmpty()) {
-            throw new RuntimeException("Il paese non può essere vuoto.");
+            throw new IllegalArgumentException("Il paese non può essere vuoto.");
         }
     }
 }

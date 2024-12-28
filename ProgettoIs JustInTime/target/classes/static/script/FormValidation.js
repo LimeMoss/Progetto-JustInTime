@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function validatePhoneNumber() {
-        const phoneNumber = phoneNumberInput.value;
-        const phoneNumberPattern = /^[0-9]{3}\s[0-9]{3}\s[0-9]{4}$/;
+        const phoneNumber = document.querySelector('input[name="countryCode"]').value+" "+phoneNumberInput.value+document.querySelector('input[name="countryCode"]').value;
+        const phoneNumberPattern = /^\+[0-9]{1,3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{4}$/;
 
         // Check if the input is valid
         if (phoneNumberPattern.test(phoneNumber)) {
