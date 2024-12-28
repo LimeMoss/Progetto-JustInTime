@@ -86,11 +86,11 @@ input {
     border: none;
     padding: 10px 20px;
     height: 40px;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    width: 60px;
+    width: 200px;
     text-align: center;
     margin-left: 60px;
     margin-right: 20px;

@@ -20,10 +20,11 @@ public class PlayerService {
     }
 
     @Transactional
-    public Player creaGiocatore(String name, int maxScore, Long utenzaId) {
+    public Player creaGiocatore(String name, Long utenzaId) {
         Utente utenza = utenzaRepository.findById(utenzaId)
             .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
-        Player player = new Player(name, maxScore);
+        Player player = new Player(name);
+        player.setUtente(utenza);  
         return playerRepository.save(player);
     }
 
