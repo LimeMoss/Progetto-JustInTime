@@ -2,6 +2,7 @@ package com.justInTime.controller;
 
 import com.justInTime.model.Utente;
 import com.justInTime.service.UtenzaService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RedirectView> registraUtente(@RequestBody Utente utente, @RequestParam String password2) {
+    public ResponseEntity<?> registraUtente(@RequestBody Utente utente, @RequestParam String password2) {
         try {
+   
             utenzaService.registerUser(utente, password2);
+     
             RedirectView redirectView = new RedirectView("/login");
             return new ResponseEntity<>(redirectView, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
