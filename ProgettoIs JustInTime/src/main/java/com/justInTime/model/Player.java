@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
@@ -30,7 +31,7 @@ public class Player implements abstractPlayer {
     @Transient
     private List<Carta> mano;
 
-    @Transient
+
     private String nome;
 
 
@@ -40,7 +41,8 @@ public class Player implements abstractPlayer {
     private List<Partita> partite = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Utente_id")
+    @MapsId
+    @JoinColumn(name = "utente_id", referencedColumnName = "id")
     private Utente utente;
 
 
@@ -58,13 +60,48 @@ public class Player implements abstractPlayer {
         mano = new ArrayList<Carta>();
     }
 
+    public Player(String name) {
+        this.nome=name;
+
+        mano = new ArrayList<Carta>();
+    }
+
+
     
 
-    // Metodo per associare un Player con un'Utente
-    public void associaUtente(Utente utente) {
-        this.utente=utente;
-     
+
+
+    public void setId(Long id) {
+        this.id = id;
     }
+
+
+    public void setTurnoInPausa(boolean turnoInPausa) {
+        this.turnoInPausa = turnoInPausa;
+    }
+
+
+    public void setMano(List<Carta> mano) {
+        this.mano = mano;
+    }
+
+
+
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
+    public Utente getUtente() {
+        return utente;
+    }
+
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
+
 
     // Metodi Utility
     public void aggiungiCartaAllaMano(Carta carta) {

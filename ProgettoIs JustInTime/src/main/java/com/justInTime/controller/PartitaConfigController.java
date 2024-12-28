@@ -32,7 +32,7 @@ public class PartitaConfigController {
     @PostMapping("/add-players")
     public ResponseEntity<Void> addPlayer(@RequestParam String usernameOrEmail, @RequestParam String password) {
         try {
-            partitaConfigService.aggiungiGiocatore(usernameOrEmail, password);
+            partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();

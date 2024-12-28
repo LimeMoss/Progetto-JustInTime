@@ -4,8 +4,7 @@ import com.justInTime.model.Utente;
 import com.justInTime.repository.UtenzaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
-import java.time.ZoneId;
+
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -24,15 +23,25 @@ public class UtenzaService {
         return utenzaRepository.save(utente);
     }
 
+
     public Utente trovaUtente(Long id) {
         return utenzaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Utente non trovata."));
     }
 
+
     public List<Utente> trovaTutteUtenze() {
         return utenzaRepository.findAll();
     }
 
+    /**
+     * Aggiorna l'utente con l'id specificato.
+     *
+     * @param id l'id dell'utente da aggiornare
+     * @param utenteAggiornato l'utente con le informazioni aggiornate
+     * @return l'utente aggiornato
+     * @throws RuntimeException se l'utente non esiste
+     */
     @Transactional
     public Utente aggiornaUtente(Long id, Utente utenteAggiornato) {
         Utente utente = trovaUtente(id);
@@ -44,12 +53,28 @@ public class UtenzaService {
         return utenzaRepository.save(utente);
     }
 
+    /**
+     * Elimina l'utente con l'id specificato.
+     *
+     * @param id l'id dell'utente da eliminare
+     * @throws RuntimeException se l'utente non esiste
+     */
     @Transactional
     public void eliminaUtente(Long id) {
         Utente utente = trovaUtente(id);
         utenzaRepository.delete(utente);
     }
 
+    /**
+     * Registra un utente nuovo. Verifica che le credenziali fornite siano valide,
+     * che l'email e l'username non siano già stati utilizzati e salva l'utente nel
+     * database.
+     *
+     * @param utente l'utente da registrare
+     * @param password2 la password di conferma
+     * @return l'utente appena registrato
+     * @throws RuntimeException se l'email o l'username sono già stati utilizzati
+     */
     @Transactional
     public Utente registerUser(Utente utente, String password2) {
     
@@ -73,6 +98,16 @@ public class UtenzaService {
     }
 
 
+    /**
+     * Effettua il login di un utente. Verifica che l'email o l'username e la password
+     * siano valide e restituisce l'utente loggato.
+     *
+     * @param usernameOrEmail l'email o l'username dell'utente
+     * @param password la password dell'utente
+     * @return l'utente loggato
+     * @throws RuntimeException se l'email o l'username non esistono o se la password
+     *         non è valida
+     */
     public Utente login(String usernameOrEmail, String password) {
         Utente utente = utenzaRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() -> new RuntimeException("User non trovato."));
@@ -83,25 +118,20 @@ public class UtenzaService {
     }
 
     
+
+    
     private void validaDataNascita(Date dataNascita) {
     if (dataNascita == null) {
         throw new RuntimeException("La data di nascita non può essere vuota.");
     }
 
-    LocalDate currentDate = LocalDate.now();
-    LocalDate birthDate = dataNascita.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    
-    // Controlla se l'utente ha almeno 18 anni
-    if (birthDate.isAfter(currentDate.minusYears(18))) {
-        throw new RuntimeException("L'utente deve avere almeno 18 anni.");
-    }
+
 }
 
 private void validaTelefono(String telefono) {
     if (telefono == null || telefono.isEmpty()) {
         throw new RuntimeException("Il numero di telefono non può essere vuoto.");
     }
-    // Puoi usare una regex per validare il formato del numero di telefono
     String phoneRegex = "^\\+?[0-9]{10,15}$";
     if (!telefono.matches(phoneRegex)) {
         throw new RuntimeException("Formato numero di telefono non valido.");

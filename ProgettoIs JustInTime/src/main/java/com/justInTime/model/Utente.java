@@ -26,8 +26,8 @@ public class Utente implements abstractUtente {
     private String username;
   
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Utenza_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "utente")  // Riferimento a Player tramite utente
+    @PrimaryKeyJoinColumn
     private Player player;
 
     @Transient

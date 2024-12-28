@@ -8,7 +8,7 @@ import java.util.List;
 public interface abstractPlayer{
 
 
-    public void associaUtente(Utente Utente);
+    public void setUtente(Utente Utente);
     
     public void aggiungiCartaAllaMano(Carta carta);
 
