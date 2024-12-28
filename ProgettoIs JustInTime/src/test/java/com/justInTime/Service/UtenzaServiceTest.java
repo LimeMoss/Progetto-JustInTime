@@ -29,6 +29,7 @@ public class UtenzaServiceTest {
     private Utente utente;
     private String confirmPassword;
 
+    @SuppressWarnings("deprecation")
     @BeforeEach
     public void setUp() {
         utente = new Utente();
@@ -145,6 +146,7 @@ public class UtenzaServiceTest {
     }
 
     // TC_1.1_11: Data di nascita non può essere vuota
+    @SuppressWarnings("deprecation")
     @Test
     public void PR1_data_nascita_vuota_registra() {
         utente.setDataNascita(null);
