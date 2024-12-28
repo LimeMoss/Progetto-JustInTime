@@ -154,8 +154,8 @@ private void validaTelefono(String telefono) {
     }
 
     private void validaCognome(String cognome) {
-        if (cognome == null || cognome.isEmpty()) {
-            throw new RuntimeException("Cognome non può essere vuoto.");
+        if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", cognome)) {
+            throw new RuntimeException("Cognome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
         }
     }
 
