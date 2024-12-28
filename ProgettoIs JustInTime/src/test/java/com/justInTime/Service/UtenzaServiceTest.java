@@ -27,10 +27,12 @@ public class UtenzaServiceTest {
     private UtenzaService utenzaService;
 
     private Utente utente;
+    private Long idUtente;
     private String confirmPassword;
 
     @BeforeEach
     public void setUp() {
+        idUtente= 32321212L;
         utente = new Utente();
         utente.setUsername("IlCorsaro");
         utente.setEmail("corsaromaster7@gmail.com");
@@ -42,7 +44,7 @@ public class UtenzaServiceTest {
         utente.setPaese("Italia");
         utente.setDataNascita(new Date(2004,1,11));
     }
-
+    //----------------REGISTRAZIONE UTENTE---------------------//
 
     // TC_1.1_1: Username troppo lungo
     @Test
@@ -154,7 +156,23 @@ public class UtenzaServiceTest {
         utente.setDataNascita(new Date(2004,1,11));
     }
 
-    // TC_1.1_12: Corretto!
+    // TC_1.1_12: Username associato ad un altro account
+    @Test
+    public void ES1_username_altro_account_registra() {
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
+
+    }
+
+    // TC_1.1_13: Email associato ad un altro account
+    @Test
+    public void ESE1_email_altro_account_registra() {
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
+
+    }
+
+    // TC_1.1_14: Corretto!
     @Test
     public void PR2_corretto_registra() {
 
