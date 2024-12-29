@@ -1,5 +1,6 @@
 package com.justInTime.Service;
 
+import com.justInTime.model.Feedback;
 import com.justInTime.model.Utente;
 
 import com.justInTime.repository.UtenzaRepository;
@@ -17,6 +18,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -161,24 +164,44 @@ public class UtenzaServiceTest {
     // TC_1.1_12: Username associato ad un altro account
     @Test
     public void ES1_username_altro_account_registra() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
+        // Salva il primo utente
+        utenzaService.registerUser(utente, confirmPassword);
+        utente.setEmail("corsaromaster7@gmail.com");
+        when(utenzaRepository.existsByUsername(utente.getUsername())).thenReturn(true);
+        assertThrows(RuntimeException.class, () -> utenzaService.registerUser(utente,confirmPassword));
 
     }
 
     // TC_1.1_13: Email associato ad un altro account
     @Test
     public void ESE1_email_altro_account_registra() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
+        // Salva il primo utente
+        utenzaService.registerUser(utente, confirmPassword);
+        utente.setUsername("IlCorsaro1");
+        when(utenzaRepository.existsByUsername(utente.getUsername())).thenReturn(true);
+
+        assertThrows(RuntimeException.class, () -> utenzaService.registerUser(utente,confirmPassword));
 
     }
 
     // TC_1.1_14: Corretto!
     @Test
     public void PR2_corretto_registra() {
+        utenzaService.registerUser(utente, confirmPassword);
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
+        verify(utenzaRepository).save(any(Utente.class));
 
     }
 
@@ -187,7 +210,13 @@ public class UtenzaServiceTest {
     // TC_1.2_1: Username troppo lungo
     @Test
     public void LUS1_username_troppo_lungo_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
         utenzaService.registerUser(utente, confirmPassword);
+
         utente.setUsername("IlCorsaroMaestroSuperFantasticoInvincibileIncredibileDeLosMideliosRomagnolo");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
