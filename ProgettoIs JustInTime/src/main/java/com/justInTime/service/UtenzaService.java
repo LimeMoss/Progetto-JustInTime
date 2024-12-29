@@ -55,6 +55,13 @@ public class UtenzaService {
         validaTelefono(utenteAggiornato.getTelefono());
         validaPaese(utenteAggiornato.getPaese());
 
+        if (utenzaRepository.existsByEmail(utenteAggiornato.getEmail())) {
+            throw new RuntimeException("Email già registrata.");
+        }
+        if (utenzaRepository.existsByUsername(utenteAggiornato.getUsername())) {
+            throw new RuntimeException("Username già registrato.");
+        }
+
         utente.setNome(utenteAggiornato.getName());
         utente.setPaese(utenteAggiornato.getPaese());
         utente.setEmail(utenteAggiornato.getEmail());

@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -34,8 +35,6 @@ public class UtenzaServiceTest {
 
     private Utente utente;
     private String confirmPassword;
-    private Utente utente2;
-    private String confirmPassword2;
 
     @SuppressWarnings("deprecation")
     @BeforeEach
@@ -448,6 +447,7 @@ public class UtenzaServiceTest {
     // TC_1.2_12: Username associato ad un altro account
     @Test
     public void ES1_username_altro_account_modifica() {
+        // Simula il salvataggio dell'utente
         when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
             Utente savedUtente = invocation.getArgument(0);
             savedUtente.setId(1L); // Imposta l'ID utente
@@ -456,18 +456,23 @@ public class UtenzaServiceTest {
 
         // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
-
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
-        utente.setEmail("corsaromaster7@gmail.com");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
+        // Crea un altro utente con la stessa email
+        Utente altroUtente = new Utente();
+        altroUtente.setId(2L);
+        altroUtente.setUsername("IlCorsaroMaster");
+        when(utenzaRepository.existsByUsername("IlCorsaroMaster")).thenReturn(true);
 
+        // Prova ad aggiornare l'utente con lo stesso username di un altro utente
+        utente.setUsername("IlCorsaroMaster");
+        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
     }
 
     // TC_1.2_13: Email associato ad un altro account
     @Test
     public void ESE1_email_altro_account_modifica() {
+        // Simula il salvataggio dell'utente
         when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
             Utente savedUtente = invocation.getArgument(0);
             savedUtente.setId(1L); // Imposta l'ID utente
@@ -479,9 +484,16 @@ public class UtenzaServiceTest {
 
         // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+
+        // Crea un altro utente con la stessa email
+        Utente altroUtente = new Utente();
+        altroUtente.setId(2L);
+        altroUtente.setEmail("corsaromaster@gmail.com");
+        when(utenzaRepository.existsByEmail("corsaromaster@gmail.com")).thenReturn(true);
+
+        // Prova ad aggiornare l'utente con l'email esistente
         utente.setEmail("corsaromaster@gmail.com");
         assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
-
     }
 
     // TC_1.2_14: Corretto!
@@ -497,7 +509,27 @@ public class UtenzaServiceTest {
         utenzaService.registerUser(utente, confirmPassword);
         // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
-        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
+        utente.setEmail("corsaromaster@gmail.com");
+        utente.setUsername("IlCorsaro1");
+        utente.setPassword("Castoro7!!");
+        String confermaPassword2="Castoro7!!";
+        utente.setNome("Corsarone");
+        utente.setCognome("Masterino");
+        utente.setTelefono("+39 111 133 4455");
+        utente.setPaese("Germania");
+        utente.setDataNascita(new Date(2004, Calendar.FEBRUARY,4));
+
+        // Esegui l'aggiornamento dell'utente
+        Utente updatedUtente = utenzaService.aggiornaUtente(utente.getId(), utente, confermaPassword2);
+
+        // Verifica che l'utente sia stato aggiornato correttamente
+        assertEquals("corsaromaster@gmail.com", updatedUtente.getEmail());
+        assertEquals("IlCorsaro1", updatedUtente.getUsername());
+        assertEquals("Castoro7!!", updatedUtente.getPassword());
+        assertEquals("Corsarone", updatedUtente.getName());
+        assertEquals("Masterino", updatedUtente.getCognome());
+        assertEquals("+39 111 133 4455", updatedUtente.getTelefono());
+        assertEquals("Germania", updatedUtente.getPaese());
 
     }
 }
