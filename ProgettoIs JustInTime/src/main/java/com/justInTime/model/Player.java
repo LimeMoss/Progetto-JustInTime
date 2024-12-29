@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
@@ -50,7 +51,7 @@ public class Player implements abstractPlayer {
         joinColumns = @JoinColumn(name = "player_id"),
         inverseJoinColumns = @JoinColumn(name = "achievement_id")
     )
-    private List<Achievement> achievements;
+    private List<Achievements> achievements;
 
 
     private int maxScore;

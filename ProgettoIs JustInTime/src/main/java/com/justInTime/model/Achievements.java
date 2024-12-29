@@ -9,14 +9,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 
 @Entity
-public class Achievement{
+public class Achievements{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +25,18 @@ public class Achievement{
     @ManyToMany(mappedBy = "achievements", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Player> players= new ArrayList<>();
 
-    public Achievement(){
+    public Achievements(){
 
     }
 
-    public Achievement(String nome, String descrizione){
+    public Achievements(String nome, String descrizione){
 
         this.nome=nome;
         this.descrizione=descrizione;
         this.unlocked=false;
     }
 
-      public Achievement(String nome, String descrizione, boolean unlocked){
+      public Achievements(String nome, String descrizione, boolean unlocked){
 
         this.nome=nome;
         this.descrizione=descrizione;

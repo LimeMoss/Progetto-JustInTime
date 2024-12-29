@@ -2,7 +2,9 @@ package com.justInTime.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -46,7 +48,7 @@ public class Partita {
     private Mazzo mazzoScarto;
 
     @Transient
-    Map<Player, List<Achievement>> playerAchievements = new HashMap<>();
+    Map<Player, List<Achievements>> playerAchievements = new HashMap<>();
 
 
     public Partita() {

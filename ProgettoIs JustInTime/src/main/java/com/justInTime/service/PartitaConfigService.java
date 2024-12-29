@@ -2,12 +2,12 @@ package com.justInTime.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.justInTime.model.Achievements;
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
 import com.justInTime.model.Utente;
@@ -80,7 +80,10 @@ public class PartitaConfigService {
         }
 
         Partita partita = new Partita();
-        Map<Player, List<Achievement>>playerAchievement = partita.getPlayerAchievements();
+        Map<Player, List<Achievements>>playerAchievement = partita.getPlayerAchievements();
+        for (Player giocatore : giocatoriInConfigurazione) {
+            playerAchievement.putIfAbsent(giocatore, new ArrayList<>());
+        }
 
         partita.setGiocatori(new ArrayList<>(giocatoriInConfigurazione));
 
