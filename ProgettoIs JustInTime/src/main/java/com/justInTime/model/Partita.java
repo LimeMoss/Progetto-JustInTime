@@ -45,6 +45,10 @@ public class Partita {
     @Transient
     private Mazzo mazzoScarto;
 
+    @Transient
+    Map<Player, List<Achievement>> playerAchievements = new HashMap<>();
+
+
     public Partita() {
         this.dataInizio = new Date();
         this.gameState = new StartGameState();
@@ -119,6 +123,10 @@ public class Partita {
 
     public void setDataInizio(Date dataInizio) {
         this.dataInizio = dataInizio;
+    }
+
+    public Map getPlayerAchievements(){
+        return this.playerAchievements;
     }
 
 }

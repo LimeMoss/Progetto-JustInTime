@@ -44,6 +44,14 @@ public class Player implements abstractPlayer {
     @JoinColumn(name = "utente_id", referencedColumnName = "id")
     private Utente utente;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "giocatori_achievement",
+        joinColumns = @JoinColumn(name = "player_id"),
+        inverseJoinColumns = @JoinColumn(name = "achievement_id")
+    )
+    private List<Achievement> achievements;
+
 
     private int maxScore;
 

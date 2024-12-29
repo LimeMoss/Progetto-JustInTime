@@ -2,6 +2,8 @@ package com.justInTime.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,8 @@ public class PartitaConfigService {
         }
     }
     giocatoriInConfigurazione.add(nuovoGiocatore);
+    
+
     }
     
     
@@ -76,13 +80,17 @@ public class PartitaConfigService {
         }
 
         Partita partita = new Partita();
+        Map<Player, List<Achievement>>playerAchievement = partita.getPlayerAchievements();
+
         partita.setGiocatori(new ArrayList<>(giocatoriInConfigurazione));
 
         Partita partitaSalvata = partitaRepository.save(partita);
 
         giocatoriInConfigurazione.clear();
+        
 
         return partitaSalvata;
+
     }
 
 
