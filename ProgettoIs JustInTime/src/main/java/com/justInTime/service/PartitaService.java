@@ -2,6 +2,7 @@ package com.justInTime.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.justInTime.model.Carta;
 import com.justInTime.model.EndGameState;
@@ -11,12 +12,19 @@ import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
+import com.justInTime.repository.PlayerRepository;
 
 @Service
 public class PartitaService {
 
     @Autowired
     private PartitaRepository partitaRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
+
+    @Autowired
+    private PlayerService playerService;
 
     public void iniziaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
@@ -86,5 +94,39 @@ public class PartitaService {
 
             partita.setGameState(gamestate);
 
+    }
+        @Transactional
+    public Player aggiungiGiocatoreAPartita(Long playerId, Long partitaId) {
+        Player player = playerService.trovaGiocatore(playerId);
+        Partita partita = partitaRepository.findById(partitaId)
+                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+        
+        // Verifica se il giocatore è già nella partita
+        if (!partita.getGiocatori().contains(player)) {
+            partita.getGiocatori().add(player);
+            player.getPartite().add(partita);
+            partitaRepository.save(partita);
+        }
+        
+        return playerRepository.save(player);
+    }
+
+    @Transactional
+    public Player rimuoviGiocatoreDaPartita(Long playerId, Long partitaId) {
+        Player player = playerService.trovaGiocatore(playerId);
+        Partita partita = partitaRepository.findById(partitaId)
+                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+        
+        partita.getGiocatori().remove(player);
+        player.getPartite().remove(partita);
+        partitaRepository.save(partita);
+        
+        return playerRepository.save(player);
+    }
+    @Transactional
+    public boolean isGiocatoreInPartita(Long playerId, Long partitaId) {
+        Player player = playerService.trovaGiocatore(playerId);
+        return player.getPartite().stream()
+                .anyMatch(partita -> partita.getId().equals(partitaId));
     }
 }

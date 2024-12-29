@@ -31,7 +31,6 @@ public class Player implements abstractPlayer {
     @Transient
     private List<Carta> mano;
 
-
     private String nome;
 
 
