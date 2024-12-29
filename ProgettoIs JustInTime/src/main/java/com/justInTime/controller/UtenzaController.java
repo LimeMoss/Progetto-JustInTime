@@ -38,8 +38,8 @@ public class UtenzaController {
 
     // Aggiorna un'utenza esistente
     @PutMapping("/{id}")
-    public Utente aggiornaUtenza(@PathVariable Long id, @RequestBody Utente utenzaAggiornata) {
-        return utenzaService.aggiornaUtente(id, utenzaAggiornata);
+    public Utente aggiornaUtenza(@PathVariable Long id, @RequestBody Utente utenzaAggiornata, String password2) {
+        return utenzaService.aggiornaUtente(id, utenzaAggiornata, password2);
     }
 
     // Elimina un'utenza

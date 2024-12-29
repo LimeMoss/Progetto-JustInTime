@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UtenzaServiceTest {
@@ -28,13 +29,11 @@ public class UtenzaServiceTest {
     private UtenzaService utenzaService;
 
     private Utente utente;
-    private Long idUtente;
     private String confirmPassword;
 
     @SuppressWarnings("deprecation")
     @BeforeEach
     public void setUp() {
-        idUtente= 32321212L;
         utente = new Utente();
         utente.setUsername("IlCorsaro");
         utente.setEmail("corsaromaster7@gmail.com");
@@ -188,10 +187,10 @@ public class UtenzaServiceTest {
     // TC_1.2_1: Username troppo lungo
     @Test
     public void LUS1_username_troppo_lungo_modifica() {
-        utenzaService.registerUser(utente,confirmPassword);
+        utenzaService.registerUser(utente, confirmPassword);
         utente.setUsername("IlCorsaroMaestroSuperFantasticoInvincibileIncredibileDeLosMideliosRomagnolo");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setUsername("IlCorsaro");
     }
@@ -202,7 +201,7 @@ public class UtenzaServiceTest {
         utenzaService.registerUser(utente,confirmPassword);
         utente.setUsername("IlCorsaro!");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setUsername("IlCorsaro");
     }
@@ -213,7 +212,7 @@ public class UtenzaServiceTest {
         utenzaService.registerUser(utente,confirmPassword);
         utente.setEmail("corsaromaster7@gmail");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setEmail("corsaromaster7@gmail.com");
     }
@@ -223,7 +222,7 @@ public class UtenzaServiceTest {
     public void LP1_password_troppo_corta_modifica() {
         utente.setPassword("C");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setPassword("Castoro7!");
     }
@@ -233,7 +232,7 @@ public class UtenzaServiceTest {
     public void FP1_password_non_corretta_modifica() {
         utente.setPassword("Castoro7");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setPassword("Castoro7!");
     }
@@ -243,7 +242,7 @@ public class UtenzaServiceTest {
     public void MCP1_conferma_password_non_corretta_modifica() {
         confirmPassword="Castoro";
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         confirmPassword="Castoro7!";
     }
@@ -253,7 +252,7 @@ public class UtenzaServiceTest {
     public void FNO1_nome_non_corretto_modifica() {
         utente.setNome("C");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setNome("Corsaro");
     }
@@ -263,7 +262,7 @@ public class UtenzaServiceTest {
     public void FCO1_cognome_non_corretto_modifica() {
         utente.setCognome("M");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setCognome("Master");
     }
@@ -273,7 +272,7 @@ public class UtenzaServiceTest {
     public void FNT1_numero_di_telefono_non_corretto_modifica() {
         utente.setTelefono("+39 11223");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setTelefono("+39 112 233 4455");
     }
@@ -283,7 +282,7 @@ public class UtenzaServiceTest {
     public void SP1_inserimento_paese_richiesto_modifica() {
         utente.setPaese("");
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setPaese("Italia");
     }
@@ -293,7 +292,7 @@ public class UtenzaServiceTest {
     public void PR1_data_nascita_vuota_modifica() {
         utente.setDataNascita(null);
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
         utente.setDataNascita(new Date(2004,1,11));
     }
@@ -302,7 +301,7 @@ public class UtenzaServiceTest {
     @Test
     public void ES1_username_altro_account_modifica() {
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
     }
 
@@ -310,7 +309,7 @@ public class UtenzaServiceTest {
     @Test
     public void ESE1_email_altro_account_modifica() {
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
     }
 
@@ -318,7 +317,7 @@ public class UtenzaServiceTest {
     @Test
     public void PR2_corretto_modifica() {
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
     }
 }
