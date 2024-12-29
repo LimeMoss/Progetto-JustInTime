@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.justInTime.Service.FeedBackServiceTest" time="0.684" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.justInTime.Service.PartitaConfigServiceTest" time="1.115" tests="11" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -64,8 +64,15 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="LU1_stelle_1_descrizione_troppo_lunga" classname="com.justInTime.Service.FeedBackServiceTest" time="0.586"/>
-  <testcase name="LU2_stelle_1_descrizione_vuota" classname="com.justInTime.Service.FeedBackServiceTest" time="0.005"/>
-  <testcase name="LU3_stelle_null_descrizione_valida" classname="com.justInTime.Service.FeedBackServiceTest" time="0.007"/>
-  <testcase name="LU3_stelle_5_descrizione_valida" classname="com.justInTime.Service.FeedBackServiceTest" time="0.079"/>
+  <testcase name="AggiungiGiocatoreConfig_InserimentoStessoGiocatore" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.84"/>
+  <testcase name="AggiungiGiocatoreConfig_NoPassword" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.025"/>
+  <testcase name="AggiungiGiocatoreConfig_Success" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.021"/>
+  <testcase name="AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.05"/>
+  <testcase name="AggiungiGiocatoreConfig_UtenteNonEsiste" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.023"/>
+  <testcase name="RimuoviGiocatore_Successful" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.023"/>
+  <testcase name="testCreazionePartita_Successful" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.043"/>
+  <testcase name="RimuoviGiocatore_NessunGiocatoreAggiunto" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.017"/>
+  <testcase name="testCreazionePartita_NonCiSonoAbbastanzaGiocatori" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.019"/>
+  <testcase name="AggiungiGiocatoreConfig_PasswordNonCorrisponde" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.013"/>
+  <testcase name="AggiungiGiocatoreConfig_NoUsernameOrEmail" classname="com.justInTime.Service.PartitaConfigServiceTest" time="0.014"/>
 </testsuite>
