@@ -11,23 +11,13 @@ body {
     max-height: 100%;
 }
 
-.deck-waste {
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    margin-top: 20px;
-}
-
-.deck-waste label, .deck label {
+.deck label {
     color: #FFEDDC;
     font-size: 40px;
-}
-
-.deck label {
     margin-left: 10px;
 }
 
-.deck-waste img, .deck img {
+.deck img {
     width: 150px;
     margin-right: 10px;
 }
