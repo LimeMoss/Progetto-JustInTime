@@ -221,16 +221,14 @@ public class UtenzaServiceTest {
         // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
+        // Simula il reperimento dell'utente salvato, che nel database esista un utente con ID 1L
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
 
         // Aggiorna l'username con un valore troppo lungo
         utente.setUsername("IlCorsaroMaestroSuperFantasticoInvincibileIncredibileDeLosMideliosRomagnolo");
 
-        // Verifica che l'eccezione sia lanciata
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
-        // Riporta l'username al valore originale (facoltativo)
         utente.setUsername("IlCorsaro");
     }
 
@@ -243,10 +241,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setUsername("IlCorsaro!");
 
@@ -264,10 +260,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setEmail("corsaromaster7@gmail");
 
@@ -285,10 +279,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setPassword("C");
 
@@ -306,10 +298,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setPassword("Castoro7");
 
@@ -327,10 +317,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         confirmPassword="Castoro";
 
@@ -348,10 +336,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setNome("C");
 
@@ -369,10 +355,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setCognome("M");
 
@@ -390,10 +374,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setTelefono("+39 11223");
 
@@ -411,10 +393,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setPaese("");
 
@@ -432,10 +412,8 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
-        // Simula il reperimento dell'utente salvato
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setDataNascita(null);
 
@@ -454,7 +432,6 @@ public class UtenzaServiceTest {
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
         when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
 
@@ -519,10 +496,8 @@ public class UtenzaServiceTest {
         utente.setPaese("Germania");
         utente.setDataNascita(new Date(2004, Calendar.FEBRUARY,4));
 
-        // Esegui l'aggiornamento dell'utente
         Utente updatedUtente = utenzaService.aggiornaUtente(utente.getId(), utente, confermaPassword2);
 
-        // Verifica che l'utente sia stato aggiornato correttamente
         assertEquals("corsaromaster@gmail.com", updatedUtente.getEmail());
         assertEquals("IlCorsaro1", updatedUtente.getUsername());
         assertEquals("Castoro7!!", updatedUtente.getPassword());
