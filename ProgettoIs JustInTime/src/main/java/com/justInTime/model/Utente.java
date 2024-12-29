@@ -128,5 +128,12 @@ public class Utente implements abstractUtente {
         this.password = password;
     }
 
+    public void setId(Long id){
+        this.id=id;
+    }
+
+    public void setId(long l) {
+        this.id=l;
+    }
 }
 

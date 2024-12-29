@@ -43,8 +43,25 @@ public class UtenzaService {
      * @throws RuntimeException se l'utente non esiste
      */
     @Transactional
-    public Utente aggiornaUtente(Long id, Utente utenteAggiornato) {
+    public Utente aggiornaUtente(Long id, Utente utenteAggiornato, String password2) {
         Utente utente = trovaUtente(id);
+
+        validaUsername(utenteAggiornato.getUsername());
+        validaNome(utenteAggiornato.getName());
+        validaCognome(utenteAggiornato.getCognome());
+        validaEmail(utenteAggiornato.getEmail());
+        validaPassword(utenteAggiornato.getPassword(), password2);
+        validaDataNascita(utenteAggiornato.getDataNascita());
+        validaTelefono(utenteAggiornato.getTelefono());
+        validaPaese(utenteAggiornato.getPaese());
+
+        if (utenzaRepository.existsByEmail(utenteAggiornato.getEmail())) {
+            throw new RuntimeException("Email già registrata.");
+        }
+        if (utenzaRepository.existsByUsername(utenteAggiornato.getUsername())) {
+            throw new RuntimeException("Username già registrato.");
+        }
+
         utente.setNome(utenteAggiornato.getName());
         utente.setPaese(utenteAggiornato.getPaese());
         utente.setEmail(utenteAggiornato.getEmail());
@@ -77,7 +94,7 @@ public class UtenzaService {
      */
     @Transactional
     public Utente registerUser(Utente utente, String password2) {
-    
+
         validaUsername(utente.getUsername());
         validaNome(utente.getName());
         validaCognome(utente.getCognome());
@@ -85,7 +102,7 @@ public class UtenzaService {
         validaPassword(utente.getPassword(), password2);
         validaDataNascita(utente.getDataNascita());
         validaTelefono(utente.getTelefono());
-        validaPaese(utente.getPaese()); 
+        validaPaese(utente.getPaese());
 
         if (utenzaRepository.existsByEmail(utente.getEmail())) {
             throw new RuntimeException("Email già registrata.");
@@ -93,7 +110,7 @@ public class UtenzaService {
         if (utenzaRepository.existsByUsername(utente.getUsername())) {
             throw new RuntimeException("Username già registrato.");
         }
-   
+
         return utenzaRepository.save(utente);
     }
 
@@ -117,26 +134,26 @@ public class UtenzaService {
         return utente;
     }
 
-    
 
-    
+
+
     private void validaDataNascita(Date dataNascita) {
-    if (dataNascita == null) {
-        throw new IllegalArgumentException("La data di nascita non può essere vuota.");
-    }
+        if (dataNascita == null) {
+            throw new IllegalArgumentException("La data di nascita non può essere vuota.");
+        }
 
 
-}
+    }
 
-private void validaTelefono(String telefono) {
-    if (telefono == null || telefono.isEmpty()) {
-        throw new IllegalArgumentException("Il numero di telefono non può essere vuoto.");
+    private void validaTelefono(String telefono) {
+        if (telefono == null || telefono.isEmpty()) {
+            throw new IllegalArgumentException("Il numero di telefono non può essere vuoto.");
+        }
+        String phoneRegex = "^\\+[0-9]{1,3}\\s[0-9]{3}\\s[0-9]{3}\\s[0-9]{4}$";
+        if (!telefono.matches(phoneRegex)) {
+            throw new IllegalArgumentException("Formato numero di telefono non valido.");
+        }
     }
-    String phoneRegex = "^\\+?[0-9]{10,15}$";
-    if (!telefono.matches(phoneRegex)) {
-        throw new IllegalArgumentException("Formato numero di telefono non valido.");
-    }
-}
 
 
 
@@ -169,12 +186,12 @@ private void validaTelefono(String telefono) {
 
     private void validaPassword(String password, String password2) {
         if (!password.equals(password2)) {
-            throw new IllegalArgumentException("Le password non corrispondono."); 
+            throw new IllegalArgumentException("Le password non corrispondono.");
         }
         if (!Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", password)) {
             throw new IllegalArgumentException("Password non valida. Deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale.");
         }
-  
+
     }
 
     private void validaPaese(String paese) {
