@@ -13,11 +13,16 @@ body {
 
 #title {
     font-size: 60px;
-    color: #2D3B1F;
+    color: #FFEDDC;
 }
 
 .rules-container{
     text-align: left;
+    color: #2d3b1f;
+    font-size: 30px;
+    width: 70%;
+}
+
+b{
     color: #FFEDDC;
-    font-size: 35px;
 }
