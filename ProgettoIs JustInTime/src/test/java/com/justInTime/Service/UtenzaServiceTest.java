@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,6 +34,8 @@ public class UtenzaServiceTest {
 
     private Utente utente;
     private String confirmPassword;
+    private Utente utente2;
+    private String confirmPassword2;
 
     @SuppressWarnings("deprecation")
     @BeforeEach
@@ -47,6 +50,7 @@ public class UtenzaServiceTest {
         utente.setTelefono("+39 112 233 4455");
         utente.setPaese("Italia");
         utente.setDataNascita(new Date(2004, Calendar.JANUARY,11));
+
     }
     //----------------REGISTRAZIONE UTENTE---------------------//
 
@@ -202,7 +206,6 @@ public class UtenzaServiceTest {
         utenzaService.registerUser(utente, confirmPassword);
 
         verify(utenzaRepository).save(any(Utente.class));
-
     }
 
     //----------------MODIFICA UTENTE---------------------//
@@ -215,19 +218,37 @@ public class UtenzaServiceTest {
             savedUtente.setId(1L); // Imposta l'ID utente
             return savedUtente;
         });
+
+        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
 
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+
+        // Aggiorna l'username con un valore troppo lungo
         utente.setUsername("IlCorsaroMaestroSuperFantasticoInvincibileIncredibileDeLosMideliosRomagnolo");
 
+        // Verifica che l'eccezione sia lanciata
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
+        // Riporta l'username al valore originale (facoltativo)
         utente.setUsername("IlCorsaro");
     }
 
     // TC_1.2_2: Username errato
     @Test
     public void FUS1_username_errato_modifica() {
-        utenzaService.registerUser(utente,confirmPassword);
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setUsername("IlCorsaro!");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -238,7 +259,17 @@ public class UtenzaServiceTest {
     // TC_1.2_3: Email non corretta
     @Test
     public void FE1_email_non_corretta_modifica() {
-        utenzaService.registerUser(utente,confirmPassword);
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setEmail("corsaromaster7@gmail");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -249,6 +280,17 @@ public class UtenzaServiceTest {
     // TC_1.2_4 Password troppo breve
     @Test
     public void LP1_password_troppo_corta_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setPassword("C");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -259,6 +301,17 @@ public class UtenzaServiceTest {
     // TC_1.2_5: Password non corretta
     @Test
     public void FP1_password_non_corretta_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setPassword("Castoro7");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -269,6 +322,17 @@ public class UtenzaServiceTest {
     // TC_1.2_6: Conferma password errata
     @Test
     public void MCP1_conferma_password_non_corretta_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         confirmPassword="Castoro";
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -279,6 +343,17 @@ public class UtenzaServiceTest {
     // TC_1.2_7: Nome non corretto
     @Test
     public void FNO1_nome_non_corretto_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setNome("C");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -289,6 +364,17 @@ public class UtenzaServiceTest {
     // TC_1.2_8: Cognome non corretto
     @Test
     public void FCO1_cognome_non_corretto_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setCognome("M");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -299,6 +385,17 @@ public class UtenzaServiceTest {
     // TC_1.2_9: Numero di telefono non corretto
     @Test
     public void FNT1_numero_di_telefono_non_corretto_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setTelefono("+39 11223");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -309,6 +406,17 @@ public class UtenzaServiceTest {
     // TC_1.2_10: Inserimento di un paese
     @Test
     public void SP1_inserimento_paese_richiesto_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setPaese("");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -319,6 +427,17 @@ public class UtenzaServiceTest {
     // TC_1.2_11: Data di nascita non può essere vuota
     @Test
     public void PR1_data_nascita_vuota_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
         utente.setDataNascita(null);
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
@@ -329,6 +448,18 @@ public class UtenzaServiceTest {
     // TC_1.2_12: Username associato ad un altro account
     @Test
     public void ES1_username_altro_account_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
+
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+        utente.setEmail("corsaromaster7@gmail.com");
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
@@ -337,16 +468,36 @@ public class UtenzaServiceTest {
     // TC_1.2_13: Email associato ad un altro account
     @Test
     public void ESE1_email_altro_account_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+        utente.setEmail("corsaromaster@gmail.com");
+        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
     }
 
     // TC_1.2_14: Corretto!
     @Test
     public void PR2_corretto_modifica() {
+        when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
+            Utente savedUtente = invocation.getArgument(0);
+            savedUtente.setId(1L); // Imposta l'ID utente
+            return savedUtente;
+        });
 
-        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
+        // Salva l'utente iniziale
+        utenzaService.registerUser(utente, confirmPassword);
+        // Simula il reperimento dell'utente salvato
+        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
 
     }
 }

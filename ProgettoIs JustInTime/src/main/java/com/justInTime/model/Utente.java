@@ -132,5 +132,8 @@ public class Utente implements abstractUtente {
         this.id=id;
     }
 
+    public void setId(long l) {
+        this.id=l;
+    }
 }
 
