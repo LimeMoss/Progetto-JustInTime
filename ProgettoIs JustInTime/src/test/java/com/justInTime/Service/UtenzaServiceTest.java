@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -42,7 +43,7 @@ public class UtenzaServiceTest {
         utente.setCognome("Master");
         utente.setTelefono("+39 112 233 4455");
         utente.setPaese("Italia");
-        utente.setDataNascita(new Date(2004,1,11));
+        utente.setDataNascita(new Date(2004, Calendar.JANUARY,11));
     }
     //----------------REGISTRAZIONE UTENTE---------------------//
 
@@ -153,7 +154,7 @@ public class UtenzaServiceTest {
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
 
-        utente.setDataNascita(new Date(2004,1,11));
+        utente.setDataNascita(new Date(2004, Calendar.JANUARY,11));
     }
 
     // TC_1.1_12: Username associato ad un altro account
@@ -177,6 +178,145 @@ public class UtenzaServiceTest {
     public void PR2_corretto_registra() {
 
         assertThrows(IllegalArgumentException.class, () -> utenzaService.registerUser(utente,confirmPassword));
+
+    }
+
+    //----------------MODIFICA UTENTE---------------------//
+
+    // TC_1.2_1: Username troppo lungo
+    @Test
+    public void LUS1_username_troppo_lungo_modifica() {
+        utenzaService.registerUser(utente,confirmPassword);
+        utente.setUsername("IlCorsaroMaestroSuperFantasticoInvincibileIncredibileDeLosMideliosRomagnolo");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setUsername("IlCorsaro");
+    }
+
+    // TC_1.2_2: Username errato
+    @Test
+    public void FUS1_username_errato_modifica() {
+        utenzaService.registerUser(utente,confirmPassword);
+        utente.setUsername("IlCorsaro!");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setUsername("IlCorsaro");
+    }
+
+    // TC_1.2_3: Email non corretta
+    @Test
+    public void FE1_email_non_corretta_modifica() {
+        utenzaService.registerUser(utente,confirmPassword);
+        utente.setEmail("corsaromaster7@gmail");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setEmail("corsaromaster7@gmail.com");
+    }
+
+    // TC_1.2_4 Password troppo breve
+    @Test
+    public void LP1_password_troppo_corta_modifica() {
+        utente.setPassword("C");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setPassword("Castoro7!");
+    }
+
+    // TC_1.2_5: Password non corretta
+    @Test
+    public void FP1_password_non_corretta_modifica() {
+        utente.setPassword("Castoro7");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setPassword("Castoro7!");
+    }
+
+    // TC_1.2_6: Conferma password errata
+    @Test
+    public void MCP1_conferma_password_non_corretta_modifica() {
+        confirmPassword="Castoro";
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        confirmPassword="Castoro7!";
+    }
+
+    // TC_1.2_7: Nome non corretto
+    @Test
+    public void FNO1_nome_non_corretto_modifica() {
+        utente.setNome("C");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setNome("Corsaro");
+    }
+
+    // TC_1.2_8: Cognome non corretto
+    @Test
+    public void FCO1_cognome_non_corretto_modifica() {
+        utente.setCognome("M");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setCognome("Master");
+    }
+
+    // TC_1.2_9: Numero di telefono non corretto
+    @Test
+    public void FNT1_numero_di_telefono_non_corretto_modifica() {
+        utente.setTelefono("+39 11223");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setTelefono("+39 112 233 4455");
+    }
+
+    // TC_1.2_10: Inserimento di un paese
+    @Test
+    public void SP1_inserimento_paese_richiesto_modifica() {
+        utente.setPaese("");
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setPaese("Italia");
+    }
+
+    // TC_1.2_11: Data di nascita non può essere vuota
+    @Test
+    public void PR1_data_nascita_vuota_modifica() {
+        utente.setDataNascita(null);
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+        utente.setDataNascita(new Date(2004,1,11));
+    }
+
+    // TC_1.2_12: Username associato ad un altro account
+    @Test
+    public void ES1_username_altro_account_modifica() {
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+    }
+
+    // TC_1.2_13: Email associato ad un altro account
+    @Test
+    public void ESE1_email_altro_account_modifica() {
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
+
+    }
+
+    // TC_1.2_14: Corretto!
+    @Test
+    public void PR2_corretto_modifica() {
+
+        assertThrows(IllegalArgumentException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente));
 
     }
 }
