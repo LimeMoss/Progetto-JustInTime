@@ -9,13 +9,11 @@ import com.justInTime.repository.*;
 @Service
 public class PlayerService {
     private final PlayerRepository playerRepository;
-    private final PartitaRepository partitaRepository;
     private final UtenzaRepository utenzaRepository;
 
     public PlayerService(PlayerRepository playerRepository, PartitaRepository partitaRepository, 
                         UtenzaRepository utenzaRepository) {
         this.playerRepository = playerRepository;
-        this.partitaRepository = partitaRepository;
         this.utenzaRepository = utenzaRepository;
     }
 
@@ -64,34 +62,7 @@ public class PlayerService {
     public void deletePlayer(Long id) {
         playerRepository.deleteById(id);
     }
-    @Transactional
-    public Player aggiungiGiocatoreAPartita(Long playerId, Long partitaId) {
-        Player player = trovaGiocatore(playerId);
-        Partita partita = partitaRepository.findById(partitaId)
-                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
-        
-        // Verifica se il giocatore è già nella partita
-        if (!partita.getGiocatori().contains(player)) {
-            partita.getGiocatori().add(player);
-            player.getPartite().add(partita);
-            partitaRepository.save(partita);
-        }
-        
-        return playerRepository.save(player);
-    }
 
-    @Transactional
-    public Player rimuoviGiocatoreDaPartita(Long playerId, Long partitaId) {
-        Player player = trovaGiocatore(playerId);
-        Partita partita = partitaRepository.findById(partitaId)
-                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
-        
-        partita.getGiocatori().remove(player);
-        player.getPartite().remove(partita);
-        partitaRepository.save(partita);
-        
-        return playerRepository.save(player);
-    }
 
     @Transactional
     public List<Partita> getPartiteGiocatore(Long playerId) {
@@ -99,10 +70,4 @@ public class PlayerService {
         return player.getPartite();
     }
 
-    @Transactional
-    public boolean isGiocatoreInPartita(Long playerId, Long partitaId) {
-        Player player = trovaGiocatore(playerId);
-        return player.getPartite().stream()
-                .anyMatch(partita -> partita.getId().equals(partitaId));
-    }
 }

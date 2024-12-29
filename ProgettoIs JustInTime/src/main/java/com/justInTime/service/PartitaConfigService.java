@@ -24,37 +24,50 @@ public class PartitaConfigService {
     private List<Player> giocatoriInConfigurazione = new ArrayList<>();
 
 
-    public void aggiungiGiocatoreConfig(String usernameOrEmail, String password) {  {
+    public void aggiungiGiocatoreConfig(String usernameOrEmail, String password) {
+    
         if (giocatoriInConfigurazione.size() >= 4) {
             throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
         }
+    
+     
         for (Player giocatore : giocatoriInConfigurazione) {
-            if (giocatore.getName().equals(usernameOrEmail)) {
-                throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
-            }
-            if (giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
+            if (giocatore.getName().equals(usernameOrEmail) || giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
                 throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
             }
         }
-
-
-        Utente utente =  utenzaService.login(usernameOrEmail, password);
+    
+ 
+        Utente utente = utenzaService.login(usernameOrEmail, password);
         if (utente == null) {
-                throw new IllegalArgumentException("Credenziali non valide.");
-         }
+            throw new IllegalArgumentException("Credenziali non valide.");
+        }
+    
+      
+        Player nuovoGiocatore = null;
+    try {
      
-         System.out.println("ciao il tuo id é:" + utente.getId() + utente.getName());
-        Player nuovoGiocatore = new Player();
-        nuovoGiocatore = playerService.creaGiocatore(usernameOrEmail,utente.getId());
+        nuovoGiocatore = playerService.trovaGiocatore(utente.getId());
+    } catch (RuntimeException e) {
 
-        giocatoriInConfigurazione.add(nuovoGiocatore);
-        System.out.println("ciao il tuo id è:" + nuovoGiocatore.getId() +nuovoGiocatore.getName());
+        if (e.getMessage().contains("Giocatore non trovato")) {
+            nuovoGiocatore = playerService.creaGiocatore(usernameOrEmail, utente.getId());
+        } else {
+            throw e; 
+        }
     }
+    giocatoriInConfigurazione.add(nuovoGiocatore);
     }
+    
+    
 
 
-    public void rimuoviGiocatore(Player giocatore) {
-        giocatoriInConfigurazione.remove(giocatore);
+    public void rimuoviGiocatore() {
+        if(giocatoriInConfigurazione.size() > 1){
+        //playerService.deletePlayer(giocatoriInConfigurazione.getLast().getId());
+        giocatoriInConfigurazione.removeLast();
+        }
+        else throw  new IllegalArgumentException("Non ci sono giocatori da rimuovere.");
     }
 
     public Partita creaPartita() {
@@ -73,8 +86,12 @@ public class PartitaConfigService {
     }
 
 
-    public List<Player> getGiocatoriInConfigurazione() {
-        return new ArrayList<>(giocatoriInConfigurazione);
+    public List<String> getGiocatoriInConfigurazione() {
+        List<String> nomiGiocatori = new ArrayList<>();
+        for (Player giocatore : giocatoriInConfigurazione) {
+            nomiGiocatori.add(giocatore.getName());  
+        }
+        return nomiGiocatori;
     }
     
 }
