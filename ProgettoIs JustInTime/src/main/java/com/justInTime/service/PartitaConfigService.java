@@ -93,5 +93,8 @@ public class PartitaConfigService {
         }
         return nomiGiocatori;
     }
+
+
+    
     
 }

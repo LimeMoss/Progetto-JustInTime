@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.justInTime.Service.FeedBackServiceTest" time="0.684" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.justInTime.Service.UtenzaServiceTest" time="0.441" tests="14" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -64,8 +64,18 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="LU1_stelle_1_descrizione_troppo_lunga" classname="com.justInTime.Service.FeedBackServiceTest" time="0.586"/>
-  <testcase name="LU2_stelle_1_descrizione_vuota" classname="com.justInTime.Service.FeedBackServiceTest" time="0.005"/>
-  <testcase name="LU3_stelle_null_descrizione_valida" classname="com.justInTime.Service.FeedBackServiceTest" time="0.007"/>
-  <testcase name="LU3_stelle_5_descrizione_valida" classname="com.justInTime.Service.FeedBackServiceTest" time="0.079"/>
+  <testcase name="FUS1_username_errato_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.317"/>
+  <testcase name="PR1_data_nascita_vuota_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.008"/>
+  <testcase name="FCO1_cognome_non_corretto_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.009"/>
+  <testcase name="FNT1_numero_di_telefono_non_corretto_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.008"/>
+  <testcase name="PR2_corretto_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.008"/>
+  <testcase name="SP1_inserimento_paese_richiesto_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.008"/>
+  <testcase name="LUS1_username_troppo_lungo_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.008"/>
+  <testcase name="LP1_password_troppo_corta_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.007"/>
+  <testcase name="MCP1_conferma_password_non_corretta_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.007"/>
+  <testcase name="ES1_username_altro_account_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.006"/>
+  <testcase name="FNO1_nome_non_corretto_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.007"/>
+  <testcase name="FP1_password_non_corretta_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.006"/>
+  <testcase name="ESE1_email_altro_account_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.009"/>
+  <testcase name="FE1_email_non_corretta_registra" classname="com.justInTime.Service.UtenzaServiceTest" time="0.006"/>
 </testsuite>
