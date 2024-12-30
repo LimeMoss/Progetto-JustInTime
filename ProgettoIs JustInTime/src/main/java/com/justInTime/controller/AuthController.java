@@ -18,7 +18,7 @@ public class AuthController {
         this.utenzaService = utenzaService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registrazione")
     public ResponseEntity<?> registraUtente(@RequestBody Utente utente, @RequestParam String password2) {
         try {
    
