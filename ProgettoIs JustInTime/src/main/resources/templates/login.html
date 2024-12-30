@@ -9,13 +9,14 @@
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="../css/footer.css">
+  <script src="../script/errorHandler.js"></script>
 </head>
 
 <body>
   <div id="header-container">
     <header class="header">
       <div class="logo">
-        <a title=""  href="" class="logo-image" id="logo-image">
+        <a title=""  href="/" class="logo-image" id="logo-image">
           <img src="../images/logo.png" alt="">
         </a>
         <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
@@ -23,7 +24,7 @@
       </div>
 
       <nav class="nav-links">
-        <a href="rules.html">Regolamento</a>
+        <a href="/rules.html">Regolamento</a>
       </nav>
     </header>
   </div>
@@ -31,14 +32,14 @@
   <main>
     <div class="login-container">
       <h1 class="login-title">Login</h1>
-      <form class="login-form">
+      <form class="login-form" action="/login">
         <div class="input-group">
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Inserisci il tuo username">
+          <input type="text" id="username" name="usernameOrEmail" placeholder="Inserisci il tuo username">
         </div>
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Inserisci password">
+          <input type="password" id="password" name="password" placeholder="Inserisci password">
         </div>
       </form>
       <div class="action-section">
@@ -46,7 +47,7 @@
         <span class="no-account">Non hai un account?</span>
         <a href="/register" class="register-button">Registrati</a>
       </div>
-      <p style="color:red; font-size: 30px" th:if="${error}" th:text="${error}"></p>
+      <p id="error-message" style="color:red; font-size: 30px"></p>
     </div>
   </main>
 
