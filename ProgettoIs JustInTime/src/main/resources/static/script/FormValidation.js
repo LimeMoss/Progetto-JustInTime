@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     usernameInput.addEventListener('change', validateUsername);
     nameInput.addEventListener('change', validateName);
     surnameInput.addEventListener('change', validateSurname);
+    const form = document.querySelector('.signin-form');
 
     function formatPhoneNumber() {
         const phoneNumberField = document.getElementById('telefono');
@@ -162,4 +163,39 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     const surnameField = document.getElementById('cognome');
     surnameField.addEventListener('input', formatSurname);
+
+    function validateForm(event) {
+        let isValid = true;
+
+        // Verifica se ci sono campi vuoti
+        const requiredFields = [
+            phoneNumberInput,
+            emailInput,
+            passwordInput,
+            passwordCheckInput,
+            dateInput,
+            nameInput,
+            surnameInput,
+            usernameInput
+        ];
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.setCustomValidity('Questo campo è obbligatorio');
+            } else {
+                field.setCustomValidity('');
+            }
+            field.reportValidity();
+        });
+
+        if (!isValid) {
+            event.preventDefault();  // Impedisce il submit se ci sono campi vuoti
+            alert('Per favore, riempi tutti i campi obbligatori.');
+        }
+    }
+
+    // Aggiungi l'evento di submit al modulo
+    form.addEventListener('submit', validateForm);
+
 });
