@@ -2,7 +2,9 @@ package com.justInTime.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -44,6 +46,10 @@ public class Partita {
 
     @Transient
     private Mazzo mazzoScarto;
+
+    @Transient
+    Map<Player, List<Achievements>> playerAchievements = new HashMap<>();
+
 
     public Partita() {
         this.dataInizio = new Date();
@@ -119,6 +125,10 @@ public class Partita {
 
     public void setDataInizio(Date dataInizio) {
         this.dataInizio = dataInizio;
+    }
+
+    public Map getPlayerAchievements(){
+        return this.playerAchievements;
     }
 
 }
