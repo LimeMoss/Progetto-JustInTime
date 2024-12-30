@@ -39,7 +39,7 @@
 <main>
     <div class="signin-container">
         <h1 class="signin-title">Registrati</h1>
-        <form class="signin-form" method="post" action="/registrazione">
+        <form class="signin-form" onsubmit="submitForm(event)">
             <div class="input-group">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" placeholder="Inserisci nome" name="nome">
@@ -119,18 +119,18 @@
                         <option value="+967">+967</option>
                     </select>
 
-                    <input type="tel" id="telefono" placeholder="111 111 1111" name="phoneNumber">
+                    <input type="tel" id="telefono" placeholder="111 111 1111" name="telefono">
                 </div>
             </div>
             <div class="input-group">
                 <label for="datanascita">Data di nascita</label>
-                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="birthDate">
+                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="dataNascita">
             </div>
 
             <div class="input-group">
                 <label for="country">Nazione</label>
 
-                <select class="input-field" id="country">
+                <select class="input-field" id="country" name="paese">
                     <option value="">Seleziona la nazione</option>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Algeria">Algeria</option>
@@ -194,7 +194,7 @@
                         <label for="password">Password</label>
                         <img src="../images/question.png" alt="question icon" class="question-icon" onclick="togglePasswordMessage()">
                     </div>
-                    <input type="password" id="password" placeholder="Inserisci password"  name="password">
+                    <input type="password" id="password" placeholder="Inserisci password" name="password">
                 </div>
                 <div class="password-message">
                     <h3>Indicazioni sulla password</h3>

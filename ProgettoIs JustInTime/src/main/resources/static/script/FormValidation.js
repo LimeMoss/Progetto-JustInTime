@@ -1,21 +1,23 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const phoneNumberInput = document.querySelector('input[name="phoneNumber"]');
+    const form = document.querySelector('.signin-form');
+    const phoneNumberInput = document.querySelector('input[name="telefono"]');
     const emailInput = document.querySelector('input[name="email"]');
     const passwordInput = document.querySelector('input[name="password"]');
     const passwordCheckInput = document.querySelector('input[name="password2"]');
-    const dateInput = document.querySelector('input[name="birthDate"]');
+    const dateInput = document.querySelector('input[name="dataNascita"]');
+    const nameInput = document.querySelector('input[name="nome"]');
+    const surnameInput = document.querySelector('input[name="cognome"]');
+    const usernameInput = document.querySelector('input[name="username"]');
+
+    // Event listeners for validations
     dateInput.addEventListener('change', validateDate);
     passwordCheckInput.addEventListener('change', validatePasswordCheck);
     passwordInput.addEventListener('change', validatePassword);
     phoneNumberInput.addEventListener('change', validatePhoneNumber);
     emailInput.addEventListener('change', validateEmail);
-    const nameInput = document.querySelector('input[name="nome"]');
-    const surnameInput = document.querySelector('input[name="cognome"]');
-    const usernameInput = document.querySelector('input[name="username"]');
     usernameInput.addEventListener('change', validateUsername);
     nameInput.addEventListener('change', validateName);
     surnameInput.addEventListener('change', validateSurname);
-    const form = document.querySelector('.signin-form');
 
     function formatPhoneNumber() {
         const phoneNumberField = document.getElementById('telefono');
@@ -98,7 +100,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function validateEmail() {
         const email = emailInput.value;
-        const emailPattern = /^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2}$/;
+        const emailPattern = /^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,4}$/;
 
         // Check if the input is valid
         if (emailPattern.test(email)) {
@@ -164,12 +166,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const surnameField = document.getElementById('cognome');
     surnameField.addEventListener('input', formatSurname);
 
-    function validateForm(event) {
+    form.addEventListener("submit", async function (event) {
+        // Validazione dei campi obbligatori
         let isValid = true;
 
-        // Verifica se ci sono campi vuoti
         const requiredFields = [
-            phoneNumberInput,
             emailInput,
             passwordInput,
             passwordCheckInput,
@@ -190,12 +191,55 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
 
         if (!isValid) {
-            event.preventDefault();  // Impedisce il submit se ci sono campi vuoti
+            // Interrompe il flusso se ci sono errori
+            event.preventDefault();
             alert('Per favore, riempi tutti i campi obbligatori.');
+            return; // Esce prima di eseguire il codice asincrono
         }
-    }
 
-    // Aggiungi l'evento di submit al modulo
-    form.addEventListener('submit', validateForm);
+        // Se i campi sono validi, prosegue con l'invio asincrono
+        event.preventDefault();
+
+        const nome = nameInput.value;
+        const cognome = surnameInput.value;
+        const username = usernameInput.value;
+        const telefono = phoneNumberInput.value;
+        const dataNascita = dateInput.value;
+        const paese = document.getElementById("country").value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        const password2 = passwordCheckInput.value;
+
+        const utente = {
+            nome,
+            cognome,
+            username,
+            telefono,
+            dataNascita,
+            paese,
+            email,
+            password
+        };
+
+        try {
+            const response = await fetch('/registrazione', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ utente, password2 })
+            });
+
+            if (response.ok) {
+                window.location.href = "/login";
+            } else {
+                const errorMessage = await response.text();
+                alert("Errore durante la registrazione");
+            }
+        } catch (error) {
+            alert("Si è verificato un errore");
+        }
+    });
+
 
 });
