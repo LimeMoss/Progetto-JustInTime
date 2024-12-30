@@ -27,8 +27,8 @@ public class AuthController {
             RedirectView redirectView = new RedirectView("/login");
             return new ResponseEntity<>(redirectView, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            RedirectView redirectView = new RedirectView("/login?error=" + "Registrazione non andata a buon fine");
+            return new ResponseEntity<>(redirectView, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -39,7 +39,8 @@ public class AuthController {
             RedirectView redirectView = new RedirectView("/homepage");
             return new ResponseEntity<>(redirectView, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            RedirectView redirectView = new RedirectView("/login?error=" + "Username o password errati");
+            return new ResponseEntity<>(redirectView, HttpStatus.UNAUTHORIZED);
         }
     }
 }
