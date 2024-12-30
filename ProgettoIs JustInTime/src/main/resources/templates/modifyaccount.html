@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica account</title>
-    <link rel="stylesheet" href="..//css/modifyaccount.css">
-    <link rel="stylesheet" href="..//css/header.css">
-    <link rel="stylesheet" href="..//css/footer.css">
-    <script src="..//script/FormValidation.js"></script>
+    <link rel="stylesheet" href="../css/modifyaccount.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <script src="../script/FormValidationModify.js"></script>
 
     <script>
         function togglePasswordMessage() {
@@ -25,7 +25,7 @@
     <header class="header">
         <div class="logo">
             <a title=""  href="/userHomepage" class="logo-image" id="logo-image">
-                <img src="..//images/logo.png" alt="">
+                <img src="../images/logo.png" alt="">
             </a>
             <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
             </div>
@@ -39,7 +39,7 @@
 
 <main>
     <div class="modify-container">
-        <form class="signin-form">
+        <form class="signin-form" onsubmit="submitForm(event)" >
             <div class="input-group">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" placeholder="Inserisci nome" name="nome">
@@ -123,8 +123,8 @@
                 </div>
             </div>
             <div class="input-group">
-                <label for="datanascita">Data di nascita</label>
-                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="birthDate">
+                <label for="dataNascita">Data di nascita</label>
+                <input type="date" id="dataNascita" placeholder="gg/mm/aaaa" name="birthDate">
             </div>
 
             <div class="input-group">
