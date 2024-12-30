@@ -34,5 +34,34 @@ public class PagesController {
         return "prepartita";
     }
 
-    
+    @GetMapping("/rules")
+    public String rules() {
+        return "rules";
+    }
+
+    @GetMapping("/classificaGlobale")
+    public String classificaGlobale() {
+        return "classificaGlobale";
+    }
+
+    @GetMapping("/classificaLocale")
+    public String classificaLocale() {
+        return "classificaLocale";
+    }
+
+    @GetMapping("/consultazioneProfilo")
+    public String consultazioneProfilo() {
+        return "consultazioneProfilo";
+    }
+
+    @GetMapping("/userHomepage")
+    public String userHomepage() {
+        return "userHomepage";
+    }
+
+    @GetMapping("/modifyaccount")
+    public String modifyaccount() {
+        return "modifyaccount";
+    }
+
 }
