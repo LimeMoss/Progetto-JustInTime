@@ -1,50 +1,57 @@
 package com.justInTime.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.justInTime.model.EndGameState;
 import com.justInTime.model.Partita;
-
+import com.justInTime.model.PauseState;
+import com.justInTime.model.StartGameState;
 import com.justInTime.service.PartitaService;
 
 
 @RestController
-@RequestMapping("/api/game")
+@RequestMapping("/game")
 public class PartitaController {
     
     @Autowired
     private PartitaService partitaService;
-    
-    @PostMapping("/{partitaId}/play/{cardIndex}")
-    public ResponseEntity<Partita> playCard(
-            @PathVariable Long partitaId,
-            @PathVariable int cardIndex) {
+    @PostMapping("/play-card/{partitaId}/{cartaIndex}")
+    public ResponseEntity<String> playCard(@PathVariable Long partitaId, @PathVariable int cartaIndex) {
         try {
-            Partita updatedPartita = partitaService.giocaCarta(partitaId, cardIndex);
-            return ResponseEntity.ok(updatedPartita);
+             partitaService.giocaCarta(partitaId, cartaIndex);
+            return ResponseEntity.ok("Carta giocata con successo.");
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }
     }
+
     
-    @GetMapping("/{partitaId}")
-    public ResponseEntity<Partita> getGame(@PathVariable Long partitaId) {
+
+  
+    @PostMapping("/set-game-state/{partitaId}/{gameState}")
+    public ResponseEntity<String> setGameState(@PathVariable Long partitaId, @PathVariable String gameState) {
         try {
             Partita partita = partitaService.getPartita(partitaId);
-            return ResponseEntity.ok(partita);
+            switch (gameState.toLowerCase()) {
+                case "start":
+                    partitaService.setGameState(partita, new StartGameState());
+                    break;
+                case "pause":
+                    partitaService.setGameState(partita, new PauseState());
+                    break;
+                case "end":
+                    partitaService.setGameState(partita, new EndGameState());
+                    break;
+                default:
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stato di gioco non valido.");
+            }
+            return ResponseEntity.ok("Stato del gioco aggiornato.");
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }
     }
-    
-    @PostMapping("/{partitaId}/end")
-    public ResponseEntity<Void> endGame(@PathVariable Long partitaId) {
-        try {
-            partitaService.terminaPartita(partitaId);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
+
 }

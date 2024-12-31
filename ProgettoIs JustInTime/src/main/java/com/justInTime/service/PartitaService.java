@@ -2,7 +2,7 @@ package com.justInTime.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import com.justInTime.model.Carta;
 import com.justInTime.model.EndGameState;
@@ -13,7 +13,7 @@ import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
-import com.justInTime.repository.PlayerRepository;
+
 
 @Service
 public class PartitaService {
@@ -21,8 +21,6 @@ public class PartitaService {
     @Autowired
     private PartitaRepository partitaRepository;
 
-    @Autowired
-    private PlayerRepository playerRepository;
 
     @Autowired
     private PlayerService playerService;
@@ -41,6 +39,15 @@ public class PartitaService {
     }
 
 
+    /**
+     * Gioca la carta selezionata dal giocatore corrente.
+     * La carta viene rimossa dalla mano del giocatore e aggiunta al mazzo scarto.
+     * Se la carta ha un effetto speciale, viene applicato.
+     * Lo stato della partita viene settato in pausa.
+     * @param partitaId l'id della partita corrente
+     * @param cartaIndex l'indice della carta da giocare
+     * @return la partita aggiornata
+     */
     public Partita giocaCarta(Long partitaId, int cartaIndex) {
         Partita partita = getPartita(partitaId);
         Player giocatoreCorrente = partita.getGiocatoreCorrente();
@@ -104,49 +111,30 @@ public class PartitaService {
      */
 
 
+    /**
+     * Termina la partita con l'id specificato.
+     * Imposta lo stato della partita a "fine partita" e salva le modifiche.
+     * @param partitaId l'id della partita da terminare
+     */
     public void terminaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
         partita.setGameState(new EndGameState());
         partitaRepository.save(partita);
     }
 
+        /**
+         * Imposta lo stato della partita specificata.
+         * Lo stato della partita viene settato al nuovo stato specificato.
+         * @param partita la partita su cui impostare lo stato
+         * @param gamestate il nuovo stato della partita
+         */
     public void setGameState(Partita partita, GameState gamestate){
 
             partita.setGameState(gamestate);
 
     }
-        @Transactional
-    public Player aggiungiGiocatoreAPartita(Long playerId, Long partitaId) {
-        Player player = playerService.trovaGiocatore(playerId);
-        Partita partita = partitaRepository.findById(partitaId)
-                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
-        
-        // Verifica se il giocatore è già nella partita
-        if (!partita.getGiocatori().contains(player)) {
-            partita.getGiocatori().add(player);
-            player.getPartite().add(partita);
-            partitaRepository.save(partita);
-        }
-        
-        return playerRepository.save(player);
-    }
 
-    @Transactional
-    public Player rimuoviGiocatoreDaPartita(Long playerId, Long partitaId) {
-        Player player = playerService.trovaGiocatore(playerId);
-        Partita partita = partitaRepository.findById(partitaId)
-                .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+    //TODO//
+    //pescacarta per la partita//
         
-        partita.getGiocatori().remove(player);
-        player.getPartite().remove(partita);
-        partitaRepository.save(partita);
-        
-        return playerRepository.save(player);
-    }
-    @Transactional
-    public boolean isGiocatoreInPartita(Long playerId, Long partitaId) {
-        Player player = playerService.trovaGiocatore(playerId);
-        return player.getPartite().stream()
-                .anyMatch(partita -> partita.getId().equals(partitaId));
-    }
 }

@@ -59,13 +59,14 @@ public class Partita {
         this.indiceGiocatoreCorrente = 0;
     }
 
-    // Getters and Setters
+
     public GameState getGameState() {
         return gameState;
     }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+        gameState.execute(this);;
     }
 
     public List<Player> getGiocatori() {
