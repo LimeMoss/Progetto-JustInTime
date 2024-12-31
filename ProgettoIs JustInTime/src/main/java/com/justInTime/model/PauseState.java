@@ -17,8 +17,6 @@ public class PauseState implements GameState {
     public void execute(Partita partita) {
         
 
-        partitaService.passaAlProssimoGiocatore(partita);
-        
 
         while (!nextPlayerReady) {
             try {
@@ -28,14 +26,14 @@ public class PauseState implements GameState {
             }
         }
         
-        // Reset dello stato
+
         nextPlayerReady = false;
         
-        // Controlliamo se la partita è finita
+
         if (isGameOver(partita)) {
             partitaService.setGameState(partita, new EndGameState());
         } else {
-            // Altrimenti, passiamo al prossimo turno
+
             partitaService.setGameState(partita, new TurnState());
         }
     }

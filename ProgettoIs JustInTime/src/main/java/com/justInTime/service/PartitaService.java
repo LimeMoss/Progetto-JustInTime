@@ -60,7 +60,7 @@ public class PartitaService {
     }
 
     /**
-     * Verifica se la carta pu  essere giocata rispetto allo stato della partita.
+     * Verifica se la carta puo essere giocata rispetto allo stato della partita.
      * La carta pu  essere giocata se il suo valore  maggiore o minore di 1 rispetto
      * al valore dell'ultima carta scartata o se  una carta speciale (valore 99).
      * Se il mazzo scarto  vuoto, la carta pu  essere giocata in ogni caso.
@@ -83,6 +83,10 @@ public class PartitaService {
         return true;
     }
 
+    /**
+     * Distribuisce 5 carte iniziali ad ogni giocatore partecipante alla partita.
+     * @param partita la partita corrente
+     */
     public void distribuisciCarteIniziali(Partita partita) {
         for (Player giocatore : partita.getGiocatori()) {
             for (int i = 0; i < 5; i++) {
@@ -91,11 +95,14 @@ public class PartitaService {
         }
     }
 
-    public void passaAlProssimoGiocatore(Partita partita) {
-        partita.setIndiceGiocatoreCorrente(
-            (partita.getIndiceGiocatoreCorrente() + 1) % partita.getGiocatori().size()
-        );
-    }
+
+    /**
+     * Passa al prossimo giocatore nella partita.
+     * Il giocatore corrente viene impostato al successivo nella lista dei giocatori della partita,
+     * se il giocatore corrente  l'ultimo della lista, il prossimo giocatore sar  il primo della lista.
+     * @param partita la partita corrente
+     */
+
 
     public void terminaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);

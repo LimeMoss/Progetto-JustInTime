@@ -160,7 +160,6 @@ public class GameStateTest {
             // Preparazione del giocatore
             pauseState.playerReady();
             pauseState.execute(partita);
-            verify(partitaService).passaAlProssimoGiocatore(partita);
             assertEquals(1, partita.getIndiceGiocatoreCorrente());
         
             // Esecuzione turno successivo
@@ -180,7 +179,6 @@ public class GameStateTest {
             pauseState.playerReady();
             pauseState.execute(partita);
             
-            verify(partitaService).passaAlProssimoGiocatore(partita);
             verify(partitaService).setGameState(eq(partita), any(EndGameState.class));
         }
 
@@ -194,7 +192,6 @@ public class GameStateTest {
             pauseState.playerReady();
             pauseState.execute(partita);
             
-            verify(partitaService).passaAlProssimoGiocatore(partita);
             verify(partitaService).setGameState(eq(partita), any(TurnState.class));
 
     
