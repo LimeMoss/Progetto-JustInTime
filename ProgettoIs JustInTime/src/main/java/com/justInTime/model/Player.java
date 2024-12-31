@@ -36,6 +36,37 @@ public class Player implements abstractPlayer {
 
 
 
+    public String getNome() {
+        return nome;
+    }
+
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
+    public boolean isEscluso() {
+        return escluso;
+    }
+
+
+    public void setEscluso(boolean escluso) {
+        this.escluso = escluso;
+    }
+
+
+    public List<Achievements> getAchievements() {
+        return achievements;
+    }
+
+
+    public void setAchievements(List<Achievements> achievements) {
+        this.achievements = achievements;
+    }
+    private boolean escluso;
+
+
 
     @ManyToMany(mappedBy = "giocatori", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Partita> partite = new ArrayList<>();
