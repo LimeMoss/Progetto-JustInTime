@@ -1,6 +1,6 @@
 package com.justInTime.Service;
 
-import com.justInTime.model.Feedback;
+
 import com.justInTime.model.Utente;
 
 import com.justInTime.repository.UtenzaRepository;
@@ -404,6 +404,7 @@ public class UtenzaServiceTest {
     }
 
     // TC_1.2_11: Data di nascita non può essere vuota
+    @SuppressWarnings("deprecation")
     @Test
     public void PR1_data_nascita_vuota_modifica() {
         when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
@@ -474,6 +475,7 @@ public class UtenzaServiceTest {
     }
 
     // TC_1.2_14: Corretto!
+    @SuppressWarnings("deprecation")
     @Test
     public void PR2_corretto_modifica() {
         when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {

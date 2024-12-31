@@ -15,12 +15,11 @@ public class PauseState implements GameState {
 
     @Override
     public void execute(Partita partita) {
-        System.out.println("Gioco in pausa. In attesa che il prossimo giocatore sia pronto...");
         
-        // Passiamo al prossimo giocatore
+
         partitaService.passaAlProssimoGiocatore(partita);
         
-        // Aspettiamo che il prossimo giocatore sia pronto
+
         while (!nextPlayerReady) {
             try {
                 Thread.sleep(100);
@@ -46,8 +45,6 @@ public class PauseState implements GameState {
     }
     
     private boolean isGameOver(Partita partita) {
-        // Implementa la logica per determinare se il gioco è finito
-        // Per esempio, se un giocatore ha finito le carte
         for (Player player : partita.getGiocatori()) {
             if (player.getMano().isEmpty()) {
                 return true;

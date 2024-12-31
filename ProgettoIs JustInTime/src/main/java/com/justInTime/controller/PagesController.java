@@ -59,9 +59,28 @@ public class PagesController {
         return "userHomepage";
     }
 
-    @GetMapping("/modifyaccount")
+    @GetMapping("/modifyaccount") //??//
     public String modifyaccount() {
         return "modifyaccount";
+    }
+    @GetMapping("/endmatch")
+    public String endmatch() {
+        return "endmatch";
+    }
+
+    @GetMapping("/match")
+    public String match() {
+        return "match";
+    }
+
+    @GetMapping("/startmatch")
+    public String startmatch() {
+        return "startmatch";
+    }
+
+    @GetMapping("/feedbacks")
+    public String feedback() {
+        return "feedback";
     }
 
 }

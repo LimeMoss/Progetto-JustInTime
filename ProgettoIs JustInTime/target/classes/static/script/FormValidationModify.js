@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function validateDate() {
-        const dateInput = document.getElementById('datanascita');
+        const dateInput = document.getElementById('dataNascita');
         const dateValue = dateInput.value;
         const inputDate = new Date(dateValue);
         const currentDate = new Date();
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         try {
-            const response = await fetch('/registrazione', {
+            const response = await fetch('/modifyaccount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

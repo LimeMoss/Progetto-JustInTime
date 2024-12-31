@@ -59,17 +59,20 @@ public class Player implements abstractPlayer {
     // Costruttori
     public Player() {
         mano = new ArrayList<Carta>();
+        this.durataTurno = 15;
     }
 
 
     public Player(String name, int maxScore) {
         this.nome=name;
         this.maxScore = maxScore;
+        this.durataTurno = 15;
         mano = new ArrayList<Carta>();
     }
 
     public Player(String name) {
         this.nome=name;
+        this.durataTurno = 15;
 
         mano = new ArrayList<Carta>();
     }
@@ -96,9 +99,6 @@ public class Player implements abstractPlayer {
 
 
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
 
     public Utente getUtente() {
@@ -112,13 +112,8 @@ public class Player implements abstractPlayer {
 
 
     // Metodi Utility
-    public void aggiungiCartaAllaMano(Carta carta) {
-        this.mano.add(carta);
-    }
 
-    public boolean rimuoviCartaDallaMano(Carta carta) {
-        return this.mano.remove(carta);
-    }
+
 
     public void increaseMaxScore() {
         this.maxScore++;
@@ -143,11 +138,7 @@ public class Player implements abstractPlayer {
     public List<Carta> getMano(){
         return this.mano;
     }
-    @Override
-    public boolean isTurnoInPausa(){
-        return turnoInPausa;
 
-    }
     @Override
     public String getName() {
         return nome;
@@ -176,7 +167,7 @@ public class Player implements abstractPlayer {
   @Override
     public boolean hasFinishedTurn() {
 
-        throw new UnsupportedOperationException("Unimplemented method 'hasFinishedTurn'");
+        return this.turnoInPausa;
     }
 
 

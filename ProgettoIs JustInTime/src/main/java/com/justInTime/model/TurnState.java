@@ -12,16 +12,12 @@ public class TurnState implements GameState {
     @Autowired
     private PartitaService partitaService;
     
-    private static final int DURATA_TURNO = 15; 
 
     @Override
     public void execute(Partita partita) {
-        Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
-    
 
-    
-        giocatoreCorrente.setDurataTurno(DURATA_TURNO);
-        
+        Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
+
         int tempoRestante = giocatoreCorrente.getDurataTurno();
 
         while (tempoRestante > 0) {
@@ -30,7 +26,6 @@ public class TurnState implements GameState {
                 break;
             }
 
-       
             tempoRestante--;
             giocatoreCorrente.setDurataTurno(tempoRestante);
 
@@ -43,4 +38,7 @@ public class TurnState implements GameState {
 
         partitaService.setGameState(partita, new PauseState());
     }
+
+    
 }
+     
