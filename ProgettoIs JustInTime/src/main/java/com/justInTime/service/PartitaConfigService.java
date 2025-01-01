@@ -10,15 +10,19 @@ import org.springframework.stereotype.Service;
 import com.justInTime.model.Achievements;
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
+import com.justInTime.model.StartGameState;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.PartitaRepository;
 
 @Service
 public class PartitaConfigService {
+
     @Autowired
-    private PartitaRepository partitaRepository;
+    PartitaRepository partitaRepository;
+
     @Autowired
     UtenzaService utenzaService;
+
     @Autowired 
     PlayerService playerService;
 
@@ -39,7 +43,6 @@ public class PartitaConfigService {
             }
         }
     
- 
         Utente utente = utenzaService.login(usernameOrEmail, password);
         if (utente == null) {
             throw new IllegalArgumentException("Credenziali non valide.");
@@ -62,6 +65,24 @@ public class PartitaConfigService {
     
 
     }
+    public void aggiungiGiocatoreConfigNOLOGIN(Player player) {
+    
+        if (giocatoriInConfigurazione.size() >= 4) {
+            throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
+        }
+    
+        // Controllo per evitare duplicati di giocatori (stesso nome o email)
+        for (Player giocatore : giocatoriInConfigurazione) {
+            if (giocatore.getName().equals(player.getName())) {
+                throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
+            }
+        }
+        
+
+    
+    
+        giocatoriInConfigurazione.add(player);
+    }
     
     
 
@@ -80,19 +101,17 @@ public class PartitaConfigService {
         }
 
         Partita partita = new Partita();
-        Map<Player, List<Achievements>>playerAchievement = partita.getPlayerAchievements();
-        for (Player giocatore : giocatoriInConfigurazione) {
-            playerAchievement.putIfAbsent(giocatore, new ArrayList<>());
-        }
+
 
         partita.setGiocatori(new ArrayList<>(giocatoriInConfigurazione));
+        partita.setGameState(new StartGameState());
 
-        Partita partitaSalvata = partitaRepository.save(partita);
-
+       
+        partitaRepository.save(partita);
         giocatoriInConfigurazione.clear();
         
 
-        return partitaSalvata;
+        return partita;
 
     }
 

@@ -12,5 +12,6 @@ import com.justInTime.model.Player;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     List<Player> findAllByOrderByMaxScoreDesc();
+    List<Player> findAllByNome(String nome);
 
 }

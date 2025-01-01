@@ -61,7 +61,7 @@ public class PartitaConfigController {
         try {
             Partita newPartita = partitaConfigService.creaPartita();
         
-            partitaService.iniziaPartita(newPartita.getId());
+            partitaService.iniziaPartita(newPartita);
             
             return ResponseEntity.ok(newPartita);
         } catch (RuntimeException e) {
