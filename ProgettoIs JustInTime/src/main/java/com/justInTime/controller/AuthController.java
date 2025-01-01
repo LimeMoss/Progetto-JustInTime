@@ -34,7 +34,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
         try {
        

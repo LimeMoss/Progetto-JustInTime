@@ -16,11 +16,10 @@
   <div id="header-container">
     <header class="header">
       <div class="logo">
-        <a title=""  href="/" class="logo-image" id="logo-image">
+        <a title="" href="/" class="logo-image" id="logo-image">
           <img src="../images/logo.png" alt="">
         </a>
-        <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
-        </div>
+        <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span></div>
       </div>
 
       <nav class="nav-links">
@@ -32,18 +31,18 @@
   <main>
     <div class="login-container">
       <h1 class="login-title">Login</h1>
-      <form class="login-form" action="/login">
+      <form id="login-form">
         <div class="input-group">
           <label for="username">Username</label>
-          <input type="text" id="username" name="usernameOrEmail" placeholder="Inserisci il tuo username">
+          <input type="text" id="username" name="usernameOrEmail" placeholder="Inserisci il tuo username" required>
         </div>
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Inserisci password">
+          <input type="password" id="password" name="password" placeholder="Inserisci password" required>
         </div>
       </form>
       <div class="action-section">
-        <button type="submit" class="login-button">Accedi</button>
+        <button type="button" class="login-button" onclick="handleLogin()">Accedi</button>
         <span class="no-account">Non hai un account?</span>
         <a href="/registrazione" class="register-button">Registrati</a>
       </div>
@@ -61,5 +60,41 @@
       </div>
     </footer>
   </div>
+
+  <script>
+async function handleLogin() {
+  const usernameOrEmail = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  if (!usernameOrEmail || !password) {
+    document.getElementById('error-message').textContent = 'Per favore, compila tutti i campi.';
+    return;
+  }
+
+  const loginData = new URLSearchParams();
+  loginData.append('usernameOrEmail', usernameOrEmail);
+  loginData.append('password', password);
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: loginData.toString()
+    });
+
+    if (response.ok) {
+      window.location.href = '/homepage';
+    } else {
+      const error = await response.json();
+      document.getElementById('error-message').textContent = error.message || 'Credenziali non valide.';
+    }
+  } catch (error) {
+    document.getElementById('error-message').textContent = 'Errore di connessione, riprova.';
+  }
+}
+
+  </script>
 </body>
 </html>
