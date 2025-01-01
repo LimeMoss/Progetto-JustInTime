@@ -53,6 +53,12 @@ public class FeedbackService {
     }
 
 
+    /**
+     * Restituisce una lista di tutti i feedback presenti nel database.
+     *
+     * @return Lista di feedback.
+     */
+
 public List<Feedback> getAllFeedback() {
     return feedbackRepository.findAll();
 

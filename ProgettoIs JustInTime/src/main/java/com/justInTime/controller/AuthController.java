@@ -3,6 +3,8 @@ package com.justInTime.controller;
 import com.justInTime.model.Utente;
 import com.justInTime.service.UtenzaService;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,15 +34,29 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<RedirectView> login(@RequestParam String usernameOrEmail, @RequestParam String password) {
+    @PostMapping
+    public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
         try {
-            utenzaService.login(usernameOrEmail, password);
-            RedirectView redirectView = new RedirectView("/homepage");
-            return new ResponseEntity<>(redirectView, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            RedirectView redirectView = new RedirectView("/login?error=" + "Username o password errati");
-            return new ResponseEntity<>(redirectView, HttpStatus.UNAUTHORIZED);
+       
+            Utente utente = utenzaService.login(usernameOrEmail, password);
+
+    
+            session.setAttribute("utente", utente);
+
+
+            return "redirect:/homepage";
+        } catch (IllegalArgumentException e) {
+          
+            return "redirect:/login?error=true";
         }
+
+        
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        session.invalidate();
+        return "redirect:/login"; 
     }
 }

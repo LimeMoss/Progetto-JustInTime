@@ -5,10 +5,13 @@ com\justInTime\repository\FeedbackRepository.class
 com\justInTime\service\FeedbackService.class
 com\justInTime\service\PartitaService.class
 com\justInTime\controller\PlayerController.class
+com\justInTime\model\abstractPlayer.class
 com\justInTime\model\MazzoFactory.class
 com\justInTime\model\Carta.class
+com\justInTime\model\Achievements.class
 com\justInTime\service\ClassificaService.class
 com\justInTime\controller\ClassificaController.class
+com\justInTime\model\abstractUtente.class
 com\justInTime\controller\FeedbackController.class
 com\justInTime\model\MazzoScarto.class
 com\justInTime\controller\UtenzaController.class
@@ -21,6 +24,7 @@ com\justInTime\model\Feedback.class
 com\justInTime\model\TurnState.class
 com\justInTime\model\Utente.class
 com\justInTime\repository\PlayerRepository.class
+com\justInTime\controller\PagesController.class
 com\justInTime\model\GameState.class
 com\justInTime\service\PlayerService.class
 com\justInTime\model\PauseState.class

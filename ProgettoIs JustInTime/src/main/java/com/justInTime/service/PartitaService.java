@@ -39,14 +39,16 @@ public class PartitaService {
     }
 
 
+
     /**
-     * Gioca la carta selezionata dal giocatore corrente.
-     * La carta viene rimossa dalla mano del giocatore e aggiunta al mazzo scarto.
-     * Se la carta ha un effetto speciale, viene applicato.
-     * Lo stato della partita viene settato in pausa.
-     * @param partitaId l'id della partita corrente
-     * @param cartaIndex l'indice della carta da giocare
+     * Gioca una carta dalla mano del giocatore corrente e passa il turno
+     * successivo.
+     * 
+     * @param partitaId l'ID della partita
+     * @param cartaIndex l'indice della carta nella mano del giocatore corrente
+     *                   da giocare
      * @return la partita aggiornata
+     * @throws RuntimeException se la carta non  giocabile
      */
     public Partita giocaCarta(Long partitaId, int cartaIndex) {
         Partita partita = getPartita(partitaId);

@@ -10,6 +10,17 @@ public class TurnState implements GameState {
     @Autowired
     private PartitaService partitaService;
 
+    /**
+     * Esegue le operazioni specifiche di questo stato.
+     * Verifica se il giocatore corrente  escluso, se si , passa al prossimo giocatore.
+     * Altrimenti, crea un loop finche  il tempo del turno del giocatore corrente  maggiore di 0.
+     * Ad ogni iterazione, decrementa il tempo del turno del giocatore corrente di 1,
+     * verifica se il giocatore ha finito il suo turno e se si , esce dal loop.
+     * Se il tempo del turno del giocatore corrente  0, esclude il giocatore.
+     * Infine, passa al prossimo giocatore.
+     * 
+     * @param partita La partita su cui eseguire le operazioni.
+     */
     @Override
     public void execute(Partita partita) {
 
@@ -46,6 +57,14 @@ public class TurnState implements GameState {
 
         passaAlProssimoGiocatore(partita);
     }
+
+/**
+ * Passa il turno al prossimo giocatore non escluso nella partita.
+ * Aggiorna l'indice del giocatore corrente e imposta lo stato della partita
+ * su {@link PauseState} in attesa che il prossimo giocatore sia pronto.
+ *
+ * @param partita La partita corrente in cui si esegue il passaggio di turno.
+ */
 
     private void passaAlProssimoGiocatore(Partita partita) {
         int indiceCorrente = partita.getIndiceGiocatoreCorrente();

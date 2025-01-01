@@ -35,6 +35,18 @@ public class PartitaConfigService {
     private List<Player> giocatoriInConfigurazione = new ArrayList<>();
 
 
+    /**
+     * Aggiunge un giocatore alla configurazione corrente.
+     * La configurazione corrente contiene i giocatori che saranno coinvolti
+     * nella partita.
+     * 
+     * @param usernameOrEmail l'username o l'email del giocatore da aggiungere
+     * @param password la password del giocatore da aggiungere
+     * @throws IllegalArgumentException se il giocatore non esiste o se la password
+     *                                  non è corretta o se il giocatore è già stato
+     *                                  aggiunto o se il numero di giocatori da
+     *                                  aggiungere supera il massimo consentito (4)
+     */
     public void aggiungiGiocatoreConfig(String usernameOrEmail, String password) {
     
         if (giocatoriInConfigurazione.size() >= 4) {
@@ -70,6 +82,17 @@ public class PartitaConfigService {
     
 
     }
+    /**
+     * Aggiunge un giocatore alla configurazione corrente senza eseguire il login.
+     * La configurazione corrente contiene i giocatori che saranno coinvolti
+     * nella partita.
+     * 
+     * @param player il giocatore da aggiungere
+     * @throws IllegalArgumentException se il giocatore non esiste o se il
+     *                                  giocatore è già stato aggiunto o se il
+     *                                  numero di giocatori da aggiungere supera
+     *                                  il massimo consentito (4)
+     */
     public void aggiungiGiocatoreConfigNOLOGIN(Player player) {
     
         if (giocatoriInConfigurazione.size() >= 4) {
@@ -92,6 +115,13 @@ public class PartitaConfigService {
     
 
 
+    /**
+     * Rimuove l'ultimo giocatore aggiunto alla configurazione corrente.
+     * La configurazione corrente contiene i giocatori che saranno coinvolti
+     * nella partita.
+     * 
+     * @throws IllegalArgumentException se non ci sono giocatori da rimuovere
+     */
     public void rimuoviGiocatore() {
         if(giocatoriInConfigurazione.size() > 1){
         //playerService.deletePlayer(giocatoriInConfigurazione.getLast().getId());
@@ -100,6 +130,16 @@ public class PartitaConfigService {
         else throw  new IllegalArgumentException("Non ci sono giocatori da rimuovere.");
     }
 
+    /**
+     * Crea una nuova partita con i giocatori nella configurazione corrente.
+     * La configurazione corrente contiene i giocatori che saranno coinvolti
+     * nella partita.
+     * 
+     * @return la partita creata
+     * @throws IllegalArgumentException se non ci sono almeno due giocatori
+     *                                  o se il numero di giocatori supera il
+     *                                  massimo consentito (4)
+     */
     @Transactional
 public Partita creaPartita() {
     if (giocatoriInConfigurazione.size() < 2 || giocatoriInConfigurazione.size() > 4) {
@@ -133,6 +173,14 @@ public Partita creaPartita() {
 }
 
 
+/**
+ * Restituisce una lista dei nomi dei giocatori attualmente 
+ * in configurazione per la partita.
+ *
+ * @return una lista di stringhe contenente i nomi dei giocatori
+ *         in configurazione.
+ */
+
     public List<String> getGiocatoriInConfigurazione() {
         List<String> nomiGiocatori = new ArrayList<>();
         for (Player giocatore : giocatoriInConfigurazione) {
@@ -142,6 +190,16 @@ public Partita creaPartita() {
     }
 
 
+    /**
+     * Aggiunge un giocatore ad una partita.
+     * Verifica se il giocatore è già nella partita e se non lo è, lo aggiunge.
+     * La partita e il giocatore vengono salvati.
+     * 
+     * @param playerId l'id del giocatore da aggiungere
+     * @param partitaId l'id della partita
+     * @return il giocatore aggiunto
+     * @throws RuntimeException se la partita non esiste
+     */
     @Transactional
     public Player aggiungiGiocatoreAPartita(Long playerId, Long partitaId) {
         Player player = playerService.trovaGiocatore(playerId);
@@ -158,6 +216,16 @@ public Partita creaPartita() {
         return playerRepository.save(player);
     }
 
+    /**
+     * Rimuove un giocatore da una partita.
+     * Verifica se il giocatore è nella partita e se lo è, lo rimuove.
+     * La partita e il giocatore vengono salvati.
+     * 
+     * @param playerId l'id del giocatore da rimuovere
+     * @param partitaId l'id della partita
+     * @return il giocatore rimosso
+     * @throws RuntimeException se la partita non esiste
+     */
     @Transactional
     public Player rimuoviGiocatoreDaPartita(Long playerId, Long partitaId) {
         Player player = playerService.trovaGiocatore(playerId);
@@ -170,6 +238,14 @@ public Partita creaPartita() {
         
         return playerRepository.save(player);
     }
+    /**
+     * Verifica se un giocatore è in una partita.
+     * L'operazione viene eseguita in modo atomic.
+     * @param playerId l'ID del giocatore da verificare
+     * @param partitaId l'ID della partita
+     * @return true se il giocatore è nella partita, false altrimenti
+     * @throws RuntimeException se il giocatore non esiste
+     */
     @Transactional
     public boolean isGiocatoreInPartita(Long playerId, Long partitaId) {
         Player player = playerService.trovaGiocatore(playerId);

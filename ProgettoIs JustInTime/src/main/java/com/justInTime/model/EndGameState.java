@@ -17,7 +17,7 @@ public class EndGameState implements GameState {
 
     /**
      * Esegue le operazioni necessarie al termine di una partita.
-     * Determina il vincitore e termina la partita utilizzando il servizio {@link PartitaService}.
+     * Utilizza {@link PartitaService}.
      *
      * @param partita La partita corrente da terminare.
      */

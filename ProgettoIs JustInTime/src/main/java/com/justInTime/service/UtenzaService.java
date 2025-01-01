@@ -2,6 +2,9 @@ package com.justInTime.service;
 
 import com.justInTime.model.Utente;
 import com.justInTime.repository.UtenzaRepository;
+
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,18 +21,36 @@ public class UtenzaService {
         this.utenzaRepository = utenzaRepository;
     }
 
+    /**
+     * Crea un nuovo utente e lo salva nel database.
+     *
+     * @param utente l'utente da creare
+     * @return l'utente appena creato
+     */
     @Transactional
     public Utente creaUtente(Utente utente) {
         return utenzaRepository.save(utente);
     }
 
 
+    /**
+     * Trova l'utente con l'id specificato.
+     *
+     * @param id l'id dell'utente da cercare
+     * @return l'utente cercato
+     * @throws RuntimeException se l'utente non esiste
+     */
     public Utente trovaUtente(Long id) {
         return utenzaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Utente non trovata."));
     }
 
 
+    /**
+     * Ritorna la lista di tutti gli utenti presenti nel database.
+     *
+     * @return la lista di tutti gli utenti
+     */
     public List<Utente> trovaTutteUtenze() {
         return utenzaRepository.findAll();
     }
@@ -136,7 +157,12 @@ public class UtenzaService {
 
 
 
-
+    /**
+     * Verifica che la data di nascita non sia vuota.
+     *
+     * @param dataNascita la data di nascita da verificare
+     * @throws IllegalArgumentException se la data di nascita non è valida
+     */
     private void validaDataNascita(Date dataNascita) {
         if (dataNascita == null) {
             throw new IllegalArgumentException("La data di nascita non può essere vuota.");
@@ -144,6 +170,17 @@ public class UtenzaService {
 
 
     }
+
+
+/**
+ * Verifica che il numero di telefono non sia vuoto e rispetti il formato
+ * internazionale. Il formato richiesto è: +CCC NNN NNN NNNN, dove CCC è il
+ * prefisso del paese con uno a tre cifre, seguito da tre gruppi di numeri.
+ *
+ * @param telefono il numero di telefono da verificare
+ * @throws IllegalArgumentException se il numero di telefono è vuoto o non rispetta
+ *         il formato richiesto
+ */
 
     private void validaTelefono(String telefono) {
         if (telefono == null || telefono.isEmpty()) {
@@ -157,6 +194,14 @@ public class UtenzaService {
 
 
 
+/**
+ * Verifica che l'username sia valido. Deve essere lungo tra 2 e 30 caratteri
+ * e non deve contenere caratteri speciali.
+ *
+ * @param username l'username da verificare
+ * @throws IllegalArgumentException se l'username non è valido
+ */
+
     private void validaUsername(String username) {
         if (!Pattern.matches("^[A-z0-9]{2,30}$", username)) {
             throw new IllegalArgumentException("Username non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
@@ -164,11 +209,26 @@ public class UtenzaService {
     }
 
 
+    /**
+     * Verifica che il nome sia valido. Deve essere lungo tra 2 e 30 caratteri
+     * e non deve contenere caratteri speciali.
+     *
+     * @param nome il nome da verificare
+     * @throws IllegalArgumentException se il nome non è valido
+     */
     private void validaNome(String nome) {
         if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", nome)) {
             throw new IllegalArgumentException("Nome non valido. Deve essere tra 2 e 30 caratteri senza caratteri speciali.");
         }
     }
+
+    /**
+     * Verifica che il cognome sia valido. Deve essere lungo tra 2 e 30 caratteri
+     * e non deve contenere caratteri speciali.
+     *
+     * @param cognome il cognome da verificare
+     * @throws IllegalArgumentException se il cognome non è valido
+     */
 
     private void validaCognome(String cognome) {
         if (!Pattern.matches("^[A-zÀ-ù ‘-]{2,30}$", cognome)) {
@@ -177,6 +237,15 @@ public class UtenzaService {
     }
 
 
+    /**
+     * Verifica che l'email sia valida. Deve rispettare il formato standard
+     * delle email, che include un insieme di caratteri seguiti da un '@',
+     * un dominio e un suffisso di dominio.
+     *
+     * @param email l'email da verificare
+     * @throws IllegalArgumentException se l'email non è valida
+     */
+
     private void validaEmail(String email) {
         if (!Pattern.matches("^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,}$", email)) {
             throw new IllegalArgumentException("Email non valida.");
@@ -184,6 +253,20 @@ public class UtenzaService {
     }
 
 
+    /**
+     * Verifica che le due password coincidano e che siano valide.
+     *
+     * Una password è valida se:
+     * - contiene almeno 8 caratteri
+     * - contiene almeno una lettera minuscola
+     * - contiene almeno una lettera maiuscola
+     * - contiene almeno un numero
+     * - contiene almeno un carattere speciale (@$!%*?&)
+     *
+     * @param password la prima password
+     * @param password2 la seconda password
+     * @throws IllegalArgumentException se le password non corrispondono o non sono valide
+     */
     private void validaPassword(String password, String password2) {
         if (!password.equals(password2)) {
             throw new IllegalArgumentException("Le password non corrispondono.");
@@ -194,6 +277,12 @@ public class UtenzaService {
 
     }
 
+    /**
+     * Verifica che il paese non sia vuoto.
+     *
+     * @param paese il paese da verificare
+     * @throws IllegalArgumentException se il paese è vuoto
+     */
     private void validaPaese(String paese) {
         if (paese == null || paese.isEmpty()) {
             throw new IllegalArgumentException("Il paese non può essere vuoto.");
