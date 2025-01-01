@@ -9,6 +9,7 @@ import com.justInTime.model.EndGameState;
 import com.justInTime.model.GameState;
 import com.justInTime.model.MazzoScarto;
 import com.justInTime.model.Partita;
+import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
@@ -26,12 +27,11 @@ public class PartitaService {
     @Autowired
     private PlayerService playerService;
 
-    public void iniziaPartita(Long partitaId) {
-        Partita partita = getPartita(partitaId);
+    public void iniziaPartita(Partita partita) {
+
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
-        distribuisciCarteIniziali(partita);
         partita.setGameState(new StartGameState());
     }
     
@@ -51,38 +51,58 @@ public class PartitaService {
                 carta.applicaEffetto(giocatoreCorrente);
             }
             giocatoreCorrente.getMano().remove(cartaIndex);
-            partita.getMazzoScarto().aggiungi(carta);
-            passaAlProssimoGiocatore(partita);
+            partita.getMazzoScarto().aggiungi(carta);;
+            partita.getGiocatoreCorrente().setTurnoInPausa(true);;
+            partita.setGameState(new PauseState());
             return partitaRepository.save(partita);
         }
         throw new RuntimeException("Carta non giocabile");
     }
 
+    /**
+     * Verifica se la carta puo essere giocata rispetto allo stato della partita.
+     * La carta pu  essere giocata se il suo valore  maggiore o minore di 1 rispetto
+     * al valore dell'ultima carta scartata o se  una carta speciale (valore 99).
+     * Se il mazzo scarto  vuoto, la carta pu  essere giocata in ogni caso.
+     * @param partita la partita corrente
+     * @param carta la carta da verificare
+     * @return true se la carta pu  essere giocata, false altrimenti
+     */
     private boolean cartaGiocabile(Partita partita, Carta carta) {
         int specialValue = 99;
         MazzoScarto mazzoScarto = partita.getMazzoScarto();
-        if (mazzoScarto != null) {
+        
+        if (mazzoScarto != null && !mazzoScarto.isEmpty()) {
+       
             int value = mazzoScarto.ultimaCartaScartata().getValore();
             return carta.getValore() == value + 1 || 
                    carta.getValore() == value - 1 || 
                    carta.getValore() == specialValue;
         }
-        throw new RuntimeException("Il mazzo non è un mazzo di scarto");
+        
+        return true;
     }
 
+    /**
+     * Distribuisce 5 carte iniziali ad ogni giocatore partecipante alla partita.
+     * @param partita la partita corrente
+     */
     public void distribuisciCarteIniziali(Partita partita) {
         for (Player giocatore : partita.getGiocatori()) {
             for (int i = 0; i < 5; i++) {
-                giocatore.aggiungiCartaAllaMano(partita.getMazzoNormale().pescaCarta());
+                playerService.aggiungiCartaAllaMano(giocatore.getId(),partita.getMazzoNormale().pescaCarta());
             }
         }
     }
 
-    public void passaAlProssimoGiocatore(Partita partita) {
-        partita.setIndiceGiocatoreCorrente(
-            (partita.getIndiceGiocatoreCorrente() + 1) % partita.getGiocatori().size()
-        );
-    }
+
+    /**
+     * Passa al prossimo giocatore nella partita.
+     * Il giocatore corrente viene impostato al successivo nella lista dei giocatori della partita,
+     * se il giocatore corrente  l'ultimo della lista, il prossimo giocatore sar  il primo della lista.
+     * @param partita la partita corrente
+     */
+
 
     public void terminaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);

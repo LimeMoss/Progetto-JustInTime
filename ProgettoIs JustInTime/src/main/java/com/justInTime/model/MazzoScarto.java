@@ -36,6 +36,14 @@ public class MazzoScarto extends Mazzo {
         return null;
     }
 
+    public List<Carta> getCarteScartate() {
+        return carteScartate;
+    }
+
+    public void setCarteScartate(List<Carta> carteScartate) {
+        this.carteScartate = carteScartate;
+    }
+
     public int getSize(){
         return carteScartate.size();
     }
@@ -43,6 +51,8 @@ public class MazzoScarto extends Mazzo {
     public boolean searchCard(Carta carta){
         return carteScartate.contains(carta);
     }
-
+    public boolean isEmpty() {
+        return carteScartate.isEmpty();
+    }
 
 }

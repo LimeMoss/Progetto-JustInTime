@@ -39,14 +39,14 @@ public class PlayerService {
     @Transactional
     public Player aggiungiCartaAllaMano(Long playerId, Carta carta) {
         Player player = trovaGiocatore(playerId);
-        player.aggiungiCartaAllaMano(carta);
+        player.getMano().add(carta);
         return playerRepository.save(player);
     }
 
     @Transactional
     public Player rimuoviCartaDallaMano(Long playerId, Carta carta) {
         Player player = trovaGiocatore(playerId);
-        player.rimuoviCartaDallaMano(carta);
+        player.getMano().remove(carta); 
         return playerRepository.save(player);
     }
 

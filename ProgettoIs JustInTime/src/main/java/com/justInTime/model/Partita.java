@@ -53,7 +53,6 @@ public class Partita {
 
     public Partita() {
         this.dataInizio = new Date();
-        this.gameState = new StartGameState();
         this.giocatori = new ArrayList<>();
         this.mazzoNormale = MazzoFactory.createMazzo("pesca");
         this.mazzoScarto = MazzoFactory.createMazzo("scarto");
@@ -70,7 +69,7 @@ public class Partita {
     }
 
     public List<Player> getGiocatori() {
-        return giocatori;
+        return this.giocatori;
     }
 
     public void setGiocatori(List<Player> giocatori) {
@@ -107,8 +106,8 @@ public class Partita {
         return null;
     }
 
-    public void setMazzoScarto(MazzoScarto mazzoScarto) {
-        this.mazzoScarto = mazzoScarto;
+    public void setMazzoScarto(Mazzo scarto) {
+        this.mazzoScarto = scarto;
     }
 
     public Long getId() {
@@ -127,7 +126,7 @@ public class Partita {
         this.dataInizio = dataInizio;
     }
 
-    public Map getPlayerAchievements(){
+    public Map<Player, List<Achievements>> getPlayerAchievements(){
         return this.playerAchievements;
     }
 

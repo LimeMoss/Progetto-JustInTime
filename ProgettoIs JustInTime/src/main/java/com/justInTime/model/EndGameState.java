@@ -23,27 +23,8 @@ public class EndGameState implements GameState {
      */
     @Override
     public void execute(Partita partita) {
-        // Determina il vincitore
-        Player vincitore = determinaVincitore(partita);
 
-        if (vincitore != null) {
+ 
             partitaService.terminaPartita(partita.getId());
-        }
-    }
-
-    /**
-     * Determina il vincitore della partita.
-     * La logica attuale considera vincitore il primo giocatore che ha terminato le carte.
-     *
-     * @param partita La partita corrente.
-     * @return Il giocatore vincitore, o {@code null} se nessun vincitore è determinato.
-     */
-    private Player determinaVincitore(Partita partita) {
-        for (Player player : partita.getGiocatori()) {
-            if (player.getMano().isEmpty()) {
-                return player;
-            }
-        }
-        return null;
     }
 }

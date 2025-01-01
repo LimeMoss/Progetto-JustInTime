@@ -10,10 +10,6 @@ public interface abstractPlayer{
 
     public void setUtente(Utente Utente);
     
-    public void aggiungiCartaAllaMano(Carta carta);
-
-    public boolean rimuoviCartaDallaMano(Carta carta);
-
     public void increaseMaxScore();
 
     public Long getId();
@@ -22,8 +18,6 @@ public interface abstractPlayer{
     public void setDurataTurno(int durataTurno);
 
     public List<Carta> getMano();
-
-    public boolean isTurnoInPausa();
 
     public int getMaxScore();
 
