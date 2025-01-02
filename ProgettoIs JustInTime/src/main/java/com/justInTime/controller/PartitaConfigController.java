@@ -52,7 +52,7 @@ public class PartitaConfigController {
         return ResponseEntity.ok(playerNames);
     }
 
-    // Crea e avvia la partita
+  
     @PostMapping("/create-and-start")
     public ResponseEntity<Partita> createAndStartGame() {
         try {

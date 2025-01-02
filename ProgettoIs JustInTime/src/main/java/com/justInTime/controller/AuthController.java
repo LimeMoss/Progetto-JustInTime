@@ -20,6 +20,14 @@ public class AuthController {
         this.utenzaService = utenzaService;
     }
 
+    /**
+     * Registra un nuovo utente e reindirizza alla pagina di login
+     *
+     * @param utente      l'utente da registrare
+     * @param password2   la password di conferma
+     * @return            response entity contenente la pagina di login
+     * @throws            RuntimeException se la registrazione non riesce
+     */
     @PostMapping("/registrazione")
     public ResponseEntity<?> registraUtente(@RequestBody Utente utente, @RequestParam String password2) {
         try {
@@ -34,6 +42,18 @@ public class AuthController {
         }
     }
 
+
+    /**
+     * Effettua il login di un utente. Verifica che l'email o l'username e la password
+     * siano valide e salva l'utente nella sessione.
+     *
+     * @param usernameOrEmail l'email o l'username dell'utente
+     * @param password la password dell'utente
+     * @param session la sessione http
+     * @return la pagina di reindirizzamento. Se l'utente non esiste o se la password
+     *         non &egrave; valida, reindirizza alla pagina di login con un
+     *         parametro di query string "error" impostato a "true"
+     */
     @PostMapping("/login")
     public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
         try {
@@ -53,6 +73,13 @@ public class AuthController {
         
     }
 
+    /**
+     * Invalida la sessione corrente e reindirizza l'utente alla pagina di
+     * login.
+     *
+     * @param session la sessione http
+     * @return la pagina di reindirizzamento
+     */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
 
