@@ -30,7 +30,6 @@ com\justInTime\service\PlayerService.class
 com\justInTime\model\PauseState.class
 com\justInTime\model\MazzoPesca.class
 com\justInTime\repository\PartitaRepository.class
-com\justInTime\model\Classifica.class
 com\justInTime\repository\UtenzaRepository.class
 com\justInTime\model\Partita.class
 com\justInTime\model\Player.class

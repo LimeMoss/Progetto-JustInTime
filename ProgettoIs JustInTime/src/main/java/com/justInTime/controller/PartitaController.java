@@ -27,7 +27,7 @@ public class PartitaController {
      * @param session la sessione HTTP
      * @return ResponseEntity con il risultato dell'operazione
      */
-    @PostMapping("/play-card/}/{cartaIndex}")
+    @PostMapping("/play-card/{cartaIndex}")
     public ResponseEntity<String> playCard( @PathVariable int cartaIndex, HttpSession session) {
         try {
             // Prendi la partita dalla sessione usando l'ID
@@ -45,7 +45,7 @@ public class PartitaController {
      * @param gameState lo stato da impostare
      * @return ResponseEntity con il risultato dell'operazione
      */
-    @PostMapping("/set-game-state//{gameState}")
+    @PostMapping("/set-game-state/{gameState}")
     public ResponseEntity<String> setGameState(@PathVariable String gameState, HttpSession session) {
         try {
             // Recupera la partita dalla sessione
