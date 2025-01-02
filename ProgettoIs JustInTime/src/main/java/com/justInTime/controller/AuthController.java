@@ -34,7 +34,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Registrazione completata con successo");
         } catch (RuntimeException e) {
             String errorMessage = e.getMessage(); // Ottieni il messaggio dell'errore
-            System.err.println("Errore durante la registrazione: " + errorMessage);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
     }
