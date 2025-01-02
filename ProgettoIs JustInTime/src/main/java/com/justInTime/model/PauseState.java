@@ -41,10 +41,10 @@ public class PauseState implements GameState {
         
 
         if (isGameOver(partita)) {
-            partitaService.setGameState(partita, new EndGameState());
+            partitaService.setGameState(partita.getId(), new EndGameState());
         } else {
 
-            partitaService.setGameState(partita, new TurnState());
+            partitaService.setGameState(partita.getId(), new TurnState());
         }
     }
     

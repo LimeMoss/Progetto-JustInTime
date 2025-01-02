@@ -25,8 +25,14 @@ public class PartitaService {
     @Autowired
     private PlayerService playerService;
 
-    public void iniziaPartita(Partita partita) {
+    @Autowired
+    private MazzoScartoService mazzoScartoService;
 
+     @Autowired
+    private MazzoPescaService mazzoPescaService;
+
+    public void iniziaPartita(Long PartitaId) {
+        Partita partita=getPartita(PartitaId);
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
@@ -59,11 +65,11 @@ public class PartitaService {
             if (carta.getValore() == 99) {
                 carta.applicaEffetto(giocatoreCorrente);
             }
-            giocatoreCorrente.getMano().remove(cartaIndex);
-            partita.getMazzoScarto().aggiungi(carta);;
-            partita.getGiocatoreCorrente().setTurnoInPausa(true);;
+            playerService.rimuoviCartaDallaMano(giocatoreCorrente.getId(), cartaIndex);
+            mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
+            partita.getGiocatoreCorrente().setTurnoInPausa(true);
             partita.setGameState(new PauseState());
-            return partitaRepository.save(partita);
+            return partita;
         }
         throw new RuntimeException("Carta non giocabile");
     }
@@ -80,30 +86,34 @@ public class PartitaService {
     private boolean cartaGiocabile(Partita partita, Carta carta) {
         int specialValue = 99;
         MazzoScarto mazzoScarto = partita.getMazzoScarto();
-        
+        Carta ultimaCarta;
+    
         if (mazzoScarto != null && !mazzoScarto.isEmpty()) {
-       
-            int value = mazzoScarto.ultimaCartaScartata().getValore();
-            return carta.getValore() == value + 1 || 
-                   carta.getValore() == value - 1 || 
-                   carta.getValore() == specialValue;
+            ultimaCarta = mazzoScartoService.ultimaCartaScartata(partita.getMazzoScarto()); 
+            if (ultimaCarta != null) {
+                int value = ultimaCarta.getValore();
+                return carta.getValore() == value + 1 || 
+                       carta.getValore() == value - 1 || 
+                       carta.getValore() == specialValue;
+            }
         }
-        
-        return true;
+    
+        return true; 
     }
+    
 
     /**
      * Distribuisce 5 carte iniziali ad ogni giocatore partecipante alla partita.
      * @param partita la partita corrente
      */
-    public void distribuisciCarteIniziali(Partita partita) {
+    public void distribuisciCarteIniziali(Long PartitaId) {
+        Partita partita=getPartita(PartitaId);
         for (Player giocatore : partita.getGiocatori()) {
             for (int i = 0; i < 5; i++) {
-                playerService.aggiungiCartaAllaMano(giocatore.getId(),partita.getMazzoNormale().pescaCarta());
+                playerService.aggiungiCartaAllaMano(giocatore.getId(),mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
             }
         }
     }
-
 
     /**
      * Passa al prossimo giocatore nella partita.
@@ -130,13 +140,30 @@ public class PartitaService {
          * @param partita la partita su cui impostare lo stato
          * @param gamestate il nuovo stato della partita
          */
-    public void setGameState(Partita partita, GameState gamestate){
-
+    public void setGameState(Long partitaId, GameState gamestate){
+        Partita partita=getPartita(partitaId);
             partita.setGameState(gamestate);
 
     }
 
-    //TODO//
-    //pescacarta per la partita//
+    public Partita pescaCarta(Long PartitaId){
+        Partita partita=getPartita(PartitaId);
+        Player player=partita.getGiocatoreCorrente();
+        playerService.aggiungiCartaAllaMano(player.getId(), mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+        player.setTurnoInPausa(true);
+        partita.setGameState(new PauseState());
+
+
+        return partita;
+    }
+
+    public Partita playerReady(Long PartitaId){
+        Partita partita=getPartita(PartitaId);
+        GameState gamestate = partita.getGameState();
+        if(gamestate instanceof PauseState){
+           ((PauseState)gamestate).playerReady();
+        }
+        return partita;
+    }
         
 }

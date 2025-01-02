@@ -7,7 +7,7 @@ import java.util.List;
 
 
 
-// Implementazione del MazzoPesca
+
 public class MazzoPesca extends Mazzo {
 
     private final List<Carta> carte;

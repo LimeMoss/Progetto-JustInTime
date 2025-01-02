@@ -79,6 +79,6 @@ public class TurnState implements GameState {
         partita.setIndiceGiocatoreCorrente(prossimoIndice);
     
 
-        partitaService.setGameState(partita, new PauseState());
+        partitaService.setGameState(partita.getId(), new PauseState());
     }
 }

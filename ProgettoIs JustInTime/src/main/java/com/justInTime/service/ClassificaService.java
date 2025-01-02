@@ -1,12 +1,16 @@
 package com.justInTime.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.justInTime.model.Player;
+import com.justInTime.model.PlayerRecord;
+import com.justInTime.model.Utente;
 import com.justInTime.repository.PlayerRepository;
 
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ClassificaService {
@@ -17,12 +21,44 @@ public class ClassificaService {
         this.playerRepository = playerRepository;
     }
 
-    /**
-     * Restituisce i giocatori ordinati in base al loro punteggio massimo (maxScore) in ordine decrescente.
-     *
-     * @return Lista di giocatori ordinata per punteggio.
-     */
-    public List<Player> getClassifica() {
-        return playerRepository.findAllByOrderByMaxScoreDesc();
+
+    public List<PlayerRecord> getClassificaLocale(HttpSession Session) {
+        List<Player> players = playerRepository.findAllPlayersOrderByCountryAndMaxScore();
+
+        List<PlayerRecord> records = new ArrayList<>();
+
+        Utente utente = (Utente) Session.getAttribute("utente");
+        for (Player player : players) {
+            if (player.getUtente().getPaese().equals(utente.getPaese())) {
+                PlayerRecord record = new PlayerRecord(
+                        player.getUtente().getPaese(),
+                        player.getNome(),
+                        player.getMaxScore());
+
+                records.add(record);
+            }
+
+        }
+
+        return records;
+
+    }
+
+    public List<PlayerRecord> getClassifica() {
+        List<Player> players = playerRepository.findAllPlayersOrderByCountryAndMaxScore();
+
+        List<PlayerRecord> records = new ArrayList<>();
+
+        for (Player player : players) {
+            PlayerRecord record = new PlayerRecord(
+                    player.getUtente().getPaese(),
+                    player.getNome(),
+                    player.getMaxScore());
+
+            records.add(record);
+        }
+
+        return records;
+
     }
 }

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import jakarta.servlet.http.HttpSession;
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
 import com.justInTime.model.Utente;
@@ -259,11 +259,15 @@ public class PartitaConfigServiceTest{
     @Test
     void testCreazionePartita_NonCiSonoAbbastanzaGiocatori(){
 
+
+
         String usernameOrEmail = "user1";
         String password = "password1";
     
         Utente utente = mock(Utente.class);
         when(utente.getId()).thenReturn(1L);
+
+         HttpSession session = mock(HttpSession.class);
     
         Player player = new Player();
         player.setName("Player1");
@@ -276,7 +280,7 @@ public class PartitaConfigServiceTest{
         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password);
 
 
-        Exception e = assertThrows(IllegalArgumentException.class, () -> partitaConfigService.creaPartita() );
+        Exception e = assertThrows(IllegalArgumentException.class, () -> partitaConfigService.creaPartita(session) );
         assertEquals("Devono esserci almeno due giocatori.", e.getMessage());
 
 
@@ -299,6 +303,9 @@ public class PartitaConfigServiceTest{
         when(utente.getEmail()).thenReturn(usernameOrEmail);
         when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
         when(playerService.trovaGiocatore(1L)).thenReturn(player);
+
+         HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("utente")).thenReturn(utente);
 
 
         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password);
@@ -323,7 +330,7 @@ public class PartitaConfigServiceTest{
 
         when(partitaRepository.save(any(Partita.class))).thenReturn(mockPartita);
 
-        Partita partita = partitaConfigService.creaPartita();
+        Partita partita = partitaConfigService.creaPartita(session);
 
         assertNotNull(partita);
         assertEquals(2, partita.getGiocatori().size());

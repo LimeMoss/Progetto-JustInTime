@@ -23,10 +23,10 @@ public class StartGameState implements GameState {
     public void execute(Partita partita) {
     
         
-        partitaService.distribuisciCarteIniziali(partita);
+        partitaService.distribuisciCarteIniziali(partita.getId());
         partita.setIndiceGiocatoreCorrente(0);
         
-        partitaService.setGameState(partita, new TurnState());
+        partitaService.setGameState(partita.getId(), new TurnState());
     
     }
 }

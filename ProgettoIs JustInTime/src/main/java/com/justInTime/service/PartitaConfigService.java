@@ -14,6 +14,7 @@ import com.justInTime.model.Utente;
 import com.justInTime.repository.PartitaRepository;
 import com.justInTime.repository.PlayerRepository;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -99,7 +100,7 @@ public class PartitaConfigService {
             throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
         }
     
-        // Controllo per evitare duplicati di giocatori (stesso nome o email)
+
         for (Player giocatore : giocatoriInConfigurazione) {
             if (giocatore.getName().equals(player.getName())) {
                 throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
@@ -141,13 +142,14 @@ public class PartitaConfigService {
      *                                  massimo consentito (4)
      */
     @Transactional
-public Partita creaPartita() {
+public Partita creaPartita(HttpSession session) {
     if (giocatoriInConfigurazione.size() < 2 || giocatoriInConfigurazione.size() > 4) {
         throw new IllegalArgumentException("Devono esserci almeno due giocatori.");
     }
 
     Partita partita = new Partita();
-
+    Utente primoUtente = (Utente) session.getAttribute("utente");
+    aggiungiGiocatoreConfigNOLOGIN(primoUtente.getPlayer());
 
     for (Player giocatore : giocatoriInConfigurazione) {
 
@@ -206,7 +208,7 @@ public Partita creaPartita() {
         Partita partita = partitaRepository.findById(partitaId)
                 .orElseThrow(() -> new RuntimeException("Partita non trovata."));
         
-        // Verifica se il giocatore è già nella partita
+
         if (!partita.getGiocatori().contains(player)) {
             partita.getGiocatori().add(player);
             player.getPartite().add(partita);

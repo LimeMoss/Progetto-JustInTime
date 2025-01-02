@@ -12,6 +12,8 @@ import com.justInTime.model.Partita;
 import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/api/game-config")
 public class PartitaConfigController {
@@ -54,26 +56,15 @@ public class PartitaConfigController {
 
   
     @PostMapping("/create-and-start")
-    public ResponseEntity<Partita> createAndStartGame() {
+    public ResponseEntity<Partita> createAndStartGame(HttpSession session) {
         try {
-            Partita newPartita = partitaConfigService.creaPartita();
-            partitaService.iniziaPartita(newPartita);  // Metodo per iniziare la partita
+            Partita newPartita = partitaConfigService.creaPartita(session);
+            session.setAttribute("partita", newPartita);
+            partitaService.iniziaPartita(newPartita.getId());  
             return ResponseEntity.ok(newPartita);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
-
-
-
-    @GetMapping("/is-player-in-game")
-    public ResponseEntity<Boolean> isPlayerInGame(@RequestParam Long playerId, @RequestParam Long partitaId) {
-        try {
-            boolean isInGame = partitaConfigService.isGiocatoreInPartita(playerId, partitaId);
-            return ResponseEntity.ok(isInGame);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
-        }
-    }
 }

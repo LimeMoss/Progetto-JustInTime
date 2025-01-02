@@ -2,27 +2,20 @@ package com.justInTime.service;
 
 
 import com.justInTime.model.Carta;
-import com.justInTime.model.Mazzo;
-import com.justInTime.model.MazzoFactory;
 import com.justInTime.model.MazzoScarto;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MazzoScartoService {
 
-    private final Mazzo mazzoScarto;
-
-    public MazzoScartoService() {
-         this.mazzoScarto =  MazzoFactory.createMazzo("scarto");
-    }
 
     /**
      * Restituisce l'ultima carta scartata.
      * 
      * @return L'ultima carta scartata.
      */
-    public Carta ultimaCartaScartata() {
-        return ((MazzoScarto) mazzoScarto).ultimaCartaScartata();
+    public Carta ultimaCartaScartata(MazzoScarto mazzoScarto) {
+        return mazzoScarto.ultimaCartaScartata();
     }
 
 
@@ -31,7 +24,7 @@ public class MazzoScartoService {
      * 
      * @param carta La carta da aggiungere al mazzo scarto.
      */
-    public void aggiungiCarta(Carta carta) {
+    public void aggiungiCarta(MazzoScarto mazzoScarto, Carta carta) {
         mazzoScarto.aggiungi(carta);
     }
 
@@ -40,7 +33,7 @@ public class MazzoScartoService {
      * 
      * @param carta La carta da rimuovere dal mazzo scarto.
      */
-    public void rimuoviCarta(Carta carta) {
+    public void rimuoviCarta(MazzoScarto mazzoScarto, Carta carta) {
         mazzoScarto.rimuovi(carta);
     }
 
@@ -50,7 +43,7 @@ public class MazzoScartoService {
      * @param index L'indice della carta da restituire.
      * @return La carta al l'indice specificato del mazzo scarto.
      */
-    public Carta getCarta(int index) {
+    public Carta getCarta(MazzoScarto mazzoScarto,int index) {
         return mazzoScarto.getCarta(index);
     }
 }

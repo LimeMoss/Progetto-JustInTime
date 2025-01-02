@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.justInTime.model.Player;
+import com.justInTime.model.PlayerRecord;
 import com.justInTime.service.ClassificaService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/classifica")
@@ -19,13 +21,15 @@ public class ClassificaController {
         this.classificaService = classificaService;
     }
 
-    /**
-     * Endpoint per ottenere la classifica dei giocatori ordinata per maxScore.
-     *
-     * @return Lista di giocatori ordinata.
-     */
+
+    @GetMapping("/locale")
+    public List<PlayerRecord> getClassificaLocale(HttpSession session) {
+        return classificaService.getClassificaLocale(session);
+    }
+
+
     @GetMapping
-    public List<Player> getClassifica() {
+    public List<PlayerRecord> getClassifica() {
         return classificaService.getClassifica();
     }
 }

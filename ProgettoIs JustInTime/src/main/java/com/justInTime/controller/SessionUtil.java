@@ -11,5 +11,8 @@ public class SessionUtil {
     public static boolean isUtenteLoggato(HttpSession session) {
         Utente utente = (Utente) session.getAttribute("utente");
         return utente != null;
+ 
     }
+
+
 }

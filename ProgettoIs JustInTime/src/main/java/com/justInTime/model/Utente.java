@@ -26,14 +26,14 @@ public class Utente implements abstractUtente {
     private String username;
   
 
-    @OneToOne(mappedBy = "utente")  // Riferimento a Player tramite utente
+    @OneToOne(mappedBy = "utente")  
     @PrimaryKeyJoinColumn
     private Player player;
 
     @Transient
     private abstractPlayer abstractPlayer;
 
-    // Costruttori
+
     public Utente() {}
 
     public Utente(String nome, String cognome, Date dataNascita, String paese, String telefono, 
@@ -50,7 +50,7 @@ public class Utente implements abstractUtente {
     }
 
 
-    // Getter e Setter
+
     @Override
     public String getPaese() {
         return paese;
@@ -134,6 +134,10 @@ public class Utente implements abstractUtente {
 
     public void setId(long l) {
         this.id=l;
+    }
+
+    public Player getPlayer(){
+        return this.player;
     }
 }
 
