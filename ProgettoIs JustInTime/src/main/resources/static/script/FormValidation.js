@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.querySelector('.signin-form');
+    const modifyForm = document.querySelector('.modify-form');
     const phoneNumberInput = document.querySelector('input[name="telefono"]');
     const emailInput = document.querySelector('input[name="email"]');
     const passwordInput = document.querySelector('input[name="password"]');
@@ -167,38 +168,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     surnameField.addEventListener('input', formatSurname);
 
     form.addEventListener("submit", async function (event) {
-        // Validazione dei campi obbligatori
-        let isValid = true;
-
-        const requiredFields = [
-            emailInput,
-            passwordInput,
-            passwordCheckInput,
-            dateInput,
-            nameInput,
-            surnameInput,
-            usernameInput
-        ];
-
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.setCustomValidity('Questo campo è obbligatorio');
-            } else {
-                field.setCustomValidity('');
-            }
-            field.reportValidity();
-        });
-
-        if (!isValid) {
-            // Interrompe il flusso se ci sono errori
-            event.preventDefault();
-            alert('Per favore, riempi tutti i campi obbligatori.');
+        event.preventDefault();
+        if (!validateAll()) {
             return; // Esce prima di eseguire il codice asincrono
         }
-
-        // Se i campi sono validi, prosegue con l'invio asincrono
-        event.preventDefault();
 
         const nome = nameInput.value;
         const cognome = surnameInput.value;
@@ -230,16 +203,89 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 body: JSON.stringify({ utente, password2 })
             });
 
-            if (response.ok) {
-                window.location.href = "/login";
-            } else {
+            if (!response.ok) {
                 const errorMessage = await response.text();
-                alert("Errore durante la registrazione");
+                alert("Errore durante la registrazione: " + errorMessage);
             }
         } catch (error) {
             alert("Si è verificato un errore");
         }
     });
+
+    modifyForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        if (!validateAll()) {
+            return; // Esce prima di eseguire il codice asincrono
+        }
+
+        const nome = nameInput.value;
+        const cognome = surnameInput.value;
+        const username = usernameInput.value;
+        const telefono = phoneNumberInput.value;
+        const dataNascita = dateInput.value;
+        const paese = document.getElementById("country").value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        const password2 = passwordCheckInput.value;
+
+        const utente = {
+            nome,
+            cognome,
+            username,
+            telefono,
+            dataNascita,
+            paese,
+            email,
+            password
+        };
+
+        try {
+            const response = await fetch('/modifyaccount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ utente, password2 })
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                alert("Errore durante la modifica: " + errorMessage);
+            }
+        } catch (error) {
+            alert("Si è verificato un errore");
+        }
+    });
+
+    function validateAll(){
+        let isValid = true;
+
+        const requiredFields = [
+            emailInput,
+            passwordInput,
+            passwordCheckInput,
+            dateInput,
+            nameInput,
+            surnameInput,
+            usernameInput
+        ];
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.setCustomValidity('Questo campo è obbligatorio');
+            } else {
+                field.setCustomValidity('');
+            }
+            field.reportValidity();
+        });
+
+        if (!isValid) {
+            alert('Per favore, riempi tutti i campi obbligatori.');
+        }
+
+        return isValid;
+    }
 
 
 });

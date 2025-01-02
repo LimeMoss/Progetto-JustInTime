@@ -30,7 +30,7 @@ public class Partita {
     private GameState gameState;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
         name = "partita_giocatori",
         joinColumns = @JoinColumn(name = "partita_id"),

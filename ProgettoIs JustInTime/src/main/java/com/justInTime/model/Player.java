@@ -68,7 +68,7 @@ public class Player implements abstractPlayer {
 
 
 
-    @ManyToMany(mappedBy = "giocatori", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "giocatori", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Partita> partite = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -76,7 +76,7 @@ public class Player implements abstractPlayer {
     @JoinColumn(name = "utente_id", referencedColumnName = "id")
     private Utente utente;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
         name = "giocatori_achievement",
         joinColumns = @JoinColumn(name = "player_id"),

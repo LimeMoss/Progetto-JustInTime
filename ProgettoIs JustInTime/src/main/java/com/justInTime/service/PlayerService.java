@@ -32,6 +32,8 @@ public class PlayerService {
             .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
         Player player = new Player(name);
         player.setUtente(utenza);  
+        utenza.setPlayer(player);
+        utenzaRepository.save(utenza);
         return playerRepository.save(player);
     }
 
