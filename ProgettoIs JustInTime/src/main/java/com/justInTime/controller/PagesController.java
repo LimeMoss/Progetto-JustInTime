@@ -82,9 +82,9 @@ public class PagesController {
 
     @GetMapping("/userHomepage")
     public String userHomepage(HttpSession session) {
-        /*if (!SessionUtil.isUtenteLoggato(session)) {
-            return "redirect:/login"; 
-        }*/
+        if (!SessionUtil.isUtenteLoggato(session)) {
+            return "redirect:/login";
+        }
         return "userHomepage";
     }
 
