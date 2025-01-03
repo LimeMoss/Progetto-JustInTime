@@ -82,9 +82,9 @@ public class PagesController {
 
     @GetMapping("/userHomepage")
     public String userHomepage(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
+        /*if (!SessionUtil.isUtenteLoggato(session)) {
             return "redirect:/login"; 
-        }
+        }*/
         return "userHomepage";
     }
 
@@ -122,9 +122,9 @@ public class PagesController {
 
     @GetMapping("/feedbacks")
     public String feedback(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
+        /*if (!SessionUtil.isUtenteLoggato(session)) {
             return "redirect:/login";  
-        }
+        }*/
         return "feedback";
     }
 }
