@@ -51,4 +51,7 @@ public class UtenzaController {
         Utente utente = (Utente)session.getAttribute("utente");
         utenzaService.eliminaUtente(utente.getId());
     }
+
+
+
 }
