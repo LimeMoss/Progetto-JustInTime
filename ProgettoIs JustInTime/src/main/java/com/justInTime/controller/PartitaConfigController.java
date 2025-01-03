@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.justInTime.model.LoginResponse;
 import com.justInTime.model.Partita;
@@ -14,7 +15,6 @@ import com.justInTime.model.Utente;
 import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
 import com.justInTime.service.UtenzaService;
-
 
 import jakarta.servlet.http.HttpSession;
 
@@ -91,28 +91,35 @@ public class PartitaConfigController {
         return ResponseEntity.ok(playerNames);
     }
 
+
+
     @PostMapping("/create-and-start")
-    public ResponseEntity<String> createAndStartGame(HttpSession session) {
+    public Object createAndStartGame(HttpSession session) {
         try {
-            System.out.println("Creazione della partita in corso...");
+      
             Partita newPartita = partitaConfigService.creaPartita(session);
-            System.out.println("Partita creata con successo: " + newPartita);
     
+           
             session.setAttribute("partita", newPartita);
-            System.out.println("Partita salvata nella sessione.");
     
+     
             partitaService.iniziaPartita(newPartita.getId());
-            System.out.println("Partita avviata con ID: " + newPartita.getId());
     
-            return ResponseEntity.ok(newPartita.toString());  
+      
+            ModelAndView modelAndView = new ModelAndView("match"); 
+            modelAndView.addObject("partita", newPartita);  
+    
+            return modelAndView;  
         } catch (RuntimeException e) {
-            System.out.println("Errore durante la creazione e l'avvio della partita: " + e.getMessage());
-            return ResponseEntity.badRequest().body("Si è verificato un errore durante il processo.");
+     
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Si è verificato un errore durante il processo.");
         }
     }
+    
 
     @PostMapping("/play-again")
-public ResponseEntity<Partita> playAgain(HttpSession session) {
+public Object playAgain(HttpSession session) {
     try {
         Partita partitaPrecedente = (Partita) session.getAttribute("partita");
         if (partitaPrecedente == null) {
@@ -124,9 +131,16 @@ public ResponseEntity<Partita> playAgain(HttpSession session) {
        
         session.setAttribute("partita", nuovaPartita);
 
-        return ResponseEntity.ok(nuovaPartita);
+        partitaService.iniziaPartita(nuovaPartita.getId());
+
+        
+        ModelAndView modelAndView = new ModelAndView("match"); 
+        modelAndView.addObject("partita", nuovaPartita);  
+    
+            return modelAndView;  
     } catch (RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+              return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Si è verificato un errore durante il processo.");
     }
 }
 

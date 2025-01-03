@@ -106,7 +106,7 @@ public class PartitaController {
         }
     }
 
-    @PostMapping("playerReady")
+    @PostMapping("/playerReady")
     public ResponseEntity<?> nextPlayerReady(HttpSession session) {
     Partita partita = (Partita) session.getAttribute("partita");
 

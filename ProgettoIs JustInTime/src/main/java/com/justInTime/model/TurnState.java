@@ -3,10 +3,12 @@ package com.justInTime.model;
 import org.springframework.stereotype.Component;
 import com.justInTime.service.PartitaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 @Component
 public class TurnState implements GameState {
-
+    @Autowired
+    private ApplicationContext applicationContext;
     @Autowired
     private PartitaService partitaService;
 
@@ -85,7 +87,11 @@ public class TurnState implements GameState {
 
         partita.setIndiceGiocatoreCorrente(prossimoIndice);
 
-        partitaService.setGameState(partita.getId(), new PauseState());
+        
+         PauseState pauseState = applicationContext.getBean(PauseState.class);
+        partitaService.setGameState(partita.getId(), pauseState);
+
+    
     }
 
     private boolean tuttiEsclusi(Partita partita) {
