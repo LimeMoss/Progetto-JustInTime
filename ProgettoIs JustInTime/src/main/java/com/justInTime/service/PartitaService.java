@@ -13,6 +13,7 @@ import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
+import com.justInTime.repository.PlayerRepository;
 
 
 @Service
@@ -20,6 +21,9 @@ public class PartitaService {
 
     @Autowired
     private PartitaRepository partitaRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
 
 
     @Autowired
@@ -134,6 +138,9 @@ public class PartitaService {
     public void terminaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
         partita.setGameState(new EndGameState());
+        for (Player giocatore : partita.getGiocatori()) {
+            playerRepository.save(giocatore);
+        }
         partitaRepository.save(partita);
     }
 
@@ -168,5 +175,19 @@ public class PartitaService {
         }
         return partita;
     }
+
+    public Partita tempoTerminato(Long partitaId) {
+        Partita partita = getPartita(partitaId);
+    
         
+        EndGameState endGameState = new EndGameState();
+    
+     
+        partita.setGameStateArgument(endGameState, "TempoTerminato");
+    
+        return partita; 
+    }
+
+
+   
 }

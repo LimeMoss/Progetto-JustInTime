@@ -283,4 +283,29 @@ public class PartitaConfigService {
 
         
     }
+
+    @Transactional
+public Partita creaNuovaPartitaDaPartitaPrecedente(Long partitaId) {
+    Partita partitaPrecedente = partitaRepository.findById(partitaId)
+            .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+
+
+    Partita nuovaPartita = new Partita();
+    nuovaPartita.setGameState(new StartGameState());
+
+
+    for (Player giocatore : partitaPrecedente.getGiocatori()) {
+        nuovaPartita.getGiocatori().add(giocatore);
+        giocatore.getPartite().add(nuovaPartita);
+    }
+
+    partitaRepository.save(nuovaPartita);
+    for (Player giocatore : nuovaPartita.getGiocatori()) {
+        playerRepository.save(giocatore);
+    }
+
+    return nuovaPartita;
+}
+
+    
 }
