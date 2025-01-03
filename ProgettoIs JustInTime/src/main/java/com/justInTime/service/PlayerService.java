@@ -129,6 +129,20 @@ public class PlayerService {
         return player.getPartite();
     }
 
+    @Transactional
+    public Player addVictory(Long playerId){
+        
+        Player player = trovaGiocatore(playerId);
+        player.setVittorie(player.getVittorie()+1);
+        return playerRepository.save(player);
 
 
+    }
+
+    @Transactional
+    public Player addGame(Long playerId){
+        Player player = trovaGiocatore(playerId);
+        player.setPartiteGiocate(player.getPartiteGiocate()+1);
+       return playerRepository.save(player);
+    }
 }

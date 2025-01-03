@@ -23,6 +23,27 @@ public class Player implements abstractPlayer {
 
     private String nome;
 
+    private int vittorie;
+    private int partiteGiocate;
+
+    public int getVittorie() {
+        return vittorie;
+    }
+
+
+    public void setVittorie(int vittorie) {
+        this.vittorie = vittorie;
+    }
+
+
+    public int getPartiteGiocate() {
+        return this.partiteGiocate;
+    }
+
+
+    public void setPartiteGiocate(int partiteGiocate) {
+        this.partiteGiocate = partiteGiocate;
+    }
 
 
     public String getNome() {
@@ -76,10 +97,12 @@ public class Player implements abstractPlayer {
     @Column(name="max_score")
     private int maxScore;
 
-    // Costruttori
+
     public Player() {
-        mano = new ArrayList<Carta>();
+        this.mano = new ArrayList<Carta>();
         this.durataTurno = 15;
+        this.partiteGiocate=0;
+        this.vittorie= 0;
     }
 
 
@@ -87,7 +110,9 @@ public class Player implements abstractPlayer {
         this.nome=name;
         this.maxScore = maxScore;
         this.durataTurno = 15;
-        mano = new ArrayList<Carta>();
+        this.mano = new ArrayList<Carta>();
+        this.partiteGiocate=0;
+        this.vittorie= 0;
     }
 
     public Player(String name) {
