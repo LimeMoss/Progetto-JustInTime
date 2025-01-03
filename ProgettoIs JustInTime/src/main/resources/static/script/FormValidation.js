@@ -169,7 +169,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     surnameField.addEventListener('input', formatSurname);
 
     form.addEventListener("submit", async function (event) {
-        console.log("Submit event catturato!");
         event.preventDefault();
         if (!validateAll()) {
             return; // Esce prima di eseguire il codice asincrono

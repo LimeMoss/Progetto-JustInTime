@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/")
 public class AuthController {
@@ -45,25 +47,28 @@ public class AuthController {
      * siano valide e salva l'utente nella sessione.
      *
      * @param usernameOrEmail l'email o l'username dell'utente
-     * @param password la password dell'utente
-     * @param session la sessione http
+     * @param password        la password dell'utente
+     * @param session         la sessione http
      * @return la pagina di reindirizzamento. Se l'utente non esiste o se la password
-     *         non &egrave; valida, reindirizza alla pagina di login con un
-     *         parametro di query string "error" impostato a "true"
+     * non &egrave; valida, reindirizza alla pagina di login con un
+     * parametro di query string "error" impostato a "true"
      */
     @PostMapping("/login")
-    public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
+    public ResponseEntity<Map<String, String>> login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
         try {
+            // Effettua il login utilizzando il servizio
             Utente utente = utenzaService.login(usernameOrEmail, password);
-    
+
+            // Salva l'utente nella sessione
             session.setAttribute("utente", utente);
 
-            return "redirect:/homepage";
+            // Risposta di successo
+            return ResponseEntity.ok(Map.of("message", "Login effettuato con successo."));
         } catch (RuntimeException e) {
-        return "redirect:/login?error=true";
+            // Gestione degli errori
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Credenziali non valide."));
         }
-
-
     }
 
     

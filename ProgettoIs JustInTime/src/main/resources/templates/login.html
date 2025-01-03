@@ -64,16 +64,16 @@
     async function handleLogin() {
       const usernameOrEmail = document.getElementById('username').value;
       const password = document.getElementById('password').value;
-    
+
       if (!usernameOrEmail || !password) {
         document.getElementById('error-message').textContent = 'Per favore, compila tutti i campi.';
         return;
       }
-    
+
       const loginData = new URLSearchParams();
       loginData.append('usernameOrEmail', usernameOrEmail);
       loginData.append('password', password);
-    
+
       try {
         const response = await fetch('/login', {
           method: 'POST',
@@ -82,7 +82,7 @@
           },
           body: loginData.toString()
         });
-    
+
         if (response.ok) {
           window.location.href = '/homepage';
         } else {
@@ -93,7 +93,7 @@
         document.getElementById('error-message').textContent = 'Errore di connessione, riprova.';
       }
     }
-    
+
       </script>
     </body>
     </html>
