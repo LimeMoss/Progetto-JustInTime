@@ -54,20 +54,16 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
         try {
-       
             Utente utente = utenzaService.login(usernameOrEmail, password);
-
     
             session.setAttribute("utente", utente);
 
-
             return "redirect:/homepage";
         } catch (RuntimeException e) {
-
         return "redirect:/login?error=true";
-    }
+        }
 
-        
+
     }
 
     
@@ -81,8 +77,9 @@ public class AuthController {
      */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-
-        session.invalidate();
+        if (session != null) {
+            session.invalidate(); // Invalida la sessione
+        }
         return "redirect:/login"; 
     }
 }
