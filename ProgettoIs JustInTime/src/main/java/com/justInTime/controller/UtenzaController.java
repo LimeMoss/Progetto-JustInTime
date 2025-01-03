@@ -1,6 +1,7 @@
 package com.justInTime.controller;
 
 import com.justInTime.model.Utente;
+import com.justInTime.model.paeseUtenzaDTO;
 import com.justInTime.service.PlayerService;
 import com.justInTime.service.UtenzaService;
 
@@ -38,7 +39,13 @@ public class UtenzaController {
         Utente utente = (Utente)session.getAttribute("utente");
         return utenzaService.trovaUtente(utente.getId());
     }
-    @GetMapping
+
+    @GetMapping("/trovaUtenzaPaese")
+    public paeseUtenzaDTO trovaUtenzaPaese(HttpSession session) {
+        Utente utente = (Utente)session.getAttribute("utente");
+        return utenzaService.trovaUtentePaese(utente.getId());
+    }
+    @GetMapping("/trovaTutteUtenze")
     public List<Utente> trovaTutteUtenze() {
         return utenzaService.trovaTutteUtenze();
     }
