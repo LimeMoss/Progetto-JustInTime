@@ -14,9 +14,10 @@ async function loadGlobalHighscores() {
 
             playerDiv.innerHTML = `
                 <p class="position">${index + 1}</p>
-                <p class="name">${player.name}</p>
-                <p class="points">${player.points} pt</p>
+                <p class="name">${player.nome}</p>
+                <p class="points">${player.maxScore} pt</p>
             `;
+
 
             highscoreList.appendChild(playerDiv);
         });
