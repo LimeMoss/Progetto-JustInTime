@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Gestione del bottone "Elimina account"
     document.getElementById("deletebutton").addEventListener("click", () => {
         if (confirm("Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.")) {
-            fetch('/rimuoviUtenza', {
+            fetch('/utenze/rimuoviUtenza', {
                 method: 'DELETE',
                 credentials: 'include'  // Include i cookie per gestire la sessione
             })
