@@ -62,10 +62,10 @@ public class AuthController {
 
 
             return "redirect:/homepage";
-        } catch (IllegalArgumentException e) {
-          
-            return "redirect:/login?error=true";
-        }
+        } catch (RuntimeException e) {
+
+        return "redirect:/login?error=true";
+    }
 
         
     }
