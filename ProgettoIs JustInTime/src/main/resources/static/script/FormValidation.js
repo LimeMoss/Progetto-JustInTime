@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const nameInput = document.querySelector('input[name="nome"]');
     const surnameInput = document.querySelector('input[name="cognome"]');
     const usernameInput = document.querySelector('input[name="username"]');
-    const prefisso=document.querySelector('input[name="countryCode"]');
+    const prefisso=document.querySelector('select[name="countryCode"]');
 
     // Event listeners for validations
     dateInput.addEventListener('change', validateDate);
@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     surnameField.addEventListener('input', formatSurname);
 
     form.addEventListener("submit", async function (event) {
+        console.log("Submit event catturato!");
         event.preventDefault();
         if (!validateAll()) {
             return; // Esce prima di eseguire il codice asincrono
