@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.justInTime.model.PlayerRecord;
+import com.justInTime.model.SinglePlayerDataDTO;
 import com.justInTime.service.ClassificaService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,8 +29,15 @@ public class ClassificaController {
     }
 
 
+
     @GetMapping
     public List<PlayerRecord> getClassifica() {
         return classificaService.getClassifica();
     }
+
+    @GetMapping("/singlePlayerData")
+    public SinglePlayerDataDTO getSinglePlayerRecord(HttpSession session) {
+        return classificaService.getSinglePlayer(session);
+    }
+
 }

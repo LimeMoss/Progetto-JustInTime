@@ -1,6 +1,6 @@
 async function loadClassificaLocale() {
     try {
-        const response = await fetch('/locale');
+        const response = await fetch('/classifica/locale');
         const players = await response.json();
 
         console.log("Risposta JSON ricevuta:", players);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.justInTime.model.Player;
 import com.justInTime.model.PlayerRecord;
+import com.justInTime.model.SinglePlayerDataDTO;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.PlayerRepository;
 
@@ -66,4 +67,31 @@ public class ClassificaService {
         return records;
 
     }
+
+ 
+
+    /**
+     * Ritorna i dati del giocatore loggato, se presente fra quelli presenti nel sistema.
+     * @param session l'oggetto HttpSession del giocatore loggato
+     * @return un oggetto SinglePlayerDataDTO contenente i dati del giocatore,
+     *         o null se non viene trovato alcun giocatore con lo username corrispondente
+     */
+     public SinglePlayerDataDTO getSinglePlayer(HttpSession session) {
+        List<Player> players = playerRepository.findAllPlayersOrderByCountryAndMaxScore();
+    
+        Utente utente = (Utente) session.getAttribute("utente");
+    
+        for (Player player : players) {
+            if (player.getUtente().getUsername().equals(utente.getUsername())) { 
+                return new SinglePlayerDataDTO(
+                    player.getPartiteGiocate(),
+                    player.getVittorie(),
+                    player.getMaxScore()
+                );
+            }
+        }
+    
+        return null;
+    }
+    
 }

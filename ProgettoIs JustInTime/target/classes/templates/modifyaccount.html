@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica account</title>
-    <link rel="stylesheet" href="../css/modifyaccount.css">
+    <link rel="stylesheet" href="../css/registrazione.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
-    <script src="../script/FormValidationModify.js"></script>
+    <script src="../script/FormValidation.js"></script>
 
     <script>
         function togglePasswordMessage() {
@@ -119,18 +119,18 @@
                         <option value="+967">+967</option>
                     </select>
 
-                    <input type="tel" id="telefono" placeholder="111 111 1111" name="phoneNumber">
+                    <input type="tel" id="telefono" placeholder="111 111 1111" name="telefono">
                 </div>
             </div>
             <div class="input-group">
                 <label for="dataNascita">Data di nascita</label>
-                <input type="date" id="dataNascita" placeholder="gg/mm/aaaa" name="birthDate">
+                <input type="date" id="dataNascita" placeholder="gg/mm/aaaa" name="dataNascita">
             </div>
 
             <div class="input-group">
                 <label for="country">Nazione</label>
 
-                <select class="input-field" id="country" name="country">
+                <select class="input-field" id="country" name="paese">
                     <option value="">Seleziona la nazione</option>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Algeria">Algeria</option>
@@ -213,7 +213,7 @@
             </div>
             <div class="input-group">
                 <label for="confirmpassword">Conferma Password</label>
-                <input type="password" id="confirmpassword" placeholder="Inserisci password" name="passwordCheck">
+                <input type="password" id="confirmpassword" placeholder="Inserisci password" name="password2">
             </div>
 
             <div class="input-group">

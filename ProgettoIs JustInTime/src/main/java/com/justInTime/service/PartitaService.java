@@ -36,6 +36,9 @@ public class PartitaService {
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
+        for(Player player: partita.getGiocatori()){
+            playerService.addGame(player.getId());
+        }
         partita.setGameState(new StartGameState());
     }
     

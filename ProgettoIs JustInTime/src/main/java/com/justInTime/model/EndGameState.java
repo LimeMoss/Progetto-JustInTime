@@ -24,7 +24,7 @@ public class EndGameState implements GameState {
     @Override
     public void execute(Partita partita) {
 
- 
+            
             partitaService.terminaPartita(partita.getId());
     }
 }
