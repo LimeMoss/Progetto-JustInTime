@@ -14,9 +14,9 @@ public class PagesController {
     @GetMapping({"/", "/homepage"})
     public String viewHome(HttpSession session) {
         if (!SessionUtil.isUtenteLoggato(session)) {
-            return "redirect:/login";  
+            return "homepage";
         }
-        return "homepage";
+        return "redirect:/userHomepage";
     }
 
     @GetMapping("/login")
@@ -53,9 +53,6 @@ public class PagesController {
 
     @GetMapping("/rules")
     public String rules(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
-            return "redirect:/login";  
-        }
         return "rules";
     }
 
