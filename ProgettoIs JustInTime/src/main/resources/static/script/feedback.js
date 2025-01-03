@@ -13,10 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             selectedStars = index + 1;
-
         });
     });
-
 
     const submitButton = document.querySelector('.submit-button');
     const feedbackTextbox = document.querySelector('.feedback-textbox');
@@ -54,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 feedbackTextbox.value = '';
                 selectedStars = 0;
                 stars.forEach(star => star.classList.add('disabled'));
+
+                // Reindirizzamento alla homepage
+                window.location.href = '/userHomepage';
             } else {
                 const error = await response.text();
                 alert(`Errore: ${error}`);

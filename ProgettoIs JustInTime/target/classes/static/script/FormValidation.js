@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const nameInput = document.querySelector('input[name="nome"]');
     const surnameInput = document.querySelector('input[name="cognome"]');
     const usernameInput = document.querySelector('input[name="username"]');
+    const prefisso=document.querySelector('select[name="countryCode"]');
 
     // Event listeners for validations
     dateInput.addEventListener('change', validateDate);
@@ -176,7 +177,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const nome = nameInput.value;
         const cognome = surnameInput.value;
         const username = usernameInput.value;
-        const telefono = phoneNumberInput.value;
+        const telefono = prefisso.value +" "+ phoneNumberInput.value;
         const dataNascita = dateInput.value;
         const paese = document.getElementById("country").value;
         const email = emailInput.value;
@@ -195,17 +196,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         try {
-            const response = await fetch('/registrazione', {
+            const response = await fetch(`/registrazione?password2=${encodeURIComponent(password2)}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ utente, password2 })
+                body: JSON.stringify(utente) // Invia solo l'oggetto "utente" nel corpo
             });
 
             if (!response.ok) {
                 const errorMessage = await response.text();
                 alert("Errore durante la registrazione: " + errorMessage);
+            }else{
+                window.location.href = "/login";
             }
         } catch (error) {
             alert("Si è verificato un errore");
@@ -221,7 +224,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const nome = nameInput.value;
         const cognome = surnameInput.value;
         const username = usernameInput.value;
-        const telefono = phoneNumberInput.value;
+        const telefono = prefisso.value +" "+ phoneNumberInput.value;
         const dataNascita = dateInput.value;
         const paese = document.getElementById("country").value;
         const email = emailInput.value;
@@ -240,17 +243,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         try {
-            const response = await fetch('/modifyaccount', {
+            const response = await fetch(`/modifyaccount?password2=${encodeURIComponent(password2)}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ utente, password2 })
+                body: JSON.stringify(utente) // Invia solo l'oggetto "utente" nel corpo
             });
 
             if (!response.ok) {
                 const errorMessage = await response.text();
                 alert("Errore durante la modifica: " + errorMessage);
+            }else{
+                window.location.href = "/userHomepage";
             }
         } catch (error) {
             alert("Si è verificato un errore");
