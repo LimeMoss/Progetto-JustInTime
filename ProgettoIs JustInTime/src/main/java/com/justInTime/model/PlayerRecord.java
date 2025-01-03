@@ -1,6 +1,5 @@
 package com.justInTime.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PlayerRecord {
 

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -81,10 +82,11 @@ public class AuthController {
      * @return la pagina di reindirizzamento
      */
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+      public ModelAndView logout(HttpSession session) {
+      
         if (session != null) {
             session.invalidate(); // Invalida la sessione
         }
-        return "redirect:/login"; 
+        return new ModelAndView("login");
     }
 }
