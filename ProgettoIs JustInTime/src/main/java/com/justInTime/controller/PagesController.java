@@ -12,10 +12,7 @@ import jakarta.servlet.http.HttpSession;
 public class PagesController {
 
     @GetMapping({"/", "/homepage"})
-    public String viewHome(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
-            return "redirect:/login";  
-        }
+    public String viewHome() {
         return "homepage";
     }
 
@@ -61,9 +58,9 @@ public class PagesController {
 
     @GetMapping("/classificaGlobale")
     public String classificaGlobale(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
+        /*if (!SessionUtil.isUtenteLoggato(session)) {
             return "redirect:/login";  
-        }
+        }*/
         return "classificaGlobale";
     }
 

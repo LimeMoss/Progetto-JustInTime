@@ -49,6 +49,10 @@ public class ClassificaService {
 
         List<PlayerRecord> records = new ArrayList<>();
 
+        // Log per debug
+        System.out.println("Players trovati: " + players.size());
+        players.forEach(player -> System.out.println(player.getNome()));
+
         for (Player player : players) {
             PlayerRecord record = new PlayerRecord(
                     player.getUtente().getPaese(),
