@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/")
@@ -31,16 +30,14 @@ public class AuthController {
     @PostMapping("/registrazione")
     public ResponseEntity<?> registraUtente(@RequestBody Utente utente, @RequestParam String password2) {
         try {
-   
             utenzaService.registerUser(utente, password2);
-     
-            RedirectView redirectView = new RedirectView("/login");
-            return new ResponseEntity<>(redirectView, HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Registrazione completata con successo");
         } catch (RuntimeException e) {
-            RedirectView redirectView = new RedirectView("/login?error=" + "Registrazione non andata a buon fine");
-            return new ResponseEntity<>(redirectView, HttpStatus.BAD_REQUEST);
+            String errorMessage = e.getMessage(); // Ottieni il messaggio dell'errore
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
     }
+    
 
 
     /**
@@ -72,6 +69,8 @@ public class AuthController {
 
         
     }
+
+    
 
     /**
      * Invalida la sessione corrente e reindirizza l'utente alla pagina di

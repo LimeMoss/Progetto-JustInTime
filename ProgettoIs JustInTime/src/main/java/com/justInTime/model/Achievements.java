@@ -22,7 +22,7 @@ public class Achievements{
     private String descrizione;
     private boolean unlocked;
 
-    @ManyToMany(mappedBy = "achievements", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "achievements", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Player> players= new ArrayList<>();
 
     public Achievements(){

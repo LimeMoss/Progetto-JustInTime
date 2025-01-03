@@ -48,8 +48,13 @@ public class PartitaConfigService {
      *                                  aggiunto o se il numero di giocatori da
      *                                  aggiungere supera il massimo consentito (4)
      */
-    public void aggiungiGiocatoreConfig(String usernameOrEmail, String password) {
-    
+    public void aggiungiGiocatoreConfig(String usernameOrEmail, String password, HttpSession session) {
+
+        Utente SessionUser = (Utente) session.getAttribute("utente");
+        if (usernameOrEmail.equals(SessionUser.getUsername())) {
+            throw new IllegalArgumentException("L'utente è già stato aggiunto");
+        }
+
         if (giocatoriInConfigurazione.size() >= 4) {
             throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
         }
@@ -110,7 +115,7 @@ public class PartitaConfigService {
 
     
     
-        giocatoriInConfigurazione.add(player);
+        giocatoriInConfigurazione.addFirst(player);
     }
     
     
@@ -142,14 +147,19 @@ public class PartitaConfigService {
      *                                  massimo consentito (4)
      */
     @Transactional
-public Partita creaPartita(HttpSession session) {
+    public Partita creaPartita(HttpSession session) {
+
+    Utente primoUtente = (Utente) session.getAttribute("utente");
+    AssociazionePlayerUtenzaSession(primoUtente);
+
+    aggiungiGiocatoreConfigNOLOGIN(primoUtente.getPlayer());
+
     if (giocatoriInConfigurazione.size() < 2 || giocatoriInConfigurazione.size() > 4) {
         throw new IllegalArgumentException("Devono esserci almeno due giocatori.");
     }
 
     Partita partita = new Partita();
-    Utente primoUtente = (Utente) session.getAttribute("utente");
-    aggiungiGiocatoreConfigNOLOGIN(primoUtente.getPlayer());
+
 
     for (Player giocatore : giocatoriInConfigurazione) {
 
@@ -254,5 +264,23 @@ public Partita creaPartita(HttpSession session) {
         return player.getPartite().stream()
                 .anyMatch(partita -> partita.getId().equals(partitaId));
     }
+    public void AssociazionePlayerUtenzaSession(Utente primoUtente){
+        try {
+            
+            playerService.trovaGiocatore(primoUtente.getId());
+
+            
+        } catch (RuntimeException e) {
     
+            if (e.getMessage().contains("Giocatore non trovato")) {
+
+            
+               playerService.creaGiocatore(primoUtente.getUsername(), primoUtente.getId());
+            } else {
+                throw e; 
+            }
+        }
+
+        
+    }
 }
