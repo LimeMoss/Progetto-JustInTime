@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.justInTime.service.PartitaService;
+import com.justInTime.service.PlayerService;
 
 @Component
 public class PauseState implements GameState {
     
     @Autowired
     private PartitaService partitaService;
+    @Autowired
+    private PlayerService playerService;
     
     private volatile boolean nextPlayerReady = false;
 
@@ -70,6 +73,7 @@ public class PauseState implements GameState {
     private boolean isGameOver(Partita partita) {
         for (Player player : partita.getGiocatori()) {
             if (player.getMano().isEmpty()) {
+                playerService.addVictory(player.getId());
                 return true;
             }
         }
