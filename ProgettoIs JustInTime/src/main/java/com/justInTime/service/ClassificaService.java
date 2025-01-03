@@ -49,16 +49,17 @@ public class ClassificaService {
 
         List<PlayerRecord> records = new ArrayList<>();
 
-        // Log per debug
-        System.out.println("Players trovati: " + players.size());
-        players.forEach(player -> System.out.println(player.getNome()));
+        /*// Log per debug
+        System.out.println("Player trovati nel repository:");
+        players.forEach(player -> System.out.println(player.getNome() + " - " + player.getMaxScore()));
+
+        System.out.println("JSON restituito: " + records);*/
 
         for (Player player : players) {
             PlayerRecord record = new PlayerRecord(
                     player.getUtente().getPaese(),
                     player.getNome(),
                     player.getMaxScore());
-
             records.add(record);
         }
 

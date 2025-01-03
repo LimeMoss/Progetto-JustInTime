@@ -7,21 +7,21 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/classificalocale.css">
+    <script src="../script/classificaLocale.js"></script>
 </head>
 <body>
 <div id="header-container">
     <header class="header">
         <div class="logo">
-            <a title=""  href="/userHomepage" class="logo-image" id="logo-image">
+            <a title="" href="/userHomepage" class="logo-image" id="logo-image">
                 <img src="../images/logo.png" alt="">
             </a>
-            <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
-            </div>
+            <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span></div>
         </div>
         <nav class="nav-links">
             <a href="/rules">Regolamento</a>
             <div class="logo">
-                <a title=""  href="" class="logo-image" id="user-image">
+                <a title="" href="" class="logo-image" id="user-image">
                     <img src="../images/user.png" alt="">
                 </a>
             </div>
@@ -32,16 +32,13 @@
 
 <div class="highscore-container">
     <div class="top-buttons">
-        <button class="top-button" id="homebutton">Home</button>
+        <button class="top-button" id="homebutton" onclick="window.location.href='/userHomepage'" >Home</button>
         <h1 id="localtitle">Classifica Locale</h1>
-        <button class="top-button">Classifica globale</button>
+        <button class="top-button" onclick="window.location.href='/classificaGlobale'">Classifica globale </button>
     </div>
-    <h2>Nazionalità: Italia</h2>
-    <div class="highscore-players">
-        <p class="position">1</p><p class="name">CorsaroMaster</p><p class="points">1915pt</p>
-    </div>
-    <div class="highscore-players">
-        <p class="position">1</p><p class="name">CorsaroMaster1111111111</p><p class="points">1915pt</p>
+    <h2 id="nazionalita">Nazionalità: Italia</h2>
+    <div id="highscore-list" class="highscore-list">
+        <!-- I giocatori verranno aggiunti dinamicamente dal JS -->
     </div>
 </div>
 
@@ -56,5 +53,4 @@
     </footer>
 </div>
 </body>
-
 </html>

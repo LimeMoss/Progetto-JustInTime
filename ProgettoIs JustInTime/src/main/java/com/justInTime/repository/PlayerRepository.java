@@ -23,9 +23,5 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Query("SELECT p FROM Player p JOIN p.utente u ORDER BY u.paese ASC, p.maxScore DESC")
     List<Player> findAllPlayersOrderByCountryAndMaxScore();
 
-    /*@Query("SELECT p FROM Player p ORDER BY p.maxScore DESC")
-    List<Player> findAllPlayersOrderByCountryAndMaxScore();*/
-
-
 
 }

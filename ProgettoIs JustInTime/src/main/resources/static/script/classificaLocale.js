@@ -1,9 +1,8 @@
-async function loadGlobalHighscores() {
+async function loadClassificaLocale() {
     try {
-        const response = await fetch('/classifica');
+        const response = await fetch('/classifica/locale');
         const players = await response.json();
 
-        // Aggiungi un log per vedere la risposta JSON
         console.log("Risposta JSON ricevuta:", players);
 
         const highscoreList = document.getElementById('highscore-list');
@@ -26,4 +25,4 @@ async function loadGlobalHighscores() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadGlobalHighscores);
+document.addEventListener('DOMContentLoaded', loadClassificaLocale);

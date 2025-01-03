@@ -58,17 +58,17 @@ public class PagesController {
 
     @GetMapping("/classificaGlobale")
     public String classificaGlobale(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
+        /*if (!SessionUtil.isUtenteLoggato(session)) {
             return "redirect:/login";  
-        }
+        }*/
         return "classificaGlobale";
     }
 
     @GetMapping("/classificaLocale")
     public String classificaLocale(HttpSession session) {
-        if (!SessionUtil.isUtenteLoggato(session)) {
+        /*if (!SessionUtil.isUtenteLoggato(session)) {
             return "redirect:/login"; 
-        }
+        }*/
         return "classificaLocale";
     }
 

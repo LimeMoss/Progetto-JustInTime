@@ -1,8 +1,13 @@
 package com.justInTime.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PlayerRecord {
+
     private String paese;
+
     private String nome;
+
     private int maxScore;
 
     public PlayerRecord(String paese, String nome, int maxScore) {
