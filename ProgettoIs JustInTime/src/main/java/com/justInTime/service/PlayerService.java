@@ -134,6 +134,7 @@ public class PlayerService {
         
         Player player = trovaGiocatore(playerId);
         player.setVittorie(player.getVittorie()+1);
+        player.setMaxScore(player.getMaxScore()+20);
         return playerRepository.save(player);
 
 
@@ -144,5 +145,13 @@ public class PlayerService {
         Player player = trovaGiocatore(playerId);
         player.setPartiteGiocate(player.getPartiteGiocate()+1);
        return playerRepository.save(player);
+    
+    }
+
+    @Transactional
+    public Player addScore(Long playerId){
+        Player player= trovaGiocatore(playerId);
+        player.setMaxScore(player.getMaxScore()+(10-(player.getMano().size())));
+        return playerRepository.save(player);
     }
 }

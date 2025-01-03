@@ -69,6 +69,11 @@ public class Partita {
         gameState.execute(this);;
     }
 
+    public void setGameStateArgument(EndGameState gameState, String Arg) {
+        this.gameState = gameState;
+         gameState.execute(this, Arg);;
+    }
+
     public List<Player> getGiocatori() {
         return this.giocatori;
     }

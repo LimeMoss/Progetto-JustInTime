@@ -30,8 +30,12 @@ public class TurnState implements GameState {
         Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
 
         int tempoRestante = giocatoreCorrente.getDurataTurno();
+
+
+    
         if (tuttiEsclusi(partita)) {
-            partitaService.setGameState(partita.getId(), new EndGameState());
+            
+            partitaService.tempoTerminato(partita.getId());
 
         }
 

@@ -110,6 +110,26 @@ public class PartitaConfigController {
             return ResponseEntity.badRequest().body("Si è verificato un errore durante il processo.");
         }
     }
+
+    @PostMapping("/play-again")
+public ResponseEntity<Partita> playAgain(HttpSession session) {
+    try {
+        Partita partitaPrecedente = (Partita) session.getAttribute("partita");
+        if (partitaPrecedente == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        Partita nuovaPartita = partitaConfigService.creaNuovaPartitaDaPartitaPrecedente(partitaPrecedente.getId());
+
+       
+        session.setAttribute("partita", nuovaPartita);
+
+        return ResponseEntity.ok(nuovaPartita);
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+}
+
     
 
 
