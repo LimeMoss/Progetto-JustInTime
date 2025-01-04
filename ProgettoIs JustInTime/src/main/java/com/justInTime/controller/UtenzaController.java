@@ -1,7 +1,9 @@
 package com.justInTime.controller;
 
+import com.justInTime.DTO.FullPlayerDataDTO;
+import com.justInTime.DTO.FullPlayerDataDTOPsw;
+import com.justInTime.DTO.paeseUtenzaDTO;
 import com.justInTime.model.Utente;
-import com.justInTime.model.paeseUtenzaDTO;
 import com.justInTime.service.PlayerService;
 import com.justInTime.service.UtenzaService;
 
@@ -34,11 +36,21 @@ public class UtenzaController {
     }
 
 
+
     @GetMapping("/trovaUtenza")
-    public Utente trovaUtenza(HttpSession session) {
+    public FullPlayerDataDTO trovaUtenza(HttpSession session) {
         Utente utente = (Utente)session.getAttribute("utente");
-        return utenzaService.trovaUtente(utente.getId());
+        return utenzaService.trovaUtenteNoPsw(utente.getId());
     }
+
+    @GetMapping("/trovaUtenzaPsw")
+    public FullPlayerDataDTOPsw trovaUtenzaPsw(HttpSession session) {
+        Utente utente = (Utente)session.getAttribute("utente");
+        return utenzaService.trovaUtenteConPsw(utente.getId());
+    }
+
+    
+
 
     @GetMapping("/trovaUtenzaPaese")
     public paeseUtenzaDTO trovaUtenzaPaese(HttpSession session) {

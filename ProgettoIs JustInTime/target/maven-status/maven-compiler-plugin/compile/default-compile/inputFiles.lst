@@ -7,6 +7,11 @@ C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs Jus
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PlayerController.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\SessionUtil.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\UtenzaController.java
+C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTO.java
+C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTOPsw.java
+C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\paeseUtenzaDTO.java
+C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\PlayerRecord.java
+C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\SinglePlayerDataDTO.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\abstractPlayer.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\abstractUtente.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Achievements.java
@@ -19,12 +24,9 @@ C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs Jus
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoFactory.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoPesca.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoScarto.java
-C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\paeseUtenzaDTO.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Partita.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\PauseState.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Player.java
-C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\PlayerRecord.java
-C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\SinglePlayerDataDTO.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\StartGameState.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\TurnState.java
 C:\Users\rivys\Desktop\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Utente.java
