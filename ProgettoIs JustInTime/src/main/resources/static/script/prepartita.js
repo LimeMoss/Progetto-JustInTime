@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('registrationB1').disabled = true;
     const newGameButton = document.getElementById('initbutton');
     const errorMessage = document.getElementById('error-message-start');
+
+    // Impostare il nome del giocatore 1 dalla sessione
     fetch('/utenze/trovaUtenza', {
         method: 'GET',
         credentials: 'include'
@@ -22,14 +24,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Errore:', error));
 
-
-
+    // Funzione per aggiornare i pulsanti di aggiunta e rimozione dei giocatori
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         addPlayerButton.disabled = currentPlayers >= maxPlayers;
         removePlayerButton.disabled = currentPlayers <= minPlayers;
     }
 
+    // Funzione per aggiungere un giocatore
     addPlayerButton.addEventListener('click', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers < maxPlayers) {
@@ -45,10 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             playersForm.appendChild(newInputGroup);
             updateButtons();
-            attachEventListeners(); // Attach event listeners to new buttons
+            attachEventListeners(); // Aggiungi event listener per i nuovi pulsanti
         }
     });
 
+    // Funzione per rimuovere un giocatore
     removePlayerButton.addEventListener('click', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers > minPlayers) {
@@ -57,12 +60,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Funzione per aprire il modal di login
     function openLoginModal(playerId) {
-        resetLoginForm(); // Reset the form fields
+        resetLoginForm(); // Reset dei campi del form
         document.getElementById('login-modal').style.display = 'block';
         document.getElementById('login-form').dataset.player = playerId;
     }
 
+    // Funzione per toggle del login
     function toggleRegistration(button) {
         if (button.innerText === 'Login effettuato!') {
             button.innerText = '';
@@ -72,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Aggiungi event listener ai pulsanti di login
     function attachEventListeners() {
         const buttons = playersForm.querySelectorAll('.registeredplayerbuttons');
         buttons.forEach(function(button) {
@@ -82,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Funzione per resettare il form di login
     function resetLoginForm() {
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
@@ -91,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
     attachEventListeners();
     updateButtons();
 
-    // Chiudi la finestra di dialogo
+    // Chiudi il modal
     document.getElementById('close-modal').addEventListener('click', function() {
         document.getElementById('login-modal').style.display = 'none';
     });
@@ -102,27 +109,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        const email = "default@example.com"; // Assume an email for now
         const playerId = this.dataset.player;
 
-        // Invia la richiesta al backend
-        fetch('/auth/register', {
+        // Invia la richiesta al backend per il login del giocatore
+        fetch('/api/game-config/add-player-login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({ username, password, email })
+            body: new URLSearchParams({
+                usernameOrEmail: username,
+                password: password
+            })
         })
             .then(response => response.json())
             .then(data => {
-                if (response.ok) {
-                    // Login riuscito
+                if (data.message === "Login e aggiunta giocatore effettuati con successo") {
+                    // Login riuscito, aggiorna il nome del giocatore
                     document.getElementById('player' + playerId).value = username;
-                    document.querySelector(`[data-player="${playerId}"]`).textContent = 'Login effettuato!';
+                    document.querySelector(`#registrationB${playerId}`).textContent = 'Login effettuato!';
                     document.getElementById('login-modal').style.display = 'none';
                 } else {
                     // Login fallito
-                    document.getElementById('error-message').textContent = data;
+                    document.getElementById('error-message').textContent = data.message;
                     document.getElementById('error-message').style.display = 'block';
                 }
             })
@@ -133,19 +142,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
 
-    // Chiudi la finestra di dialogo quando si clicca fuori di essa
+    // Chiudi la finestra di dialogo quando si clicca fuori
     window.onclick = function(event) {
         if (event.target == document.getElementById('login-modal')) {
             document.getElementById('login-modal').style.display = 'none';
         }
     }
 
+    // Inizia la partita (controlla se tutti i giocatori sono registrati)
     newGameButton.addEventListener('click', function(event) {
         const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
         let allRegistered = true;
 
         visibleButtons.forEach(function(button) {
-            if (button.innerText !== 'X') {
+            if (button.innerText !== 'Login effettuato!') {
                 allRegistered = false;
             }
         });
