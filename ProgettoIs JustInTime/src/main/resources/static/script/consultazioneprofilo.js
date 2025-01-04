@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(data => {
-            console.log(data);
             document.getElementById("username").textContent = data.username || "NomeUtente";
             document.getElementById("nome").textContent = data.name || "placeholder";
             document.getElementById("surname").textContent = data.cognome || "placeholder";
