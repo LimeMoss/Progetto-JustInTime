@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.justInTime.model.PlayerRecord;
-import com.justInTime.model.SinglePlayerDataDTO;
+import com.justInTime.DTO.PlayerRecord;
+import com.justInTime.DTO.SinglePlayerDataDTO;
 import com.justInTime.service.ClassificaService;
 
 import jakarta.servlet.http.HttpSession;

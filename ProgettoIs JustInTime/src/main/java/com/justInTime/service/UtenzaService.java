@@ -1,7 +1,9 @@
 package com.justInTime.service;
 
+import com.justInTime.DTO.FullPlayerDataDTO;
+import com.justInTime.DTO.FullPlayerDataDTOPsw;
+import com.justInTime.DTO.paeseUtenzaDTO;
 import com.justInTime.model.Utente;
-import com.justInTime.model.paeseUtenzaDTO;
 import com.justInTime.repository.UtenzaRepository;
 
 
@@ -50,6 +52,35 @@ public class UtenzaService {
 
         Utente utente= utenzaRepository.findById(id).orElseThrow(() -> new RuntimeException("Utente non trovata."));
         paeseUtenzaDTO utenteDTO = new paeseUtenzaDTO(utente.getPaese(), utente.getUsername());
+        return utenteDTO;
+
+    }
+
+    public FullPlayerDataDTOPsw trovaUtenteConPsw(Long id) {
+
+        Utente utente= utenzaRepository.findById(id).orElseThrow(() -> new RuntimeException("Utente non trovata."));
+        FullPlayerDataDTOPsw utenteDTO = new FullPlayerDataDTOPsw(utente.getUsername(), utente.getName(), utente.getCognome(), utente.getEmail(), utente.getPassword(), utente.getTelefono(), utente.getPaese(), utente.getDataNascita());
+
+
+
+        return utenteDTO;
+
+    }
+    /**
+     * Trova l'utente con l'id specificato e restituisce un oggetto
+     * FullPlayerDataDTO contenente le informazioni dell'utente senza la password.
+     *
+     * @param id l'id dell'utente da cercare
+     * @return l'utente cercato
+     * @throws RuntimeException se l'utente non esiste
+     */
+    public FullPlayerDataDTO trovaUtenteNoPsw(Long id) {
+
+        Utente utente= utenzaRepository.findById(id).orElseThrow(() -> new RuntimeException("Utente non trovata."));
+        FullPlayerDataDTO utenteDTO = new FullPlayerDataDTO(utente.getUsername(), utente.getName(), utente.getCognome(), utente.getEmail(), utente.getTelefono(), utente.getPaese(), utente.getDataNascita());
+
+
+
         return utenteDTO;
 
     }

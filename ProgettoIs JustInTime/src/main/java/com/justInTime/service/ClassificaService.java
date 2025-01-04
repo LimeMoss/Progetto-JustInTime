@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.justInTime.DTO.PlayerRecord;
+import com.justInTime.DTO.SinglePlayerDataDTO;
 import com.justInTime.model.Player;
-import com.justInTime.model.PlayerRecord;
-import com.justInTime.model.SinglePlayerDataDTO;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.PlayerRepository;
 

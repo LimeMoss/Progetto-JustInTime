@@ -1,4 +1,4 @@
-package com.justInTime.model;
+package com.justInTime.DTO;
 
 
 public class PlayerRecord {
