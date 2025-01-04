@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             document.getElementById("top-gamecounts").textContent = data.partiteGiocate || "0";
             document.getElementById("top-wins").textContent = data.vittorie || "0";
-            document.getElementById("top-scorepoint").textContent = data.maxScore || "0";
         })
         .catch(error => console.error('Errore:', error));
 

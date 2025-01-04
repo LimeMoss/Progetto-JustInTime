@@ -9,24 +9,7 @@
   <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="../css/footer.css">
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('/classifica/singlePlayerData', {
-        method: 'GET',
-        credentials: 'include'
-      })
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error('Errore nel recupero dei dati giocatore.');
-                }
-                return response.json();
-              })
-              .then(data => {
-                document.getElementById("score").textContent = data.maxScore || "0000";
-              })
-              .catch(error => console.error('Errore:', error));
-    });
-  </script>
+  <script src="../script/userHomepage.js"></script>
 
 </head>
 
@@ -60,7 +43,7 @@
     </div>
     <div class="main-button" onclick="window.location.href='/prepartita'">Nuova Partita</div>
     <div class="score">Il tuo punteggio:</div>
-    <div class="score" id="score">00</div>
+    <div class="score" id="top-scorepoint">00</div>
     <button class="bottom-button" onclick=window.location.href='/feedbacks'>Lascia un feedback</button>
   </div>
 
