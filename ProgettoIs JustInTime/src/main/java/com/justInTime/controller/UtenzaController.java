@@ -77,7 +77,8 @@ public class UtenzaController {
         ModelAndView modelAndView = new ModelAndView("homepage"); 
         
         utenzaService.eliminaUtente(utente.getId());
-        playerService.deletePlayer(utente.getPlayer().getId());
+        if(utente.getPlayer()!=null)
+            playerService.deletePlayer(utente.getPlayer().getId());
 
         return modelAndView;
     } catch(RuntimeException e){
