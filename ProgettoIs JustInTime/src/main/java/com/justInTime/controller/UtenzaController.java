@@ -70,8 +70,8 @@ public class UtenzaController {
         Utente utente = (Utente)session.getAttribute("utente");
         utente = utenzaService.aggiornaUtente(utente.getId(), utenzaAggiornata, password2);
         ModelAndView modelAndView = new ModelAndView("homepage"); 
-        modelAndView.addObject("utente", utente);  
-    
+        modelAndView.addObject("utente", utente);
+        session.setAttribute("utente", utente);
         return modelAndView;  
         }catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

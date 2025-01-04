@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function formatName() {
         const nameField = document.getElementById('nome');
-        nameField.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        nameField.value = nameField.value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
     }
 
     function formatSurname() {
         const nameField = document.getElementById('cognome');
-        nameField.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        nameField.value = nameField.value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
     }
 
     function validateUsername() {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function validatePhoneNumber() {
-        const phoneNumber = document.querySelector('input[name="countryCode"]').value+" "+phoneNumberInput.value+document.querySelector('input[name="countryCode"]').value;
+        const phoneNumber = document.querySelector('input[name="countryCode"]').value+" "+phoneNumberInput.value;
         const phoneNumberPattern = /^\+[0-9]{1,3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{4}$/;
 
         // Check if the input is valid
@@ -168,7 +168,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const surnameField = document.getElementById('cognome');
     surnameField.addEventListener('input', formatSurname);
 
-    form.addEventListener("submit", async function (event) {
+    const formToUse = form ? form : modifyForm;
+
+    formToUse.addEventListener("submit", async function (event) {
         event.preventDefault();
         if (!validateAll()) {
             return; // Esce prima di eseguire il codice asincrono
@@ -177,7 +179,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const nome = nameInput.value;
         const cognome = surnameInput.value;
         const username = usernameInput.value;
-        const telefono = prefisso.value +" "+ phoneNumberInput.value;
+        const telefono = prefisso.value + " " + phoneNumberInput.value;
         const dataNascita = dateInput.value;
         const paese = document.getElementById("country").value;
         const email = emailInput.value;
@@ -196,70 +198,44 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         try {
-            const response = await fetch(`/registrazione?password2=${encodeURIComponent(password2)}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(utente) // Invia solo l'oggetto "utente" nel corpo
-            });
+            if(formToUse === modifyForm){
+                const response = await fetch(`/utenze/modificautenza?password2=${encodeURIComponent(password2)}`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(utente) // Invia solo l'oggetto "utente" nel corpo
+                });
 
-            if (!response.ok) {
-                const errorMessage = await response.text();
-                alert("Errore durante la registrazione: " + errorMessage);
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    alert("Errore durante la modifica: " + errorMessage);
+                }else{
+                    alert("La modifica ha avuto successo.");
+                    window.location.href = "/userHomepage";
+                }
             }else{
-                window.location.href = "/login";
+                const response = await fetch(`/registrazione?password2=${encodeURIComponent(password2)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(utente) // Invia solo l'oggetto "utente" nel corpo
+                });
+
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    alert("Errore durante la registrazione: " + errorMessage);
+                }else{
+                    alert("La registrazione ha avuto successo.");
+                    window.location.href = "/login";
+                }
             }
         } catch (error) {
-            alert("Si è verificato un errore");
-        }
-    });
-
-    modifyForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        if (!validateAll()) {
-            return; // Esce prima di eseguire il codice asincrono
+            alert("Si è verificato un errore"+error);
         }
 
-        const nome = nameInput.value;
-        const cognome = surnameInput.value;
-        const username = usernameInput.value;
-        const telefono = prefisso.value +" "+ phoneNumberInput.value;
-        const dataNascita = dateInput.value;
-        const paese = document.getElementById("country").value;
-        const email = emailInput.value;
-        const password = passwordInput.value;
-        const password2 = passwordCheckInput.value;
-
-        const utente = {
-            nome,
-            cognome,
-            username,
-            telefono,
-            dataNascita,
-            paese,
-            email,
-            password
-        };
-
-        try {
-            const response = await fetch(`/modifyaccount?password2=${encodeURIComponent(password2)}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(utente) // Invia solo l'oggetto "utente" nel corpo
-            });
-
-            if (!response.ok) {
-                const errorMessage = await response.text();
-                alert("Errore durante la modifica: " + errorMessage);
-            }else{
-                window.location.href = "/userHomepage";
-            }
-        } catch (error) {
-            alert("Si è verificato un errore");
-        }
     });
 
     function validateAll(){

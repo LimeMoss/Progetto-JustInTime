@@ -124,10 +124,13 @@ public class UtenzaService {
         }
 
         utente.setNome(utenteAggiornato.getName());
+        utente.setCognome(utenteAggiornato.getCognome());
         utente.setPaese(utenteAggiornato.getPaese());
         utente.setEmail(utenteAggiornato.getEmail());
         utente.setPassword(utenteAggiornato.getPassword());
         utente.setUsername(utenteAggiornato.getUsername());
+        utente.setDataNascita(utenteAggiornato.getDataNascita());
+        utente.setTelefono(utenteAggiornato.getTelefono());
         return utenzaRepository.save(utente);
     }
 
