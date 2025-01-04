@@ -1,6 +1,7 @@
 package com.justInTime.service;
 
 import com.justInTime.model.Utente;
+import com.justInTime.model.paeseUtenzaDTO;
 import com.justInTime.repository.UtenzaRepository;
 
 
@@ -43,6 +44,14 @@ public class UtenzaService {
     public Utente trovaUtente(Long id) {
         return utenzaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Utente non trovata."));
+    }
+
+     public paeseUtenzaDTO trovaUtentePaese(Long id) {
+
+        Utente utente= utenzaRepository.findById(id).orElseThrow(() -> new RuntimeException("Utente non trovata."));
+        paeseUtenzaDTO utenteDTO = new paeseUtenzaDTO(utente.getPaese(), utente.getUsername());
+        return utenteDTO;
+
     }
 
 

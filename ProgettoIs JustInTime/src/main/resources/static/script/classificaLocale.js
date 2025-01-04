@@ -1,14 +1,14 @@
 async function loadNazionalita() {
     try {
-        const response = await fetch('/utenze/trovaUtenza');
-        const utente = await response.json();
+        const response = await fetch('/utenze/trovaUtenzaPaese');
+        const paeseUtenzaDTO = await response.json();
 
-        console.log("Utente trovato:", utente);
+        console.log("Utente trovato:", paeseUtenzaDTO);
 
 
-        if (utente && utente.paese) {
+        if (paeseUtenzaDTO && paeseUtenzaDTO.paese) {
             const nazionalitaElement = document.getElementById('nazionalita');
-            nazionalitaElement.textContent = `Nazionalità: ${utente.paese}`;
+            nazionalitaElement.textContent = `Nazionalità: ${paeseUtenzaDTO.paese}`;
         }
     } catch (error) {
         console.error('Errore durante il recupero dei dati dell\'utente:', error);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 
@@ -19,6 +20,9 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class PartitaConfigService {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Autowired
     PartitaRepository partitaRepository;
@@ -169,7 +173,9 @@ public class PartitaConfigService {
     }
 
 
-    partita.setGameState(new StartGameState());
+    StartGameState startGameState = applicationContext.getBean(StartGameState.class);
+    partita.setGameState(startGameState);
+
 
 
     partitaRepository.save(partita);
@@ -291,7 +297,9 @@ public Partita creaNuovaPartitaDaPartitaPrecedente(Long partitaId) {
 
 
     Partita nuovaPartita = new Partita();
-    nuovaPartita.setGameState(new StartGameState());
+    
+    StartGameState startGameState = applicationContext.getBean(StartGameState.class);
+    nuovaPartita.setGameState(startGameState);
 
 
     for (Player giocatore : partitaPrecedente.getGiocatori()) {

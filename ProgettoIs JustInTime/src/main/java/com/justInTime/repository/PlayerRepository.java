@@ -20,7 +20,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
      * 
      * @return la lista di tutti i giocatori
      */
-    @Query("SELECT p FROM Player p JOIN p.utente u ORDER BY u.paese ASC, p.maxScore DESC")
+    @Query("SELECT p FROM Player p JOIN p.utente u ORDER BY p.maxScore DESC")
     List<Player> findAllPlayersOrderByCountryAndMaxScore();
 
 

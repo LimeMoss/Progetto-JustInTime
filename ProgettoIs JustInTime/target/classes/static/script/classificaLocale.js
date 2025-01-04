@@ -1,3 +1,20 @@
+async function loadNazionalita() {
+    try {
+        const response = await fetch('/utenze/trovaUtenzaPaese');
+        const paeseUtenzaDTO = await response.json();
+
+        console.log("Utente trovato:", paeseUtenzaDTO);
+
+
+        if (paeseUtenzaDTO && paeseUtenzaDTO.paese) {
+            const nazionalitaElement = document.getElementById('nazionalita');
+            nazionalitaElement.textContent = `Nazionalità: ${paeseUtenzaDTO.paese}`;
+        }
+    } catch (error) {
+        console.error('Errore durante il recupero dei dati dell\'utente:', error);
+    }
+}
+
 async function loadClassificaLocale() {
     try {
         const response = await fetch('/classifica/locale');
@@ -25,4 +42,8 @@ async function loadClassificaLocale() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadClassificaLocale);
+document.addEventListener('DOMContentLoaded', () => {
+    loadNazionalita();
+
+    loadClassificaLocale();
+});
