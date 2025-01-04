@@ -7,6 +7,22 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('registrationB1').disabled = true;
     const newGameButton = document.getElementById('initbutton');
     const errorMessage = document.getElementById('error-message-start');
+    fetch('/utenze/trovaUtenza', {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore nel recupero dei dati giocatore.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("player1").value = data.username || "Username_N/A";
+        })
+        .catch(error => console.error('Errore:', error));
+
+
 
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
@@ -24,8 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
                     <input type="text" id="player${newPlayerNumber}" placeholder="Username">
-                    <button class="registeredplayerbuttons" data-player="${newPlayerNumber}"></button>
-                    <label class="registeredplayerlabels">Registrato</label>
+                    <button class="registeredplayerbuttons" id="registrationB${newPlayerNumber}">Effettua il login</button>
                 </div>
             `;
             playersForm.appendChild(newInputGroup);
