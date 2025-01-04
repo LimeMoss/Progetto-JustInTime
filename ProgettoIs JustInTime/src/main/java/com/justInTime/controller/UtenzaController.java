@@ -92,6 +92,7 @@ public class UtenzaController {
         if(utente.getPlayer()!=null)
             playerService.deletePlayer(utente.getPlayer().getId());
 
+        session.removeAttribute("utente");
         return modelAndView;
     } catch(RuntimeException e){
               return ResponseEntity.status(HttpStatus.BAD_REQUEST)
