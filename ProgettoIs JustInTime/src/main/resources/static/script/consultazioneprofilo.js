@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             document.getElementById("top-gamecounts").textContent = data.partiteGiocate || "0";
             document.getElementById("top-wins").textContent = data.vittorie || "0";
-            document.getElementById("top-scorepoint").textContent = data.punteggio || "0";
+            document.getElementById("top-scorepoint").textContent = data.maxScore || "0";
         })
         .catch(error => console.error('Errore:', error));
 
@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             document.getElementById("username").textContent = data.username || "NomeUtente";
             document.getElementById("nome").textContent = data.name || "placeholder";
             document.getElementById("surname").textContent = data.cognome || "placeholder";

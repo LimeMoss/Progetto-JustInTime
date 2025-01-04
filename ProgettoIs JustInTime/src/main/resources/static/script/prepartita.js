@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Errore:', error);
-                document.getElementById('error-message').textContent = 'An error occurred during registration.';
+                document.getElementById('error-message').textContent = 'Nome utente o password errati';
                 document.getElementById('error-message').style.display = 'block';
             });
     });
