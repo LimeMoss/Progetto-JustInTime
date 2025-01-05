@@ -65,7 +65,7 @@ public class PartitaConfigService {
     
      
         for (Player giocatore : giocatoriInConfigurazione) {
-            if (giocatore.getName().equals(usernameOrEmail) || giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
+            if (giocatore.getUtente().getUsername().equals(usernameOrEmail) || giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
                 throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
             }
         }
@@ -111,7 +111,7 @@ public class PartitaConfigService {
     
 
         for (Player giocatore : giocatoriInConfigurazione) {
-            if (giocatore.getName().equals(player.getName())) {
+            if (giocatore.getUtente().getUsername().equals(player.getUtente().getUsername())) {
                 throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
             }
         }
@@ -202,7 +202,7 @@ public class PartitaConfigService {
     public List<String> getGiocatoriInConfigurazione() {
         List<String> nomiGiocatori = new ArrayList<>();
         for (Player giocatore : giocatoriInConfigurazione) {
-            nomiGiocatori.add(giocatore.getName());  
+            nomiGiocatori.add(giocatore.getUtente().getUsername());  
         }
         return nomiGiocatori;
     }

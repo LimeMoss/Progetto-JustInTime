@@ -33,7 +33,7 @@ public class ClassificaService {
             if (player.getUtente().getPaese().equals(utente.getPaese())) {
                 PlayerRecord record = new PlayerRecord(
                         player.getUtente().getPaese(),
-                        player.getNome(),
+                        player.getUtente().getUsername(),
                         player.getMaxScore());
 
                 records.add(record);
@@ -59,7 +59,7 @@ public class ClassificaService {
         for (Player player : players) {
             PlayerRecord record = new PlayerRecord(
                     player.getUtente().getPaese(),
-                    player.getNome(),
+                    player.getUtente().getUsername(),
                     player.getMaxScore());
             records.add(record);
         }

@@ -23,9 +23,6 @@ public interface abstractPlayer{
 
     public void setMaxScore(int maxScore);
 
-    public String getName();
-
-    public void setName(String nome);
     
     public List<Partita> getPartite();
     public void setPartite(List<Partita> partite);

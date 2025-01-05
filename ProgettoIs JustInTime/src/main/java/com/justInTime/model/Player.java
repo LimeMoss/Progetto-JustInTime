@@ -21,7 +21,6 @@ public class Player implements abstractPlayer {
     @Transient
     private List<Carta> mano;
 
-    private String nome;
 
     private int vittorie;
     private int partiteGiocate;
@@ -46,14 +45,10 @@ public class Player implements abstractPlayer {
     }
 
 
-    public String getNome() {
-        return nome;
-    }
+ 
 
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    
 
 
     public boolean isEscluso() {
@@ -106,8 +101,8 @@ public class Player implements abstractPlayer {
     }
 
 
-    public Player(String name, int maxScore) {
-        this.nome=name;
+    public Player(int maxScore) {
+
         this.maxScore = maxScore;
         this.durataTurno = 15;
         this.mano = new ArrayList<Carta>();
@@ -116,7 +111,7 @@ public class Player implements abstractPlayer {
     }
 
     public Player(String name) {
-        this.nome=name;
+
         this.durataTurno = 15;
 
         mano = new ArrayList<Carta>();
@@ -184,15 +179,7 @@ public class Player implements abstractPlayer {
         return this.mano;
     }
 
-    @Override
-    public String getName() {
-        return nome;
-    }
 
-    @Override
-    public void setName(String nome) {
-        this.nome = nome;
-    }
     @Override
     public int getMaxScore() {
         return maxScore;
