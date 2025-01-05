@@ -99,6 +99,6 @@ body {
     cursor: pointer;
 }
 
-.popup-content h1 p{
+#popup-container h1 p{
     color: #FFEDDC;
 }
