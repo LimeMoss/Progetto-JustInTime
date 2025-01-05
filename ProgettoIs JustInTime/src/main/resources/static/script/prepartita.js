@@ -57,16 +57,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers > minPlayers) {
             const playerToRemove = playersForm.lastElementChild;
-            const playerId = playerToRemove.querySelector('input').id;
+            const userId = playerToRemove.querySelector('input').getAttribute('data-user-id');
 
             // Rimuovi il giocatore dal front-end
             playersForm.removeChild(playerToRemove);
             updateButtons();
 
             // Rimuovi il giocatore anche dal backend
-            fetch(`/api/game-config/remove-player?playerId=${playerId}`, {
+            fetch(`/api/game-config/remove-player?userId=${userId}`, {
                 method: 'DELETE',
-
                 credentials: 'include'
             })
                 .then(response => {
