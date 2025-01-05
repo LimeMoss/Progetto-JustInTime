@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             newInputGroup.innerHTML = `
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
-                    <input type="text" id="player${newPlayerNumber}" placeholder="Username">
+                    <input type="text" id="player${newPlayerNumber}" placeholder="Username" readonly>
                     <button class="registeredplayerbuttons" id="registrationB${newPlayerNumber}">Effettua il login</button>
                 </div>
             `;
@@ -110,6 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const playerId = this.dataset.player;
+        console.log('Player ID:', playerId);
+        console.log('Username:', username);
 
         // Invia la richiesta al backend per il login del giocatore
         fetch('/api/game-config/add-player-login', {
