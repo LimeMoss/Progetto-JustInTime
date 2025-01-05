@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         // Crea una nuova carta e aggiungila alla mano
         const newCard = document.createElement('img');
-        newCard.src = '../static/images/justcardbase.png'; // Assumi che sia questa l'immagine della nuova carta
+        newCard.src = '../images/justcardbase.png'; // Assumi che sia questa l'immagine della nuova carta
         newCard.alt = 'onhand-card';
         newCard.classList.add('clickable-card');
         newCard.addEventListener('click', function() {
