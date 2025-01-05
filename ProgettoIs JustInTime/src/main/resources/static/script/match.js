@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const onTableCard = document.getElementById('ontable-cards').querySelector('img');
     const deck = document.getElementById('deck').querySelector('img');
     const alertBanner = document.getElementById('alert-banner');
+    const popupContainer = document.getElementById('popup-container');
 
     function addCardToHand() {
         const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
@@ -10,20 +11,42 @@ document.addEventListener("DOMContentLoaded", function() {
             showAlertBanner();
             return;
         }
-        // Crea una nuova carta e aggiungila alla mano
         const newCard = document.createElement('img');
-        newCard.src = '../images/justcardbase.png'; // Assumi che sia questa l'immagine della nuova carta
+        newCard.src = '../images/justcardbase.png';
         newCard.alt = 'onhand-card';
         newCard.classList.add('clickable-card');
-        newCard.addEventListener('click', function() {
-            // Sposta la carta cliccata al tavolo
-            onTableCard.src = newCard.src;
-            newCard.remove(); // Rimuove la carta dalla mano
-            updateCardSizes();
-            closeBanner(); // Chiudi il banner se una carta viene cliccata
-        });
+        newCard.addEventListener('click', handleCardClick);
         onHandContainer.appendChild(newCard);
         updateCardSizes();
+    }
+
+    function handleCardClick(event) {
+        const clickedCard = event.currentTarget;
+        onTableCard.src = clickedCard.src;
+        clickedCard.remove();
+        updateCardSizes();
+        closeBanner();
+        showPopup();
+    }
+
+    function showPopup() {
+        popupContainer.innerHTML = `<div class="popup-content"><h1>Turno completato</h1><p>Prossimo turno in corso...</p></div>`;
+        popupContainer.style.display = 'flex';
+
+        setTimeout(() => {
+            popupContainer.style.display = 'none';
+            showNextTurnUser();
+        }, 2500);
+    }
+
+    function showNextTurnUser() {
+        const nextTurnUser = "Prossimo Utente"; // Sostituisci con logica per ottenere il prossimo utente
+        popupContainer.innerHTML = `<div class="popup-content"><h1>Turno di ${nextTurnUser}</h1></div>`;
+        popupContainer.style.display = 'flex';
+
+        setTimeout(() => {
+            popupContainer.style.display = 'none';
+        }, 2500);
     }
 
     function updateCardSizes() {
@@ -54,18 +77,11 @@ document.addEventListener("DOMContentLoaded", function() {
     deck.addEventListener('click', addCardToHand);
     window.addEventListener('resize', updateCardSizes);
 
-    // Aggiungi l'event listener a tutte le carte attuali in mano
     document.querySelectorAll('.onhand-cards .clickable-card').forEach(card => {
-        card.addEventListener('click', function() {
-            // Sposta la carta cliccata al tavolo
-            onTableCard.src = card.src;
-            card.remove(); // Rimuove la carta dalla mano
-            updateCardSizes();
-            closeBanner(); // Chiudi il banner se una carta viene cliccata
-        });
+        card.addEventListener('click', handleCardClick);
     });
 
-    window.closeBanner = closeBanner; // Assicura che la funzione closeBanner sia accessibile globalmente
+    window.closeBanner = closeBanner;
 
-    updateCardSizes(); // Assicura che le dimensioni delle carte siano aggiornate all'avvio
+    updateCardSizes();
 });
