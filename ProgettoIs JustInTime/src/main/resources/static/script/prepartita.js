@@ -56,8 +56,26 @@ document.addEventListener('DOMContentLoaded', function() {
     removePlayerButton.addEventListener('click', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers > minPlayers) {
-            playersForm.removeChild(playersForm.lastElementChild);
+            const playerToRemove = playersForm.lastElementChild;
+            const playerId = playerToRemove.querySelector('input').id;
+
+            // Rimuovi il giocatore dal front-end
+            playersForm.removeChild(playerToRemove);
             updateButtons();
+
+            // Rimuovi il giocatore anche dal backend
+            fetch(`/api/game-config/remove-player?playerId=${playerId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore durante la rimozione del giocatore.');
+                    }
+                    return response.text();
+                })
+                .then(message => console.log(message))
+                .catch(error => console.error('Errore:', error));
         }
     });
 
