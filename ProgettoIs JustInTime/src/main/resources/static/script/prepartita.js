@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('registrationB1').disabled = true;
     const newGameButton = document.getElementById('initbutton');
     const errorMessage = document.getElementById('error-message-start');
+    let number=0;
 
     // Impostare il nome del giocatore 1 dalla sessione
     fetch('/utenze/trovaUtenza', {
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         buttons.forEach(function(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
+                number=button.getAttribute('name');
                 toggleRegistration(button);
             });
         });
@@ -125,10 +127,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.message === "Login e aggiunta giocatore effettuati con successo") {
                     // Login riuscito, aggiorna il nome del giocatore
-                    document.getElementById('player' + playerId).value = username;
-                    document.querySelector(`#registrationB${playerId}`).textContent = 'Login effettuato!';
+                    document.getElementById('player' + number).value = username;
+                    document.querySelector(`#registrationB${number}`).textContent = 'Login effettuato!';
                     document.getElementById('login-modal').style.display = 'none';
-                    document.getElementById('player' + playerId).value = username;
+                    document.getElementById('player' + number).value = username;
 
                 } else {
                     // Login fallito
@@ -141,9 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('error-message').textContent = 'Nome utente o password errati';
                 document.getElementById('error-message').style.display = 'block';
             });
-        const playerId = this.dataset.player;
-        console.log('Player ID:', playerId);
-        console.log('Username:', username);
     });
 
     // Chiudi la finestra di dialogo quando si clicca fuori
