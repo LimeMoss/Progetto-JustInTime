@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
         newCard.classList.add('clickable-card');
         newCard.addEventListener('click', handleCardClick);
         onHandContainer.appendChild(newCard);
-        showPopup();
         updateCardSizes();
     }
 
@@ -27,27 +26,39 @@ document.addEventListener("DOMContentLoaded", function() {
         clickedCard.remove();
         updateCardSizes();
         closeBanner();
-        showPopup();
+        showPopup('Turno completato', 'Premi OK per passare il turno', false);
     }
 
-    function showPopup() {
-        popupContainer.innerHTML = `<div class="popup-content"><h1>Turno completato</h1><p>Prossimo turno in corso...</p></div>`;
+    function showPopup(title, message, blurBackground) {
+        popupContainer.innerHTML = `
+            <div class="popup-content">
+                <h1>${title}</h1>
+                <p>${message}</p>
+                <button id="popup-ok-btn">OK</button>
+            </div>
+        `;
+
+        if (blurBackground) {
+            popupContainer.classList.remove('normal');
+            popupContainer.classList.add('blurred');
+        } else {
+            popupContainer.classList.remove('blurred');
+            popupContainer.classList.add('normal');
+        }
+
         popupContainer.style.display = 'flex';
 
-        setTimeout(() => {
+        document.getElementById('popup-ok-btn').addEventListener('click', () => {
             popupContainer.style.display = 'none';
-            showNextTurnUser();
-        }, 2500);
+            if (title === 'Turno completato') {
+                showNextTurnUser();
+            }
+        });
     }
 
     function showNextTurnUser() {
         const nextTurnUser = "Prossimo Utente"; // Sostituisci con logica per ottenere il prossimo utente
-        popupContainer.innerHTML = `<div class="popup-content"><h1>Turno di ${nextTurnUser}</h1></div>`;
-        popupContainer.style.display = 'flex';
-
-        setTimeout(() => {
-            popupContainer.style.display = 'none';
-        }, 2500);
+        showPopup(`Turno di ${nextTurnUser}`, 'Premi OK per iniziare', true);
     }
 
     function updateCardSizes() {

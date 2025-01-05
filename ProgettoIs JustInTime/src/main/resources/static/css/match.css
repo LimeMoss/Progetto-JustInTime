@@ -102,3 +102,32 @@ body {
 #popup-container h1 p{
     color: #FFEDDC;
 }
+
+#popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 0, 0, 0.6); /* Sfondo semitrasparente di base */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#popup-container.blurred {
+    backdrop-filter: blur(25px); /* Applica sfocatura */
+}
+
+#popup-container.normal {
+    backdrop-filter: none; /* Nessuna sfocatura */
+}
+
+#popup-container .popup-content {
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    color: #FFEDDC;
+    font-size: 24px;
+}
