@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Rimuovi il giocatore anche dal backend
             fetch(`/api/game-config/remove-player?playerId=${playerId}`, {
                 method: 'DELETE',
+
                 credentials: 'include'
             })
                 .then(response => {
