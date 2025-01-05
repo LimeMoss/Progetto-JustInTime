@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
         newCard.addEventListener('click', handleCardClick);
         onHandContainer.appendChild(newCard);
         updateCardSizes();
+        showPopup('Turno completato', 'Premi OK per passare il turno', false); // Mostra il popup "Turno completato"
     }
 
     function handleCardClick(event) {

@@ -109,9 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        const playerId = this.dataset.player;
-        console.log('Player ID:', playerId);
-        console.log('Username:', username);
 
         // Invia la richiesta al backend per il login del giocatore
         fetch('/api/game-config/add-player-login', {
@@ -144,11 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('error-message').textContent = 'Nome utente o password errati';
                 document.getElementById('error-message').style.display = 'block';
             });
+        const playerId = this.dataset.player;
+        console.log('Player ID:', playerId);
+        console.log('Username:', username);
     });
 
     // Chiudi la finestra di dialogo quando si clicca fuori
     window.onclick = function(event) {
-        if (event.target == document.getElementById('login-modal')) {
+        if (event.target === document.getElementById('login-modal')) {
             document.getElementById('login-modal').style.display = 'none';
         }
     }
