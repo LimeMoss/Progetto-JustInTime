@@ -129,6 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('player' + playerId).value = username;
                     document.querySelector(`#registrationB${playerId}`).textContent = 'Login effettuato!';
                     document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('player' + playerId).value = username;
+
                 } else {
                     // Login fallito
                     document.getElementById('error-message').textContent = data.message;
