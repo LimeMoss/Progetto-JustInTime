@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('registrationB1').disabled = true;
     const newGameButton = document.getElementById('initbutton');
     const errorMessage = document.getElementById('error-message-start');
-    let number=0;
+    let number = 0;
 
     // Impostare il nome del giocatore 1 dalla sessione
     fetch('/utenze/trovaUtenza', {
@@ -57,27 +57,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers > minPlayers) {
             const playerToRemove = playersForm.lastElementChild;
-            const userId = playerToRemove.querySelector('input').getAttribute('data-user-id');
-
             // Rimuovi il giocatore dal front-end
+            console.log(currentPlayers);
+            const userName = document.querySelector(`#player${currentPlayers}`).value
+            console.log(userName);
+            if (userName != null) {
+                rimuoviPlayer();
+            }
             playersForm.removeChild(playerToRemove);
             updateButtons();
-
-            // Rimuovi il giocatore anche dal backend
-            fetch(`/api/game-config/remove-player?userId=${userId}`, {
-                method: 'DELETE',
-                credentials: 'include'
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Errore durante la rimozione del giocatore.');
-                    }
-                    return response.text();
-                })
-                .then(message => console.log(message))
-                .catch(error => console.error('Errore:', error));
         }
     });
+
+    function rimuoviPlayer() {
+        fetch(`/api/game-config/remove-player`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response.text());
+                    throw new Error('Errore durante la rimozione del giocatore.');
+                }
+                return response.text();
+            })
+            .then(message => console.log(message))
+            .catch(error => console.error('Errore:', error));
+    }
 
     // Funzione per aprire il modal di login
     function openLoginModal(playerId) {
@@ -88,9 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Funzione per toggle del login
     function toggleRegistration(button) {
-        if (button.innerText === 'Login effettuato!') {
-            button.innerText = '';
-        } else {
+        if (!(button.innerText === 'Login effettuato!')) {
             const playerId = button.dataset.player;
             openLoginModal(playerId);
         }
@@ -145,8 +149,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.message === "Login e aggiunta giocatore effettuati con successo") {
                     // Login riuscito, aggiorna il nome del giocatore
-                    document.getElementById('player' + number).value = username;
+                    document.querySelector(`#player${number}`).value = username;
                     document.querySelector(`#registrationB${number}`).textContent = 'Login effettuato!';
+                    document.querySelector(`#registrationB${number}`).cli = true;
                     document.getElementById('login-modal').style.display = 'none';
                     document.getElementById('player' + number).value = username;
 
