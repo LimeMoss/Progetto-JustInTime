@@ -98,3 +98,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.popup-content h1 p{
+    color: #FFEDDC;
+}

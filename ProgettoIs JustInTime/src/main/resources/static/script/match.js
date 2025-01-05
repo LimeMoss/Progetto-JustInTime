@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         newCard.classList.add('clickable-card');
         newCard.addEventListener('click', handleCardClick);
         onHandContainer.appendChild(newCard);
+        showPopup();
         updateCardSizes();
     }
 
