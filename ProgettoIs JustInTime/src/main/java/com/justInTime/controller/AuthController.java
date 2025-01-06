@@ -5,6 +5,7 @@ import com.justInTime.service.UtenzaService;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/")
 public class AuthController {
+        @Autowired
+    private UtenzaService utenzaService;
 
-    private final UtenzaService utenzaService;
-
-    public AuthController(UtenzaService utenzaService) {
-        this.utenzaService = utenzaService;
-    }
 
     /**
      * Registra un nuovo utente e reindirizza alla pagina di login
@@ -89,4 +87,11 @@ public class AuthController {
         }
         return new ModelAndView("login");
     }
+
+    @PostMapping("/resetIsPageOpen")
+    public String resetIsPageOpen(HttpSession session) {
+
+    session.removeAttribute("IsPageOpen");
+    return "success";  
+}
 }

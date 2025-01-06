@@ -4,7 +4,7 @@ import com.justInTime.DTO.FullPlayerDataDTO;
 import com.justInTime.DTO.FullPlayerDataDTOPsw;
 import com.justInTime.DTO.paeseUtenzaDTO;
 import com.justInTime.model.Utente;
-import com.justInTime.service.PlayerService;
+
 import com.justInTime.service.UtenzaService;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,11 +21,11 @@ import java.util.List;
 public class UtenzaController {
 
     private final UtenzaService utenzaService;
-    private final PlayerService playerService;
+   
 
-    public UtenzaController(UtenzaService utenzaService, PlayerService playerService) {
+    public UtenzaController(UtenzaService utenzaService) {
         this.utenzaService = utenzaService;
-        this.playerService = playerService;
+  
     }
 
 
@@ -75,7 +75,7 @@ public class UtenzaController {
         return modelAndView;  
         }catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body("Impossibile modificare l'utente.");
+            .body("Impossibile modificare l'utente. Dettagli errore: " + e.getMessage());
         }
     }
 
@@ -89,8 +89,7 @@ public class UtenzaController {
         ModelAndView modelAndView = new ModelAndView("homepage"); 
         
         utenzaService.eliminaUtente(utente.getId());
-        if(utente.getPlayer()!=null)
-            playerService.deletePlayer(utente.getPlayer().getId());
+
 
         session.removeAttribute("utente");
         return modelAndView;

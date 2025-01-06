@@ -110,7 +110,7 @@ public class Player implements abstractPlayer {
         this.vittorie= 0;
     }
 
-    public Player(String name) {
+    public Player(String jackson) {
 
         this.durataTurno = 15;
 

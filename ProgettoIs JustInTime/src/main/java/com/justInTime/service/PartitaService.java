@@ -13,7 +13,6 @@ import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
-import com.justInTime.repository.PlayerRepository;
 
 
 @Service
@@ -22,12 +21,11 @@ public class PartitaService {
     @Autowired
     private PartitaRepository partitaRepository;
 
-    @Autowired
-    private PlayerRepository playerRepository;
-
 
     @Autowired
     private PlayerService playerService;
+
+
 
     @Autowired
     private MazzoScartoService mazzoScartoService;
@@ -139,7 +137,7 @@ public class PartitaService {
         Partita partita = getPartita(partitaId);
         partita.setGameState(new EndGameState());
         for (Player giocatore : partita.getGiocatori()) {
-            playerRepository.save(giocatore);
+            playerService.savePlayer(giocatore.getId());
         }
         partitaRepository.save(partita);
     }

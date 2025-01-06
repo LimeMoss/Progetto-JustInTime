@@ -2,6 +2,7 @@ package com.justInTime.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.justInTime.model.*;
@@ -9,14 +10,13 @@ import com.justInTime.repository.*;
 
 @Service
 public class PlayerService {
-    private final PlayerRepository playerRepository;
-    private final UtenzaRepository utenzaRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-    public PlayerService(PlayerRepository playerRepository, PartitaRepository partitaRepository, 
-                        UtenzaRepository utenzaRepository) {
-        this.playerRepository = playerRepository;
-        this.utenzaRepository = utenzaRepository;
-    }
+    @Autowired
+    private UtenzaPlayerService utenzaPlayerService;
+    
+
 
     /**
      * Crea un nuovo giocatore associato ad una specifica utenza.
@@ -27,13 +27,11 @@ public class PlayerService {
      * @throws RuntimeException se l'utenza specificata non esiste
      */
     @Transactional
-    public Player creaGiocatore(String name, Long utenzaId) {
-        Utente utenza = utenzaRepository.findById(utenzaId)
-            .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
-        Player player = new Player(name);
+    public Player creaGiocatore(Long utenzaId) {
+        Utente utenza= utenzaPlayerService.trovaUtente(utenzaId);
+        Player player = new Player();
         player.setUtente(utenza);  
         utenza.setPlayer(player);
-        utenzaRepository.save(utenza);
         return playerRepository.save(player);
     }
 
@@ -154,4 +152,11 @@ public class PlayerService {
         player.setMaxScore(player.getMaxScore()+(10-(player.getMano().size())));
         return playerRepository.save(player);
     }
+        @Transactional
+    public Player savePlayer(Long playerId){
+        Player player= trovaGiocatore(playerId);
+        return playerRepository.save(player);
+    }
+
+
 }
