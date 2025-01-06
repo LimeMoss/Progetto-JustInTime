@@ -1,35 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
     const maxPlayers = 4;
-    const minPlayers = 2;
+    const minPlayers = 1;
     const playersForm = document.querySelector('.players-form');
     const addPlayerButton = document.getElementById('addplayer');
     const removePlayerButton = document.getElementById('removeplayer');
     document.getElementById('registrationB1').disabled = true;
     const newGameButton = document.getElementById('initbutton');
     const errorMessage = document.getElementById('error-message-start');
-    let number = 0;
+    let currentPlayerId = 0;
 
-    // Impostare il nome del giocatore 1 dalla sessione
+    // Imposta il nome del giocatore 1 dalla sessione
     fetch('/utenze/trovaUtenza', {
         method: 'GET',
         credentials: 'include'
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Errore nel recupero dei dati giocatore.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById("player1").value = data.username || "Username_N/A";
-        })
-        .catch(error => console.error('Errore:', error));
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Errore nel recupero dei dati giocatore.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById("player1").value = data.username || "Username_N/A";
+    })
+    .catch(error => console.error('Errore:', error));
 
-    // Funzione per aggiornare i pulsanti di aggiunta e rimozione dei giocatori
+    // Funzione per aggiornare i pulsanti di aggiunta e rimozione giocatori
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         addPlayerButton.disabled = currentPlayers >= maxPlayers;
-        removePlayerButton.disabled = currentPlayers < minPlayers;
+        removePlayerButton.disabled = currentPlayers <= minPlayers;
     }
 
     // Funzione per aggiungere un giocatore
@@ -42,116 +42,100 @@ document.addEventListener('DOMContentLoaded', function() {
             newInputGroup.innerHTML = `
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
-                    <input type="text" id="player${newPlayerNumber}" name="${newPlayerNumber}" placeholder="Username" readonly>
+                    <input type="text" id="player${newPlayerNumber}" name="player${newPlayerNumber}" placeholder="Username" readonly>
                     <button class="registeredplayerbuttons" id="registrationB${newPlayerNumber}">Effettua il login</button>
                 </div>
             `;
             playersForm.appendChild(newInputGroup);
             updateButtons();
-            attachEventListeners(); // Aggiungi event listener per i nuovi pulsanti
+            attachEventListeners(); // Aggiunge event listener per i nuovi pulsanti
         }
     });
 
     // Funzione per rimuovere un giocatore
     removePlayerButton.addEventListener('click', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
+
         if (currentPlayers > minPlayers) {
-            const playerToRemove = playersForm.lastElementChild;
-            // Rimuovi il giocatore dal front-end
-            console.log(currentPlayers);
-            const userName = document.querySelector(`#player${currentPlayers}`).value
-            console.log(userName);
-            if (userName != null) {
-                rimuoviPlayer();
-            }
-            playersForm.removeChild(playerToRemove);
-            updateButtons();
-        }
-    });
-
-    // Funzione per avviare la partita e reindirizzare
-    function startGame() {
-        fetch('/api/game-config/create-and-start', {
-            method: 'POST',
-            credentials: 'include'
-        })
+            fetch(`/api/game-config/remove-player`, {
+                method: 'DELETE',
+                credentials: 'include',
+            })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Errore durante la creazione della partita.');
-                }
-                return response.text();
-            })
-            .then(data => {
-                // Reindirizza alla pagina "startmatch"
-                window.location.href = '/startmatch';
-            })
-            .catch(error => {
-                console.error('Errore:', error);
-                errorMessage.textContent = 'Errore durante l\'avvio della partita.';
-                errorMessage.style.display = 'block';
-            });
-    }
-
-// Modifica del listener "Inizia partita"
-    newGameButton.addEventListener('click', function(event) {
-        const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
-        let registeredPlayersCount = 1;
-
-        visibleButtons.forEach(function(button) {
-            if (button.innerText === 'Login effettuato!') {
-                registeredPlayersCount++;
-            }
-        });
-
-        if (registeredPlayersCount < minPlayers || registeredPlayersCount > maxPlayers) {
-            event.preventDefault();
-            errorMessage.textContent = 'È necessario avere almeno 2 e massimo 4 giocatori registrati per avviare la partita.';
-            errorMessage.style.display = 'block';
-        } else {
-            errorMessage.style.display = 'none';
-            startGame(); // Avvia la partita
-        }
-    });
-
-
-    function rimuoviPlayer() {
-        fetch(`/api/game-config/remove-player`, {
-            method: 'DELETE',
-            credentials: 'include'
-        })
-            .then(response => {
-                if (!response.ok) {
-                    console.log(response.text());
                     throw new Error('Errore durante la rimozione del giocatore.');
                 }
                 return response.text();
             })
-            .then(message => console.log(message))
+            .then(removedUsername => {
+                console.log('Giocatore rimosso:', removedUsername);
+
+                // Trova il gruppo da rimuovere
+                const playerToRemove = Array.from(playersForm.querySelectorAll('.input-group')).find(group => {
+                    const input = group.querySelector('input[type="text"]');
+                    return input && input.value === removedUsername;
+                });
+
+                if (playerToRemove) {
+                    playersForm.removeChild(playerToRemove);
+                    shiftPlayers(); // Aggiorna gli ID e le etichette
+                    updateButtons(); // Aggiorna i pulsanti
+                    if(registeredPlayersCount>1){
+                    registeredPlayersCount--;
+                    }
+                }
+            })
             .catch(error => console.error('Errore:', error));
+        }
+    });
+
+    // Funzione per aggiornare etichette, ID e stati dei giocatori
+    function shiftPlayers() {
+        const playerGroups = Array.from(playersForm.querySelectorAll('.input-group'));
+
+        playerGroups.forEach((group, index) => {
+            const newPlayerNumber = index + 1;
+            const label = group.querySelector('label');
+            const input = group.querySelector('input');
+            const button = group.querySelector('button');
+
+            // Aggiorna etichetta, ID e nome
+            label.textContent = `Giocatore ${newPlayerNumber}`;
+            input.id = `player${newPlayerNumber}`;
+            input.name = `player${newPlayerNumber}`;
+            button.id = `registrationB${newPlayerNumber}`;
+
+            // Reinizializza campi vuoti
+            if (!input.value || input.value.trim() === "") {
+                input.value = "";
+                button.textContent = "Effettua il login";
+                button.disabled = false;
+            }
+        });
     }
 
     // Funzione per aprire il modal di login
     function openLoginModal(playerId) {
-        resetLoginForm(); // Reset dei campi del form
+        resetLoginForm(); // Resetta il form del modal
         document.getElementById('login-modal').style.display = 'block';
         document.getElementById('login-form').dataset.player = playerId;
     }
 
-    // Funzione per toggle del login
+    // Toggle del login
     function toggleRegistration(button) {
-        if (!(button.innerText === 'Login effettuato!')) {
-            const playerId = button.dataset.player;
+        if (button.innerText !== "Login effettuato!") {
+            const playerId = button.id.replace("registrationB", "");
             openLoginModal(playerId);
         }
     }
 
-    // Aggiungi event listener ai pulsanti di login
+    // Aggiunge event listener ai pulsanti di login
     function attachEventListeners() {
         const buttons = playersForm.querySelectorAll('.registeredplayerbuttons');
-        buttons.forEach(function(button) {
+        buttons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
-                number=button.getAttribute('name');
+                currentPlayerId = button.id.replace("registrationB", "");
                 toggleRegistration(button);
             });
         });
@@ -164,85 +148,91 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('error-message').style.display = 'none';
     }
 
-    attachEventListeners();
-    updateButtons();
-
-    // Chiudi il modal
+    // Chiude il modal di login
     document.getElementById('close-modal').addEventListener('click', function() {
         document.getElementById('login-modal').style.display = 'none';
     });
 
-    // Gestisci il submit del form di login
+    // Gestisce il submit del form di login
     document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        // Invia la richiesta al backend per il login del giocatore
         fetch('/api/game-config/add-player-login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                usernameOrEmail: username,
-                password: password
-            })
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ usernameOrEmail: username, password: password })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === "Login e aggiunta giocatore effettuati con successo") {
-                    // Login riuscito, aggiorna il nome del giocatore
-                    document.querySelector(`#player${number}`).value = username;
-                    document.querySelector(`#registrationB${number}`).textContent = 'Login effettuato!';
-                    document.querySelector(`#registrationB${number}`).cli = true;
-                    document.getElementById('login-modal').style.display = 'none';
-                    document.getElementById('player' + number).value = username;
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Login e aggiunta giocatore effettuati con successo") {
+                const input = document.querySelector(`#player${currentPlayerId}`);
+                const button = document.querySelector(`#registrationB${currentPlayerId}`);
 
-                } else {
-                    // Login fallito
-                    document.getElementById('error-message').textContent = data.message;
-                    document.getElementById('error-message').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('Errore:', error);
-                document.getElementById('error-message').textContent = 'Nome utente o password errati';
+                input.value = username;
+                button.textContent = "Login effettuato!";
+                button.disabled = true;
+
+                document.getElementById('login-modal').style.display = 'none';
+            } else {
+                document.getElementById('error-message').textContent = data.message;
                 document.getElementById('error-message').style.display = 'block';
-            });
+            }
+        })
+        .catch(error => {
+            console.error('Errore:', error);
+            document.getElementById('error-message').textContent = 'Nome utente o password errati';
+            document.getElementById('error-message').style.display = 'block';
+        });
     });
 
-    // Chiudi la finestra di dialogo quando si clicca fuori
-    window.onclick = function(event) {
-        if (event.target === document.getElementById('login-modal')) {
-            document.getElementById('login-modal').style.display = 'none';
-        }
-    }
-
-    // Inizia la partita (controlla se tutti i giocatori sono registrati)
+    // Inizia la partita
     newGameButton.addEventListener('click', function(event) {
-        const visibleButtons = playersForm.querySelectorAll('.registeredplayerbuttons');
-        let registeredPlayersCount = 1;
+        const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
+        let registeredPlayersCount = 0;
 
-        // Conta quanti giocatori sono registrati
-        visibleButtons.forEach(function(button) {
-            if (button.innerText === 'Login effettuato!') {
+        visibleButtons.forEach(button => {
+            if (button.innerText === "Login effettuato!") {
                 registeredPlayersCount++;
             }
         });
 
-        // Verifica se ci sono almeno 2 giocatori registrati e non più di 4
-        if (registeredPlayersCount < minPlayers || registeredPlayersCount > maxPlayers) {
+
+
+        if (registeredPlayersCount <= minPlayers || registeredPlayersCount > maxPlayers) {
             event.preventDefault();
             errorMessage.textContent = 'È necessario avere almeno 2 e massimo 4 giocatori registrati per avviare la partita.';
             errorMessage.style.display = 'block';
+            
         } else {
-            errorMessage.style.display = 'none'; // Nasconde il messaggio di errore se tutto è a posto
+            errorMessage.style.display = 'none';
+
+            fetch('/api/game-config/create-and-start', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore durante la creazione della partita.');
+                }
+                return response.text();
+            })
+            .then(() => {
+                window.location.href = '/startmatch';
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                errorMessage.textContent = 'Errore durante l\'avvio della partita.';
+                errorMessage.style.display = 'block';
+            });
         }
     });
 
-
+    attachEventListeners();
+    updateButtons();
+    
     window.onbeforeunload = function() {
 
         fetch('/resetIsPageOpen', {
@@ -261,3 +251,5 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionStorage.setItem("IsPageOpen", "false"); 
     };
 });
+
+   
