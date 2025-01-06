@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         addPlayerButton.disabled = currentPlayers >= maxPlayers;
-        removePlayerButton.disabled = currentPlayers <= minPlayers;
+        removePlayerButton.disabled = currentPlayers < minPlayers;
     }
 
     // Funzione per aggiungere un giocatore
