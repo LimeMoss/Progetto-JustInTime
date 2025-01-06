@@ -93,9 +93,6 @@ public class PartitaConfigService {
 
 
 
-
-
-
     Utente utente = utenzaService.login(usernameOrEmail, password);if(utente==null)
     {
         throw new IllegalArgumentException("Credenziali non valide.");

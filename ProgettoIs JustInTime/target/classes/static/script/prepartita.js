@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     playersForm.removeChild(playerToRemove);
                     shiftPlayers(); // Aggiorna gli ID e le etichette
                     updateButtons(); // Aggiorna i pulsanti
+                    registeredPlayersCount--;
                 }
             })
             .catch(error => console.error('Errore:', error));
@@ -188,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inizia la partita
     newGameButton.addEventListener('click', function(event) {
         const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
-        let registeredPlayersCount = 1;
+        let registeredPlayersCount = 0;
 
         visibleButtons.forEach(button => {
             if (button.innerText === "Login effettuato!") {
@@ -196,10 +197,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        if (registeredPlayersCount < minPlayers || registeredPlayersCount > maxPlayers) {
+
+
+        if (registeredPlayersCount <= minPlayers || registeredPlayersCount > maxPlayers) {
             event.preventDefault();
             errorMessage.textContent = 'È necessario avere almeno 2 e massimo 4 giocatori registrati per avviare la partita.';
             errorMessage.style.display = 'block';
+            
         } else {
             errorMessage.style.display = 'none';
 
@@ -226,4 +230,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     attachEventListeners();
     updateButtons();
+    
+    window.onbeforeunload = function() {
+
+        fetch('/resetIsPageOpen', {
+            method: 'POST',
+            credentials: 'include'  
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('IsPageOpen resettato nel backend');
+            }
+        })
+        .catch(error => {
+            console.error('Errore nel resettare IsPageOpen nel backend:', error);
+        });
+    
+        sessionStorage.setItem("IsPageOpen", "false"); 
+    };
 });
+
+   
