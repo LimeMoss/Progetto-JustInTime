@@ -89,4 +89,11 @@ public class AuthController {
         }
         return new ModelAndView("login");
     }
+
+    @PostMapping("/resetIsPageOpen")
+public String resetIsPageOpen(HttpSession session) {
+
+    session.removeAttribute("IsPageOpen");
+    return "success";  
+}
 }

@@ -35,6 +35,8 @@ public class PagesController {
         return "registrazione";
     }
 
+    
+
     @GetMapping("/achievements")
     public String achievements(HttpSession session) {
         if (!SessionUtil.isUtenteLoggato(session)) {
@@ -45,10 +47,25 @@ public class PagesController {
 
     @GetMapping("/prepartita")
     public String prepartita(HttpSession session) {
+
         if (!SessionUtil.isUtenteLoggato(session)) {
+            session.setAttribute("SessionListener", false);
             return "redirect:/login";  
         }
-        return "prepartita";
+        
+
+        if (session.getAttribute("IsPageOpen") != null && (Boolean) session.getAttribute("IsPageOpen")) {
+    
+            return "redirect:/userHomepage";  
+        }
+        
+
+        session.setAttribute("IsPageOpen", true);
+        
+     
+        session.setAttribute("SessionListener", false);
+        
+        return "prepartita";  
     }
 
     @GetMapping("/rules")

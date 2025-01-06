@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('registrationB1').disabled = true;
     const newGameButton = document.getElementById('initbutton');
     const errorMessage = document.getElementById('error-message-start');
+    let number = 0;
+
+    // Impostare il nome del giocatore 1 dalla sessione
     fetch('/utenze/trovaUtenza', {
         method: 'GET',
         credentials: 'include'
@@ -22,14 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Errore:', error));
 
-
-
+    // Funzione per aggiornare i pulsanti di aggiunta e rimozione dei giocatori
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         addPlayerButton.disabled = currentPlayers >= maxPlayers;
         removePlayerButton.disabled = currentPlayers <= minPlayers;
     }
 
+    // Funzione per aggiungere un giocatore
     addPlayerButton.addEventListener('click', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers < maxPlayers) {
@@ -39,49 +42,77 @@ document.addEventListener('DOMContentLoaded', function() {
             newInputGroup.innerHTML = `
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
-                    <input type="text" id="player${newPlayerNumber}" placeholder="Username">
+                    <input type="text" id="player${newPlayerNumber}" placeholder="Username" readonly>
                     <button class="registeredplayerbuttons" id="registrationB${newPlayerNumber}">Effettua il login</button>
                 </div>
             `;
             playersForm.appendChild(newInputGroup);
             updateButtons();
-            attachEventListeners(); // Attach event listeners to new buttons
+            attachEventListeners(); // Aggiungi event listener per i nuovi pulsanti
         }
     });
 
+    // Funzione per rimuovere un giocatore
     removePlayerButton.addEventListener('click', function() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         if (currentPlayers > minPlayers) {
-            playersForm.removeChild(playersForm.lastElementChild);
+            const playerToRemove = playersForm.lastElementChild;
+            // Rimuovi il giocatore dal front-end
+            console.log(currentPlayers);
+            const userName = document.querySelector(`#player${currentPlayers}`).value
+            console.log(userName);
+            if (userName != null) {
+                rimuoviPlayer();
+            }
+            playersForm.removeChild(playerToRemove);
             updateButtons();
         }
     });
 
+    function rimuoviPlayer() {
+        fetch(`/api/game-config/remove-player`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response.text());
+                    throw new Error('Errore durante la rimozione del giocatore.');
+                }
+                return response.text();
+            })
+            .then(message => console.log(message))
+            .catch(error => console.error('Errore:', error));
+    }
+
+    // Funzione per aprire il modal di login
     function openLoginModal(playerId) {
-        resetLoginForm(); // Reset the form fields
+        resetLoginForm(); // Reset dei campi del form
         document.getElementById('login-modal').style.display = 'block';
         document.getElementById('login-form').dataset.player = playerId;
     }
 
+    // Funzione per toggle del login
     function toggleRegistration(button) {
-        if (button.innerText === 'Login effettuato!') {
-            button.innerText = '';
-        } else {
+        if (!(button.innerText === 'Login effettuato!')) {
             const playerId = button.dataset.player;
             openLoginModal(playerId);
         }
     }
 
+    // Aggiungi event listener ai pulsanti di login
     function attachEventListeners() {
         const buttons = playersForm.querySelectorAll('.registeredplayerbuttons');
         buttons.forEach(function(button) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
+                number=button.getAttribute('name');
                 toggleRegistration(button);
             });
         });
     }
 
+    // Funzione per resettare il form di login
     function resetLoginForm() {
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
@@ -91,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
     attachEventListeners();
     updateButtons();
 
-    // Chiudi la finestra di dialogo
+    // Chiudi il modal
     document.getElementById('close-modal').addEventListener('click', function() {
         document.getElementById('login-modal').style.display = 'none';
     });
@@ -102,27 +133,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        const email = "default@example.com"; // Assume an email for now
-        const playerId = this.dataset.player;
 
-        // Invia la richiesta al backend
-        fetch('/auth/register', {
+        // Invia la richiesta al backend per il login del giocatore
+        fetch('/api/game-config/add-player-login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({ username, password, email })
+            body: new URLSearchParams({
+                usernameOrEmail: username,
+                password: password
+            })
         })
             .then(response => response.json())
             .then(data => {
-                if (response.ok) {
-                    // Login riuscito
-                    document.getElementById('player' + playerId).value = username;
-                    document.querySelector(`[data-player="${playerId}"]`).textContent = 'Login effettuato!';
+                if (data.message === "Login e aggiunta giocatore effettuati con successo") {
+                    // Login riuscito, aggiorna il nome del giocatore
+                    document.querySelector(`#player${number}`).value = username;
+                    document.querySelector(`#registrationB${number}`).textContent = 'Login effettuato!';
+                    document.querySelector(`#registrationB${number}`).cli = true;
                     document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('player' + number).value = username;
+
                 } else {
                     // Login fallito
-                    document.getElementById('error-message').textContent = data;
+                    document.getElementById('error-message').textContent = data.message;
                     document.getElementById('error-message').style.display = 'block';
                 }
             })
@@ -133,19 +168,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
 
-    // Chiudi la finestra di dialogo quando si clicca fuori di essa
+    // Chiudi la finestra di dialogo quando si clicca fuori
     window.onclick = function(event) {
-        if (event.target == document.getElementById('login-modal')) {
+        if (event.target === document.getElementById('login-modal')) {
             document.getElementById('login-modal').style.display = 'none';
         }
     }
 
+    // Inizia la partita (controlla se tutti i giocatori sono registrati)
     newGameButton.addEventListener('click', function(event) {
         const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
         let allRegistered = true;
 
         visibleButtons.forEach(function(button) {
-            if (button.innerText !== 'X') {
+            if (button.innerText !== 'Login effettuato!') {
                 allRegistered = false;
             }
         });
@@ -156,4 +192,23 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.style.display = 'block';
         }
     });
+
+
+    window.onbeforeunload = function() {
+
+        fetch('/resetIsPageOpen', {
+            method: 'POST',
+            credentials: 'include'  
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('IsPageOpen resettato nel backend');
+            }
+        })
+        .catch(error => {
+            console.error('Errore nel resettare IsPageOpen nel backend:', error);
+        });
+    
+        sessionStorage.setItem("IsPageOpen", "false"); 
+    };
 });

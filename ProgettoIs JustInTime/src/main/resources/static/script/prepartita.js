@@ -192,4 +192,23 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.style.display = 'block';
         }
     });
+
+
+    window.onbeforeunload = function() {
+
+        fetch('/resetIsPageOpen', {
+            method: 'POST',
+            credentials: 'include'  
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('IsPageOpen resettato nel backend');
+            }
+        })
+        .catch(error => {
+            console.error('Errore nel resettare IsPageOpen nel backend:', error);
+        });
+    
+        sessionStorage.setItem("IsPageOpen", "false"); 
+    };
 });

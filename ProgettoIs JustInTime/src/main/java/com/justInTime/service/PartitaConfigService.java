@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
@@ -30,15 +29,13 @@ public class PartitaConfigService {
     @Autowired
     UtenzaService utenzaService;
 
-    @Autowired 
+    @Autowired
     PlayerService playerService;
 
-    @Autowired 
+    @Autowired
     PlayerRepository playerRepository;
 
-
-    private List<Player> giocatoriInConfigurazione = new ArrayList<>();
-
+    private List<Player> giocatoriInConfigurazione= new ArrayList<Player>();
 
     /**
      * Aggiunge un giocatore alla configurazione corrente.
@@ -46,52 +43,87 @@ public class PartitaConfigService {
      * nella partita.
      * 
      * @param usernameOrEmail l'username o l'email del giocatore da aggiungere
-     * @param password la password del giocatore da aggiungere
+     * @param password        la password del giocatore da aggiungere
      * @throws IllegalArgumentException se il giocatore non esiste o se la password
      *                                  non è corretta o se il giocatore è già stato
      *                                  aggiunto o se il numero di giocatori da
      *                                  aggiungere supera il massimo consentito (4)
      */
+
     public void aggiungiGiocatoreConfig(String usernameOrEmail, String password, HttpSession session) {
+        // Verifica lo stato del flag di sessione (SessionListener)
+        Boolean sessionListener = (Boolean) session.getAttribute("SessionListener");
 
-        Utente SessionUser = (Utente) session.getAttribute("utente");
-        if (usernameOrEmail.equals(SessionUser.getUsername())) {
-            throw new IllegalArgumentException("L'utente è già stato aggiunto");
+        if (sessionListener == null || !sessionListener) {
+            if (giocatoriInConfigurazione != null) {
+                giocatoriInConfigurazione.clear();
+
+            }
+
         }
+    
 
+    Utente SessionUser = (Utente) session.getAttribute("utente");
+    
+    
+    if(SessionUser==null)
+    {
+        throw new IllegalStateException("Utente non presente nella sessione.");
+    }
+
+    // Verifica se l'utente sta cercando di aggiungere se stesso
+    if(usernameOrEmail.equals(SessionUser.getUsername()))
+    {
+        throw new IllegalArgumentException("L'utente è già stato aggiunto");
+    }
+
+    if(giocatoriInConfigurazione!=null)
+    {
         if (giocatoriInConfigurazione.size() >= 4) {
             throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
         }
-    
-     
-        for (Player giocatore : giocatoriInConfigurazione) {
-            if (giocatore.getUtente().getUsername().equals(usernameOrEmail) || giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
-                throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
+
+        for(
+            Player giocatore:giocatoriInConfigurazione)
+            {
+                if (giocatore.getUtente().getUsername().equals(usernameOrEmail) ||
+                        giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
+                    throw new IllegalArgumentException("Il giocatore è già stato aggiunto.");
+                }
             }
-        }
+    }
+
+
+
+
+
+
+    Utente utente = utenzaService.login(usernameOrEmail, password);if(utente==null)
+    {
+        throw new IllegalArgumentException("Credenziali non valide.");
+    }
+
+
+    Player nuovoGiocatore = null;
     
-        Utente utente = utenzaService.login(usernameOrEmail, password);
-        if (utente == null) {
-            throw new IllegalArgumentException("Credenziali non valide.");
-        }
-    
-      
-        Player nuovoGiocatore = null;
-    try {
-     
+    try
+    {
         nuovoGiocatore = playerService.trovaGiocatore(utente.getId());
-    } catch (RuntimeException e) {
-
-        if (e.getMessage().contains("Giocatore non trovato")) {
-            nuovoGiocatore = playerService.creaGiocatore(usernameOrEmail, utente.getId());
+    }catch(
+    RuntimeException e)
+    {
+        if (e.getMessage().contains("Giocatore non trovato.")) {
+            nuovoGiocatore = playerService.creaGiocatore(utente.getId());
         } else {
-            throw e; 
+            throw e;
         }
     }
-    giocatoriInConfigurazione.add(nuovoGiocatore);
-    
 
+    giocatoriInConfigurazione.add(nuovoGiocatore);
+
+    session.setAttribute("SessionListener",true);
     }
+
     /**
      * Aggiunge un giocatore alla configurazione corrente senza eseguire il login.
      * La configurazione corrente contiene i giocatori che saranno coinvolti
@@ -121,9 +153,6 @@ public class PartitaConfigService {
     
         giocatoriInConfigurazione.addFirst(player);
     }
-    
-    
-
 
     /**
      * Rimuove l'ultimo giocatore aggiunto alla configurazione corrente.
@@ -133,7 +162,7 @@ public class PartitaConfigService {
      * @throws IllegalArgumentException se non ci sono giocatori da rimuovere
      */
     public void rimuoviGiocatore() {
-        if(giocatoriInConfigurazione.size() > 1){
+        if(giocatoriInConfigurazione != null){
         //playerService.deletePlayer(giocatoriInConfigurazione.getLast().getId());
         giocatoriInConfigurazione.removeLast();
         }
@@ -190,7 +219,6 @@ public class PartitaConfigService {
     return partita;
 }
 
-
 /**
  * Restituisce una lista dei nomi dei giocatori attualmente 
  * in configurazione per la partita.
@@ -198,15 +226,16 @@ public class PartitaConfigService {
  * @return una lista di stringhe contenente i nomi dei giocatori
  *         in configurazione.
  */
+public List<String> getGiocatoriInConfigurazione(HttpSession session) {
 
-    public List<String> getGiocatoriInConfigurazione() {
-        List<String> nomiGiocatori = new ArrayList<>();
-        for (Player giocatore : giocatoriInConfigurazione) {
-            nomiGiocatori.add(giocatore.getUtente().getUsername());  
+    List<String> nomiGiocatori = new ArrayList<>();
+    for (Player giocatore : giocatoriInConfigurazione) {
+        if (giocatore != null && giocatore.getUtente() != null) {
+            nomiGiocatori.add(giocatore.getUtente().getUsername());
         }
-        return nomiGiocatori;
     }
-
+    return nomiGiocatori;
+}
 
     /**
      * Aggiunge un giocatore ad una partita.
@@ -256,6 +285,7 @@ public class PartitaConfigService {
         
         return playerRepository.save(player);
     }
+
     /**
      * Verifica se un giocatore è in una partita.
      * L'operazione viene eseguita in modo atomic.
@@ -270,6 +300,7 @@ public class PartitaConfigService {
         return player.getPartite().stream()
                 .anyMatch(partita -> partita.getId().equals(partitaId));
     }
+
     public void AssociazionePlayerUtenzaSession(Utente primoUtente){
         try {
             
@@ -281,7 +312,7 @@ public class PartitaConfigService {
             if (e.getMessage().contains("Giocatore non trovato")) {
 
             
-               playerService.creaGiocatore(primoUtente.getUsername(), primoUtente.getId());
+               playerService.creaGiocatore(primoUtente.getId());
             } else {
                 throw e; 
             }
@@ -315,5 +346,4 @@ public Partita creaNuovaPartitaDaPartitaPrecedente(Long partitaId) {
     return nuovaPartita;
 }
 
-    
 }

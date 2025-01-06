@@ -14,7 +14,6 @@ import com.justInTime.model.Partita;
 import com.justInTime.model.Utente;
 import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
-import com.justInTime.service.UtenzaService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,22 +27,15 @@ public class PartitaConfigController {
     @Autowired
     private PartitaService partitaService;
 
-    @Autowired
-    private UtenzaService utenzaService;
 
 
     @PostMapping("/add-player-login")
     public ResponseEntity<LoginResponse> addPlayerLogin(@RequestParam String usernameOrEmail, @RequestParam String password, HttpSession session) {
         try {
        
-            Utente utente = utenzaService.login(usernameOrEmail, password);
-            String username = utente.getUsername();
-    
-       
             partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password, session);
     
-       
-            LoginResponse response = new LoginResponse("Login e aggiunta giocatore effettuati con successo", username);
+            LoginResponse response = new LoginResponse("Login e aggiunta giocatore effettuati con successo", usernameOrEmail);
     
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -86,8 +78,8 @@ public class PartitaConfigController {
     }
 
     @GetMapping("/players")
-    public ResponseEntity<List<String>> getConfiguredPlayers() {
-        List<String> playerNames = partitaConfigService.getGiocatoriInConfigurazione();
+    public ResponseEntity<List<String>> getConfiguredPlayers(HttpSession session) {
+        List<String> playerNames = partitaConfigService.getGiocatoriInConfigurazione(session);
         return ResponseEntity.ok(playerNames);
     }
 
