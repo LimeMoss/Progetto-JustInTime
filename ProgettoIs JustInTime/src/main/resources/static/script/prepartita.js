@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             newInputGroup.innerHTML = `
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
-                    <input type="text" id="player${newPlayerNumber}" placeholder="Username" readonly>
+                    <input type="text" id="player${newPlayerNumber}" name="${newPlayerNumber}" placeholder="Username" readonly>
                     <button class="registeredplayerbuttons" id="registrationB${newPlayerNumber}">Effettua il login</button>
                 </div>
             `;
