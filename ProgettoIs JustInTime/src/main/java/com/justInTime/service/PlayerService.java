@@ -154,4 +154,6 @@ public class PlayerService {
         player.setMaxScore(player.getMaxScore()+(10-(player.getMano().size())));
         return playerRepository.save(player);
     }
+
+    
 }
