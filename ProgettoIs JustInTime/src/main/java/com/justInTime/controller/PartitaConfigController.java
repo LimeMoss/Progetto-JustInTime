@@ -70,8 +70,8 @@ public class PartitaConfigController {
     @DeleteMapping("/remove-player")
     public ResponseEntity<String> removePlayer() {
         try {
-            partitaConfigService.rimuoviGiocatore();
-            return ResponseEntity.ok("Giocatore rimosso con successo.");
+           String username = partitaConfigService.rimuoviGiocatore();
+            return ResponseEntity.ok(username);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }

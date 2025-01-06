@@ -159,10 +159,11 @@ public class PartitaConfigService {
      * 
      * @throws IllegalArgumentException se non ci sono giocatori da rimuovere
      */
-    public void rimuoviGiocatore() {
+    public String rimuoviGiocatore() {
         if(giocatoriInConfigurazione != null){
         //playerService.deletePlayer(giocatoriInConfigurazione.getLast().getId());
-        giocatoriInConfigurazione.removeLast();
+        Player player = giocatoriInConfigurazione.removeLast();
+        return player.getUtente().getUsername();
         }
         else throw  new IllegalArgumentException("Non ci sono giocatori da rimuovere.");
     }

@@ -28,13 +28,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function formatName() {
-        const nameField = document.getElementById('nome');
-        nameField.value = nameField.value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        nameInput.value = nameInput.value.charAt(0).toUpperCase() + nameInput.value.slice(1).toLowerCase();
     }
 
     function formatSurname() {
-        const nameField = document.getElementById('cognome');
-        nameField.value = nameField.value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        surnameInput.value = surnameInput.value.charAt(0).toUpperCase() + surnameInput.value.slice(1).toLowerCase();
     }
 
     function validateUsername() {
@@ -52,11 +50,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function validateSurname() {
-        const name = surnameInput.value;
-        const namePattern = /^[A-zÀ-ù ‘-]{2,30}$/;
+        const surname = surnameInput.value;
+        const surnamePattern = /^[A-zÀ-ù ‘-]{2,30}$/;
 
         // Check if the input is valid
-        if (namePattern.test(name)) {
+        if (surnamePattern.test(surname)) {
             surnameInput.setCustomValidity('');
         } else {
             surnameInput.setCustomValidity('Inserisci un cognome valido. (fra 2 e 30 caratteri senza caratteri speciali)');
@@ -163,10 +161,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     phoneField.addEventListener('input', formatPhoneNumber);
 
     const nameField = document.getElementById('nome');
-    nameField.addEventListener('input', formatName);
+    nameInput.addEventListener('input', formatName);
 
     const surnameField = document.getElementById('cognome');
-    surnameField.addEventListener('input', formatSurname);
+    surnameInput.addEventListener('input', formatSurname);
 
     const formToUse = form ? form : modifyForm;
 

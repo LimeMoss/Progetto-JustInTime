@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateButtons() {
         const currentPlayers = playersForm.querySelectorAll('.input-group').length;
         addPlayerButton.disabled = currentPlayers >= maxPlayers;
-        removePlayerButton.disabled = currentPlayers <= minPlayers;
+        removePlayerButton.disabled = currentPlayers < minPlayers;
     }
 
     // Funzione per aggiungere un giocatore
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             newInputGroup.innerHTML = `
                 <label for="player${newPlayerNumber}">Giocatore ${newPlayerNumber}</label>
                 <div class="input-selections">
-                    <input type="text" id="player${newPlayerNumber}" placeholder="Username" readonly>
+                    <input type="text" id="player${newPlayerNumber}" name="${newPlayerNumber}" placeholder="Username" readonly>
                     <button class="registeredplayerbuttons" id="registrationB${newPlayerNumber}">Effettua il login</button>
                 </div>
             `;
@@ -68,6 +68,51 @@ document.addEventListener('DOMContentLoaded', function() {
             updateButtons();
         }
     });
+
+    // Funzione per avviare la partita e reindirizzare
+    function startGame() {
+        fetch('/api/game-config/create-and-start', {
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore durante la creazione della partita.');
+                }
+                return response.text();
+            })
+            .then(data => {
+                // Reindirizza alla pagina "startmatch"
+                window.location.href = '/startmatch';
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                errorMessage.textContent = 'Errore durante l\'avvio della partita.';
+                errorMessage.style.display = 'block';
+            });
+    }
+
+// Modifica del listener "Inizia partita"
+    newGameButton.addEventListener('click', function(event) {
+        const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
+        let registeredPlayersCount = 1;
+
+        visibleButtons.forEach(function(button) {
+            if (button.innerText === 'Login effettuato!') {
+                registeredPlayersCount++;
+            }
+        });
+
+        if (registeredPlayersCount < minPlayers || registeredPlayersCount > maxPlayers) {
+            event.preventDefault();
+            errorMessage.textContent = 'È necessario avere almeno 2 e massimo 4 giocatori registrati per avviare la partita.';
+            errorMessage.style.display = 'block';
+        } else {
+            errorMessage.style.display = 'none';
+            startGame(); // Avvia la partita
+        }
+    });
+
 
     function rimuoviPlayer() {
         fetch(`/api/game-config/remove-player`, {
@@ -177,19 +222,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inizia la partita (controlla se tutti i giocatori sono registrati)
     newGameButton.addEventListener('click', function(event) {
-        const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
-        let allRegistered = true;
+        const visibleButtons = playersForm.querySelectorAll('.registeredplayerbuttons');
+        let registeredPlayersCount = 1;
 
+        // Conta quanti giocatori sono registrati
         visibleButtons.forEach(function(button) {
-            if (button.innerText !== 'Login effettuato!') {
-                allRegistered = false;
+            if (button.innerText === 'Login effettuato!') {
+                registeredPlayersCount++;
             }
         });
 
-        if (!allRegistered) {
+        // Verifica se ci sono almeno 2 giocatori registrati e non più di 4
+        if (registeredPlayersCount < minPlayers || registeredPlayersCount > maxPlayers) {
             event.preventDefault();
-            errorMessage.textContent = 'Tutti i giocatori devono essere registrati.';
+            errorMessage.textContent = 'È necessario avere almeno 2 e massimo 4 giocatori registrati per avviare la partita.';
             errorMessage.style.display = 'block';
+        } else {
+            errorMessage.style.display = 'none'; // Nasconde il messaggio di errore se tutto è a posto
         }
     });
 
