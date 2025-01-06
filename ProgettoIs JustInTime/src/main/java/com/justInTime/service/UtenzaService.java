@@ -107,7 +107,8 @@ public class UtenzaService {
     @Transactional
     public Utente aggiornaUtente(Long id, Utente utenteAggiornato, String password2) {
         Utente utente = trovaUtente(id);
-
+    
+  
         validaUsername(utenteAggiornato.getUsername());
         validaNome(utenteAggiornato.getName());
         validaCognome(utenteAggiornato.getCognome());
@@ -116,24 +117,47 @@ public class UtenzaService {
         validaDataNascita(utenteAggiornato.getDataNascita());
         validaTelefono(utenteAggiornato.getTelefono());
         validaPaese(utenteAggiornato.getPaese());
+    
 
-        if (utenzaRepository.existsByEmail(utenteAggiornato.getEmail())) {
+        if (!utente.getEmail().equals(utenteAggiornato.getEmail()) 
+                && utenzaRepository.existsByEmail(utenteAggiornato.getEmail())) {
             throw new RuntimeException("Email già registrata.");
         }
-        if (utenzaRepository.existsByUsername(utenteAggiornato.getUsername())) {
+
+        if (!utente.getUsername().equals(utenteAggiornato.getUsername()) 
+                && utenzaRepository.existsByUsername(utenteAggiornato.getUsername())) {
             throw new RuntimeException("Username già registrato.");
         }
 
-        utente.setNome(utenteAggiornato.getName());
-        utente.setCognome(utenteAggiornato.getCognome());
-        utente.setPaese(utenteAggiornato.getPaese());
-        utente.setEmail(utenteAggiornato.getEmail());
-        utente.setPassword(utenteAggiornato.getPassword());
-        utente.setUsername(utenteAggiornato.getUsername());
-        utente.setDataNascita(utenteAggiornato.getDataNascita());
-        utente.setTelefono(utenteAggiornato.getTelefono());
+        if (!utente.getName().equals(utenteAggiornato.getName())) {
+            utente.setNome(utenteAggiornato.getName());
+        }
+        if (!utente.getCognome().equals(utenteAggiornato.getCognome())) {
+            utente.setCognome(utenteAggiornato.getCognome());
+        }
+        if (!utente.getPaese().equals(utenteAggiornato.getPaese())) {
+            utente.setPaese(utenteAggiornato.getPaese());
+        }
+        if (!utente.getEmail().equals(utenteAggiornato.getEmail())) {
+            utente.setEmail(utenteAggiornato.getEmail());
+        }
+        if (!utente.getPassword().equals(utenteAggiornato.getPassword())) {
+            utente.setPassword(utenteAggiornato.getPassword());
+        }
+        if (!utente.getUsername().equals(utenteAggiornato.getUsername())) {
+            utente.setUsername(utenteAggiornato.getUsername());
+        }
+        if (!utente.getDataNascita().equals(utenteAggiornato.getDataNascita())) {
+            utente.setDataNascita(utenteAggiornato.getDataNascita());
+        }
+        if (!utente.getTelefono().equals(utenteAggiornato.getTelefono())) {
+            utente.setTelefono(utenteAggiornato.getTelefono());
+        }
+    
+  
         return utenzaRepository.save(utente);
     }
+    
 
     /**
      * Elimina l'utente con l'id specificato.

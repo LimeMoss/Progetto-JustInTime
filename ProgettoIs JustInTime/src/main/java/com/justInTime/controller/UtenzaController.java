@@ -75,7 +75,7 @@ public class UtenzaController {
         return modelAndView;  
         }catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body("Impossibile modificare l'utente.");
+            .body("Impossibile modificare l'utente. Dettagli errore: " + e.getMessage());
         }
     }
 
