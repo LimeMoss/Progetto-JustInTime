@@ -86,28 +86,33 @@ public class PartitaConfigController {
 
 
     @PostMapping("/create-and-start")
-    public Object createAndStartGame(HttpSession session) {
+    public ResponseEntity<Object> createAndStartGame(HttpSession session) {
         try {
-      
-            Partita newPartita = partitaConfigService.creaPartita(session);
+
+            if (session == null || session.getAttribute("utente") == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Utente non autenticato.");
+            }
     
-           
+         
+            Partita newPartita = partitaConfigService.creaPartita(session);
             session.setAttribute("partita", newPartita);
     
-     
+  
             partitaService.iniziaPartita(newPartita.getId());
     
-      
-            ModelAndView modelAndView = new ModelAndView("match"); 
-            modelAndView.addObject("partita", newPartita);  
+       
+            ModelAndView modelAndView = new ModelAndView("match");
+            modelAndView.addObject("partita", newPartita);
     
-            return modelAndView;  
+            return ResponseEntity.ok(modelAndView); 
         } catch (RuntimeException e) {
-     
+          
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body("Si è verificato un errore durante il processo.");
+                .body("Si è verificato un errore durante il processo.");
         }
     }
+    
     
 
     @PostMapping("/play-again")
