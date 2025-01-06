@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+
 import com.justInTime.model.Partita;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
@@ -15,6 +16,7 @@ import com.justInTime.repository.PartitaRepository;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+
 
 @Service
 public class PartitaConfigService {
@@ -30,6 +32,9 @@ public class PartitaConfigService {
 
     @Autowired
     PlayerService playerService;
+
+    @Autowired
+    PartitaService partitaService;
 
 
 
@@ -199,7 +204,7 @@ public class PartitaConfigService {
 
 
     StartGameState startGameState = applicationContext.getBean(StartGameState.class);
-    partita.setGameState(startGameState);
+    partitaService.setsGameState(partita.getId( ),startGameState);
 
 
 
@@ -317,16 +322,18 @@ public List<String> getGiocatoriInConfigurazione(HttpSession session) {
         
     }
 
+
+
     @Transactional
 public Partita creaNuovaPartitaDaPartitaPrecedente(Long partitaId) {
     Partita partitaPrecedente = partitaRepository.findById(partitaId)
-            .orElseThrow(() -> new RuntimeException("Partita non trovata."));
+            .orElseThrow(() -> new RuntimeException("Partita non trovata nella creazione da partita precedente."));
 
 
     Partita nuovaPartita = new Partita();
     
-    StartGameState startGameState = applicationContext.getBean(StartGameState.class);
-    nuovaPartita.setGameState(startGameState);
+    partitaService.setsGameState(nuovaPartita.getId(), new StartGameState());  
+;
 
 
     for (Player giocatore : partitaPrecedente.getGiocatori()) {

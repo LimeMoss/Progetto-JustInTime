@@ -1,12 +1,16 @@
 package com.justInTime.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.justInTime.service.PartitaService;
 
 @Component
 public class StartGameState implements GameState {
+
+    @Autowired
+    private ApplicationContext applicationContext;
     
     @Autowired
     private PartitaService partitaService;
@@ -25,8 +29,9 @@ public class StartGameState implements GameState {
         
         partitaService.distribuisciCarteIniziali(partita.getId());
         partita.setIndiceGiocatoreCorrente(0);
+
+        TurnState turnState = applicationContext.getBean(TurnState.class);
+        partitaService.setsGameState(partita.getId(), turnState);
         
-        partitaService.setGameState(partita.getId(), new TurnState());
-    
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.justInTime.model.Player;
 import com.justInTime.service.PlayerService;
 
+
 @RestController
 @RequestMapping("/giocatore")
 public class PlayerController {
@@ -50,5 +51,8 @@ public class PlayerController {
         List<Player> players = playerService.trovaTuttiGiocatori();
         return ResponseEntity.ok(players);
     }
+
+
+
 
 }

@@ -158,5 +158,11 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
+    @Transactional
+    public int getTimer(Long playerId){
+        Player player= trovaGiocatore(playerId);
+        return player.getDurataTurno();
+    }
+
 
 }

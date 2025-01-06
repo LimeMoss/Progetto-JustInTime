@@ -25,17 +25,12 @@ public class Partita {
     private Long id;
 
     private Date dataInizio;
-    
+
     @Transient
     private GameState gameState;
 
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "partita_giocatori",
-        joinColumns = @JoinColumn(name = "partita_id"),
-        inverseJoinColumns = @JoinColumn(name = "player_id")
-    )
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinTable(name = "partita_giocatori", joinColumns = @JoinColumn(name = "partita_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
     private List<Player> giocatori;
 
     @Transient
@@ -50,7 +45,6 @@ public class Partita {
     @Transient
     Map<Player, List<Achievements>> playerAchievements = new HashMap<>();
 
-
     public Partita() {
         this.dataInizio = new Date();
         this.giocatori = new ArrayList<>();
@@ -59,20 +53,16 @@ public class Partita {
         this.indiceGiocatoreCorrente = 0;
     }
 
-
     public GameState getGameState() {
         return gameState;
     }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-        gameState.execute(this);;
+    
+        
     }
 
-    public void setGameStateArgument(EndGameState gameState, String Arg) {
-        this.gameState = gameState;
-         gameState.execute(this, Arg);;
-    }
 
     public List<Player> getGiocatori() {
         return this.giocatori;
@@ -132,7 +122,7 @@ public class Partita {
         this.dataInizio = dataInizio;
     }
 
-    public Map<Player, List<Achievements>> getPlayerAchievements(){
+    public Map<Player, List<Achievements>> getPlayerAchievements() {
         return this.playerAchievements;
     }
 

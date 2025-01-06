@@ -50,11 +50,11 @@ public class PauseState implements GameState {
         if (isGameOver(partita)) {
             
             EndGameState endGameState = applicationContext.getBean(EndGameState.class);
-            partitaService.setGameState(partita.getId(),endGameState);
+            partitaService.setsGameState(partita.getId(),endGameState);
           
         } else {
             TurnState turnState = applicationContext.getBean(TurnState.class);
-            partitaService.setGameState(partita.getId(),turnState);
+            partitaService.setsGameState(partita.getId(),turnState);
    
         }
     }

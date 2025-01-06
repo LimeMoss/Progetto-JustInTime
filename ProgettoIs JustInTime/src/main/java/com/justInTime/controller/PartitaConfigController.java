@@ -14,7 +14,8 @@ import com.justInTime.model.Partita;
 import com.justInTime.model.Utente;
 import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -85,31 +86,42 @@ public class PartitaConfigController {
 
 
 
+
+    
     @PostMapping("/create-and-start")
     public ResponseEntity<Object> createAndStartGame(HttpSession session) {
+        Logger logger = LoggerFactory.getLogger(getClass());
+        
         try {
-
+            // Debug: Verifica che la sessione e l'utente siano validi
+            logger.debug("Verifica sessione utente...");
             if (session == null || session.getAttribute("utente") == null) {
+                logger.warn("Sessione non valida o utente non autenticato.");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Utente non autenticato.");
+                        .body("Utente non autenticato.");
             }
     
-         
+            // Debug: Crea la nuova partita
+            logger.debug("Creazione nuova partita...");
             Partita newPartita = partitaConfigService.creaPartita(session);
             session.setAttribute("partita", newPartita);
+            logger.debug("Partita creata con ID: {}", newPartita.getId());
     
-  
+            // Debug: Avvio della partita
+            logger.debug("Inizio della partita con ID: {}", newPartita.getId());
             partitaService.iniziaPartita(newPartita.getId());
     
-       
+            // Debug: Creazione e invio del ModelAndView
+            logger.debug("Preparazione della vista della partita...");
             ModelAndView modelAndView = new ModelAndView("match");
             modelAndView.addObject("partita", newPartita);
-    
-            return ResponseEntity.ok(modelAndView); 
+            
+            return ResponseEntity.ok(modelAndView);
         } catch (RuntimeException e) {
-          
+            // Debug: Errore durante il processo
+            logger.error("Si è verificato un errore durante il processo: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Si è verificato un errore durante il processo.");
+                    .body("Si è verificato un errore durante il processo.");
         }
     }
     

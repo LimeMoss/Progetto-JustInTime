@@ -53,13 +53,13 @@ public class PartitaController {
 
             switch (gameState.toLowerCase()) {
                 case "start":
-                    partitaService.setGameState(partita.getId(), new StartGameState());
+                    partitaService.setsGameState(partita.getId(), new StartGameState());
                     break;
                 case "pause":
-                    partitaService.setGameState(partita.getId(), new PauseState());
+                    partitaService.setsGameState(partita.getId(), new PauseState());
                     break;
                 case "end":
-                    partitaService.setGameState(partita.getId(), new EndGameState());
+                    partitaService.setsGameState(partita.getId(), new EndGameState());
                     break;
                 default:
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stato di gioco non valido.");
@@ -118,6 +118,19 @@ public class PartitaController {
     return ResponseEntity.ok().build(); 
 }
 
+    @GetMapping("/timer")
+    public ResponseEntity<?> getTimerPlayer(HttpSession session){
+       
+       try{
+        Partita partita = (Partita) session.getAttribute("partita");
+        return ResponseEntity.ok(partitaService.getCurrentPlayerTimer(partita.getId()));
+       }
+       catch(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Giocatore non trovato nella partita.");
+       }
+    
+    }
 
+   
     
 }

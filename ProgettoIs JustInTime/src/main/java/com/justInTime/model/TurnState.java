@@ -89,7 +89,7 @@ public class TurnState implements GameState {
 
         
          PauseState pauseState = applicationContext.getBean(PauseState.class);
-        partitaService.setGameState(partita.getId(), pauseState);
+        partitaService.setsGameState(partita.getId(), pauseState);
 
     
     }
