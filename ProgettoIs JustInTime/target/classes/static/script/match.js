@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const onTableCard = document.getElementById('ontable-cards').querySelector('img');
     const deck = document.getElementById('deck').querySelector('img');
     const alertBanner = document.getElementById('alert-banner');
+    const popupContainer = document.getElementById('popup-container');
 
     function addCardToHand() {
         const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
@@ -10,20 +11,55 @@ document.addEventListener("DOMContentLoaded", function() {
             showAlertBanner();
             return;
         }
-        // Crea una nuova carta e aggiungila alla mano
         const newCard = document.createElement('img');
-        newCard.src = '../static/images/justcardbase.png'; // Assumi che sia questa l'immagine della nuova carta
+        newCard.src = '../images/justcardbase.png';
         newCard.alt = 'onhand-card';
         newCard.classList.add('clickable-card');
-        newCard.addEventListener('click', function() {
-            // Sposta la carta cliccata al tavolo
-            onTableCard.src = newCard.src;
-            newCard.remove(); // Rimuove la carta dalla mano
-            updateCardSizes();
-            closeBanner(); // Chiudi il banner se una carta viene cliccata
-        });
+        newCard.addEventListener('click', handleCardClick);
         onHandContainer.appendChild(newCard);
         updateCardSizes();
+        showPopup('Turno completato', 'Premi OK per passare il turno', false); // Mostra il popup "Turno completato"
+    }
+
+    function handleCardClick(event) {
+        const clickedCard = event.currentTarget;
+        onTableCard.src = clickedCard.src;
+        clickedCard.remove();
+        updateCardSizes();
+        closeBanner();
+        showPopup('Turno completato', 'Premi OK per passare il turno', false);
+    }
+
+    function showPopup(title, message, blurBackground) {
+        popupContainer.innerHTML = `
+            <div class="popup-content">
+                <h1>${title}</h1>
+                <p>${message}</p>
+                <button id="popup-ok-btn">OK</button>
+            </div>
+        `;
+
+        if (blurBackground) {
+            popupContainer.classList.remove('normal');
+            popupContainer.classList.add('blurred');
+        } else {
+            popupContainer.classList.remove('blurred');
+            popupContainer.classList.add('normal');
+        }
+
+        popupContainer.style.display = 'flex';
+
+        document.getElementById('popup-ok-btn').addEventListener('click', () => {
+            popupContainer.style.display = 'none';
+            if (title === 'Turno completato') {
+                showNextTurnUser();
+            }
+        });
+    }
+
+    function showNextTurnUser() {
+        const nextTurnUser = "Prossimo Utente"; // Sostituisci con logica per ottenere il prossimo utente
+        showPopup(`Turno di ${nextTurnUser}`, 'Premi OK per iniziare', true);
     }
 
     function updateCardSizes() {
@@ -54,18 +90,11 @@ document.addEventListener("DOMContentLoaded", function() {
     deck.addEventListener('click', addCardToHand);
     window.addEventListener('resize', updateCardSizes);
 
-    // Aggiungi l'event listener a tutte le carte attuali in mano
     document.querySelectorAll('.onhand-cards .clickable-card').forEach(card => {
-        card.addEventListener('click', function() {
-            // Sposta la carta cliccata al tavolo
-            onTableCard.src = card.src;
-            card.remove(); // Rimuove la carta dalla mano
-            updateCardSizes();
-            closeBanner(); // Chiudi il banner se una carta viene cliccata
-        });
+        card.addEventListener('click', handleCardClick);
     });
 
-    window.closeBanner = closeBanner; // Assicura che la funzione closeBanner sia accessibile globalmente
+    window.closeBanner = closeBanner;
 
-    updateCardSizes(); // Assicura che le dimensioni delle carte siano aggiornate all'avvio
+    updateCardSizes();
 });

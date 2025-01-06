@@ -92,17 +92,5 @@ public class FullPlayerDataDTOPsw {
         this.dataNascita = dataNascita;
     }
 
-    @Override
-    public String toString() {
-        return "FullPlayerDataDTOPsw{" +
-                "username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", paese='" + paese + '\'' +
-                ", dataNascita=" + dataNascita +
-                '}';
-    }
+
 }

@@ -10,12 +10,14 @@ import com.justInTime.repository.*;
 @Service
 public class PlayerService {
     private final PlayerRepository playerRepository;
-    private final UtenzaRepository utenzaRepository;
+    
+    
+    private final UtenzaService utenzaService;
 
     public PlayerService(PlayerRepository playerRepository, PartitaRepository partitaRepository, 
-                        UtenzaRepository utenzaRepository) {
+                        UtenzaService utenzaService) {
         this.playerRepository = playerRepository;
-        this.utenzaRepository = utenzaRepository;
+        this.utenzaService=utenzaService;
     }
 
     /**
@@ -27,13 +29,11 @@ public class PlayerService {
      * @throws RuntimeException se l'utenza specificata non esiste
      */
     @Transactional
-    public Player creaGiocatore(String name, Long utenzaId) {
-        Utente utenza = utenzaRepository.findById(utenzaId)
-            .orElseThrow(() -> new RuntimeException("Utenza non trovata."));
-        Player player = new Player(name);
+    public Player creaGiocatore(Long utenzaId) {
+        Utente utenza = utenzaService.trovaUtente(utenzaId);
+        Player player = new Player();
         player.setUtente(utenza);  
         utenza.setPlayer(player);
-        utenzaRepository.save(utenza);
         return playerRepository.save(player);
     }
 

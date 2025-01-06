@@ -20,7 +20,10 @@ public class UtenzaService {
 
     private final UtenzaRepository utenzaRepository;
 
-    public UtenzaService(UtenzaRepository utenzaRepository) {
+    private final PlayerService playerService;
+
+    public UtenzaService(UtenzaRepository utenzaRepository, PlayerService playerService) {
+        this.playerService = playerService;
         this.utenzaRepository = utenzaRepository;
     }
 
@@ -144,6 +147,8 @@ public class UtenzaService {
     public void eliminaUtente(Long id) {
         Utente utente = trovaUtente(id);
         utenzaRepository.delete(utente);
+        if(utente.getPlayer()!=null)
+        playerService.deletePlayer(utente.getPlayer().getId());
     }
 
     /**
