@@ -80,9 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     playersForm.removeChild(playerToRemove);
                     shiftPlayers(); // Aggiorna gli ID e le etichette
                     updateButtons(); // Aggiorna i pulsanti
-                    if(registeredPlayersCount>1){
-                    registeredPlayersCount--;
-                    }
                 }
             })
             .catch(error => console.error('Errore:', error));

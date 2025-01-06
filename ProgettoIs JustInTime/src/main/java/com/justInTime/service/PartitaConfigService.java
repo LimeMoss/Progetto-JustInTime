@@ -77,12 +77,11 @@ public class PartitaConfigService {
 
     if(giocatoriInConfigurazione!=null)
     {
-        if (giocatoriInConfigurazione.size() >= 3) {
+        if (giocatoriInConfigurazione.size() > 3) {
             throw new IllegalArgumentException("Non è possibile aggiungere più di 4 giocatori.");
         }
 
-        for(
-            Player giocatore:giocatoriInConfigurazione)
+        for(Player giocatore:giocatoriInConfigurazione)
             {
                 if (giocatore.getUtente().getUsername().equals(usernameOrEmail) ||
                         giocatore.getUtente().getEmail().equals(usernameOrEmail)) {
