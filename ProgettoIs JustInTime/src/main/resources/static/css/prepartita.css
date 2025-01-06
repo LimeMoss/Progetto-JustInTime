@@ -141,7 +141,12 @@ button:hover {
     width: 50%;
 }
 
-button:disabled {
+#addplayer:disabled {
+    visibility: hidden;
+    cursor: not-allowed;
+}
+
+#removeplayer:disabled {
     visibility: hidden;
     cursor: not-allowed;
 }
@@ -149,6 +154,7 @@ button:disabled {
 #registeredplayerbuttons {
     visibility: visible;
 }
+
 
 .modal {
     display: none; /* Hidden by default */

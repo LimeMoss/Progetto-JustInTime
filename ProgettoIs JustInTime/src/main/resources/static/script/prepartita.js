@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inizia la partita (controlla se tutti i giocatori sono registrati)
     newGameButton.addEventListener('click', function(event) {
-        const visibleButtons = playersForm.querySelectorAll('.input-group .registeredplayerbuttons');
+        const visibleButtons = playersForm.querySelectorAll('.registeredplayerbuttons');
         let registeredPlayersCount = 1;
 
         // Conta quanti giocatori sono registrati
