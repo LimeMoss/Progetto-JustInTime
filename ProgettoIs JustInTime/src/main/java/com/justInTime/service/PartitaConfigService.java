@@ -12,7 +12,6 @@ import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.PartitaRepository;
-import com.justInTime.repository.PlayerRepository;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -32,8 +31,7 @@ public class PartitaConfigService {
     @Autowired
     PlayerService playerService;
 
-    @Autowired
-    PlayerRepository playerRepository;
+
 
     private List<Player> giocatoriInConfigurazione= new ArrayList<Player>();
 
@@ -210,7 +208,7 @@ public class PartitaConfigService {
     partitaRepository.save(partita);
 
     for (Player giocatore : giocatoriInConfigurazione) {
-        playerRepository.save(giocatore);
+        playerService.savePlayer(giocatore.getId());
     }
 
 
@@ -260,7 +258,7 @@ public List<String> getGiocatoriInConfigurazione(HttpSession session) {
             partitaRepository.save(partita);
         }
         
-        return playerRepository.save(player);
+        return playerService.savePlayer(player.getId());
     }
 
     /**
@@ -283,7 +281,7 @@ public List<String> getGiocatoriInConfigurazione(HttpSession session) {
         player.getPartite().remove(partita);
         partitaRepository.save(partita);
         
-        return playerRepository.save(player);
+        return      playerService.savePlayer(player.getId());
     }
 
     /**
@@ -340,7 +338,7 @@ public Partita creaNuovaPartitaDaPartitaPrecedente(Long partitaId) {
 
     partitaRepository.save(nuovaPartita);
     for (Player giocatore : nuovaPartita.getGiocatori()) {
-        playerRepository.save(giocatore);
+        playerService.savePlayer(giocatore.getId());
     }
 
     return nuovaPartita;

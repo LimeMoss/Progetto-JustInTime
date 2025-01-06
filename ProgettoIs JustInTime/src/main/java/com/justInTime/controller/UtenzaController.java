@@ -4,7 +4,7 @@ import com.justInTime.DTO.FullPlayerDataDTO;
 import com.justInTime.DTO.FullPlayerDataDTOPsw;
 import com.justInTime.DTO.paeseUtenzaDTO;
 import com.justInTime.model.Utente;
-import com.justInTime.service.PlayerService;
+
 import com.justInTime.service.UtenzaService;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,11 +21,11 @@ import java.util.List;
 public class UtenzaController {
 
     private final UtenzaService utenzaService;
-    private final PlayerService playerService;
+   
 
-    public UtenzaController(UtenzaService utenzaService, PlayerService playerService) {
+    public UtenzaController(UtenzaService utenzaService) {
         this.utenzaService = utenzaService;
-        this.playerService = playerService;
+  
     }
 
 

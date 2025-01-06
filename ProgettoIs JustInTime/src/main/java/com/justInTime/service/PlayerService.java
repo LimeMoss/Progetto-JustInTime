@@ -2,6 +2,7 @@ package com.justInTime.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.justInTime.model.*;
@@ -9,16 +10,13 @@ import com.justInTime.repository.*;
 
 @Service
 public class PlayerService {
-    private final PlayerRepository playerRepository;
-    
-    
-    private final UtenzaService utenzaService;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-    public PlayerService(PlayerRepository playerRepository, PartitaRepository partitaRepository, 
-                        UtenzaService utenzaService) {
-        this.playerRepository = playerRepository;
-        this.utenzaService=utenzaService;
-    }
+    @Autowired
+    private UtenzaPlayerService utenzaPlayerService;
+    
+
 
     /**
      * Crea un nuovo giocatore associato ad una specifica utenza.
@@ -30,7 +28,7 @@ public class PlayerService {
      */
     @Transactional
     public Player creaGiocatore(Long utenzaId) {
-        Utente utenza = utenzaService.trovaUtente(utenzaId);
+        Utente utenza= utenzaPlayerService.trovaUtente(utenzaId);
         Player player = new Player();
         player.setUtente(utenza);  
         utenza.setPlayer(player);
@@ -154,6 +152,11 @@ public class PlayerService {
         player.setMaxScore(player.getMaxScore()+(10-(player.getMano().size())));
         return playerRepository.save(player);
     }
+        @Transactional
+    public Player savePlayer(Long playerId){
+        Player player= trovaGiocatore(playerId);
+        return playerRepository.save(player);
+    }
 
-    
+
 }

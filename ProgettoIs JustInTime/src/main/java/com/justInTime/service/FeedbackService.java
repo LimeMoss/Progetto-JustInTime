@@ -2,6 +2,7 @@ package com.justInTime.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.justInTime.model.Feedback;
@@ -10,11 +11,10 @@ import com.justInTime.repository.FeedbackRepository;
 @Service
 public class FeedbackService {
 
-    private final FeedbackRepository feedbackRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
-    public FeedbackService(FeedbackRepository feedbackRepository){
-        this.feedbackRepository= feedbackRepository;
-    }
+
 
 
     /**

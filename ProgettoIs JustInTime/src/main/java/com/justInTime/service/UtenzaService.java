@@ -6,8 +6,7 @@ import com.justInTime.DTO.paeseUtenzaDTO;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.UtenzaRepository;
 
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +16,14 @@ import java.util.regex.Pattern;
 
 @Service
 public class UtenzaService {
+    @Autowired
+    private UtenzaRepository utenzaRepository;
 
-    private final UtenzaRepository utenzaRepository;
+    @Autowired
+    private PlayerService playerService;
+   
 
-    private final PlayerService playerService;
 
-    public UtenzaService(UtenzaRepository utenzaRepository, PlayerService playerService) {
-        this.playerService = playerService;
-        this.utenzaRepository = utenzaRepository;
-    }
 
     /**
      * Crea un nuovo utente e lo salva nel database.

@@ -3,6 +3,7 @@ package com.justInTime.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.justInTime.DTO.PlayerRecord;
@@ -15,13 +16,8 @@ import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ClassificaService {
-
-    private final PlayerRepository playerRepository;
-
-    public ClassificaService(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
-    }
-
+    @Autowired
+    private PlayerRepository playerRepository;
 
     public List<PlayerRecord> getClassificaLocale(HttpSession Session) {
         List<Player> players = playerRepository.findAllPlayersOrderByCountryAndMaxScore();
