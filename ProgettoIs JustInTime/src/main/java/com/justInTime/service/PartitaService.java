@@ -163,14 +163,25 @@ public class PartitaService {
      * @param partitaId l'id della partita da terminare
      */
     public void terminaPartita(Long partitaId) {
+    
         Partita partita = getPartita(partitaId);
-        List<Player> giocatori = new ArrayList<>(partita.getGiocatori()); // Crea una copia della lista
+    
+      
+        List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
         for (Player giocatore : giocatori) {
-            playerService.savePlayer(giocatore.getId());
+          
+            giocatore.getPartite().remove(partita);
+            playerService.savePlayer(giocatore.getId()); 
         }
+    
         partita.setFinita(true);
         partitaRepository.save(partita);
+       
+        partita = null;
+    
+        System.out.println("Partita terminata, riferimenti rimossi.");
     }
+    
 
     /**
      * Imposta lo stato della partita specificata.
