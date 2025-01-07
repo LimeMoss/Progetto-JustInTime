@@ -11,7 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
     "com.justInTime.controller",
     "com.justInTime.service",
     "com.justInTime.model",    
-    "com.justInTime.repository"
+    "com.justInTime.repository",
+    "com.justInTime.DTO",
+    "com.justInTime.config"
 })
 public class SpringBootJspApplication extends SpringBootServletInitializer {
 

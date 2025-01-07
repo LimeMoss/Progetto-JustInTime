@@ -56,7 +56,8 @@ public class PartitaService {
 
     @Async
     public void iniziaPartitaAsync(Long partitaId) {
-        iniziaPartita(partitaId);
+       iniziaPartita(partitaId);
+      
     }
 
     public void iniziaPartita(Long partitaId) {
@@ -176,7 +177,7 @@ public class PartitaService {
     
         partita.setFinita(true);
         partitaRepository.save(partita);
-       
+        partita.setGameState(null);
         partita = null;
     
         System.out.println("Partita terminata, riferimenti rimossi.");
