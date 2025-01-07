@@ -168,10 +168,15 @@ public class PartitaConfigService {
      *                                  non è compreso tra 2 e 4
      */
     public Partita creaPartita(HttpSession session) {
-        Utente primoUtente = (Utente) session.getAttribute("utente");
-        AssociazionePlayerUtenzaSession(primoUtente);
+        if ((Utente) session.getAttribute("utente") == null)    {
+            throw new IllegalStateException("Utente non presente nella sessione.");
+        }
 
-        aggiungiGiocatoreConfigNOLOGIN(primoUtente.getPlayer());
+        Utente primoUtente = (Utente) session.getAttribute("utente");
+        
+        Player sessionplayer = AssociazionePlayerUtenzaSession(primoUtente);
+
+        aggiungiGiocatoreConfigNOLOGIN(sessionplayer);
 
         if (giocatoriInConfigurazione.size() < 2 || giocatoriInConfigurazione.size() > 4) {
             throw new IllegalArgumentException("Devono esserci almeno due giocatori.");
@@ -275,16 +280,25 @@ public class PartitaConfigService {
                 .anyMatch(partita -> partita.getId().equals(partitaId));
     }
 
-    public void AssociazionePlayerUtenzaSession(Utente primoUtente) {
+    /**
+     * Associa un Utente ad un Player.
+     * Cerca di trovare il giocatore con l'ID dell'Utente.
+     * Se non esiste, crea un nuovo giocatore e lo associa all'Utente.
+     * 
+     * @param primoUtente l'Utente da associare
+     * @return il Player associato
+     * @throws RuntimeException se non riesce ad associare l'Utente
+     */
+    public Player AssociazionePlayerUtenzaSession(Utente primoUtente) {
         try {
 
-            playerService.trovaGiocatore(primoUtente.getId());
+           return playerService.trovaGiocatore(primoUtente.getId());
 
         } catch (RuntimeException e) {
 
             if (e.getMessage().contains("Giocatore non trovato")) {
 
-                playerService.creaGiocatore(primoUtente.getId());
+               return playerService.creaGiocatore(primoUtente.getId());
             } else {
                 throw e;
             }

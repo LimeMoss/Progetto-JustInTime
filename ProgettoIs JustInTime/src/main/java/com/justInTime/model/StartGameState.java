@@ -1,6 +1,7 @@
 package com.justInTime.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.justInTime.service.PartitaService;
@@ -11,10 +12,10 @@ public class StartGameState implements GameState {
     @Autowired
     private  PartitaService partitaService;
 
-
-
+       @Autowired
    
-    
+    @Qualifier("turnState")
+    private GameState turnState;
     
 
     /**
@@ -28,6 +29,6 @@ public class StartGameState implements GameState {
     public void execute(Partita partita) {
         partitaService.distribuisciCarteIniziali(partita.getId());
         partita.setIndiceGiocatoreCorrente(0);
-        partitaService.setsGameState(partita.getId(), new TurnState());
+        partitaService.setsGameState(partita.getId(), turnState);
     }
 }

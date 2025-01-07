@@ -1,5 +1,6 @@
 package com.justInTime.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,25 +28,21 @@ public class EndGameState implements GameState {
      *
      * @param partita La partita corrente da terminare.
      */
-    @Override
-    public void execute(Partita partita) {
-
-        List<Player> players = partita.getGiocatori();
-        for (int i = 0; i < players.size(); i++) {
-            Player player = players.get(i);
-            
-       
-            if (partita.getIndiceGiocatoreCorrente() == i) {
-          
-                playerService.addVictory(player.getId());
-            } else {
-  
-                playerService.addScore(player.getId());
-            }
-        }
+  @Override
+public void execute(Partita partita) {
+    List<Player> players = new ArrayList<>(partita.getGiocatori());  
+    for (int i = 0; i < players.size(); i++) {
+        Player player = players.get(i);
         
-        partitaService.terminaPartita(partita.getId());
+        if (partita.getIndiceGiocatoreCorrente() == i) {
+            playerService.addVictory(player.getId());
+        } else {
+            playerService.addScore(player.getId());
+        }
     }
+    
+    partitaService.terminaPartita(partita.getId());
+}
 
     /**
      * Esegue le operazioni necessarie al termine di una partita.

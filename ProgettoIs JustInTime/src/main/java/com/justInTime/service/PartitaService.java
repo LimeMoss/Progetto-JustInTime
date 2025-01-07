@@ -164,10 +164,12 @@ public class PartitaService {
      */
     public void terminaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
-        setsGameState(partitaId, EndGameState);
-        for (Player giocatore : partita.getGiocatori()) {
+        List<Player> giocatori = new ArrayList<>(partita.getGiocatori()); // Crea una copia della lista
+        for (Player giocatore : giocatori) {
             playerService.savePlayer(giocatore.getId());
         }
+        partita.setFinita(true);
+        partitaRepository.save(partita);
     }
 
     /**

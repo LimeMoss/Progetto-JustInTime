@@ -106,19 +106,18 @@ public class PartitaConfigController {
  @PostMapping("/create-and-start")
 public ResponseEntity<Object> createAndStartGame(HttpSession session) {
     try {
-        // Logger per avviare il processo
+      
         Logger logger = LoggerFactory.getLogger(PartitaController.class);
         logger.info("Inizio creazione e avvio della partita...");
 
-        // Creazione della partita
+       
         Partita newPartita = partitaConfigService.creaPartita(session);
         logger.info("Partita creata con successo: {}", newPartita);
 
-        // Salvataggio della partita nella sessione
+     
         session.setAttribute("partita", newPartita);
         logger.info("Partita salvata nella sessione.");
 
-        // Avvio della partita
         logger.info("Avvio della partita con ID: {}", newPartita.getId());
         partitaService.iniziaPartita(newPartita.getId());
         logger.info("Partita avviata con successo.");

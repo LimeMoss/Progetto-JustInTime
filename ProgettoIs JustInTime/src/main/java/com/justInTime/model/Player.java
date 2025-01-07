@@ -56,6 +56,7 @@ public class Player implements abstractPlayer {
         this.achievements = achievements;
     }
 
+    @Transient
     private boolean escluso;
 
     @ManyToMany(mappedBy = "giocatori", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)

@@ -26,8 +26,18 @@ public class Partita {
 
     private Date dataInizio;
 
+    private boolean finita = false;
+
     @Transient
     private GameState gameState;
+
+    public boolean isFinita() {
+        return finita;
+    }
+
+    public void setFinita(boolean finita) {
+        this.finita = finita;
+    }
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(name = "partita_giocatori", joinColumns = @JoinColumn(name = "partita_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
