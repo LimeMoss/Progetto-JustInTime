@@ -53,6 +53,11 @@ public class PartitaService {
     @Qualifier("turnState")
     private GameState turnState;
 
+    @Async
+    public void iniziaPartitaAsync(Long partitaId) {
+        iniziaPartita(partitaId);
+    }
+
     public void iniziaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
         if (partita.getGiocatori().size() < 2) {

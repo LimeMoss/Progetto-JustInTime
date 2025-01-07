@@ -117,7 +117,7 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
      
         session.setAttribute("partita", newPartita);
    
-        partitaService.iniziaPartita(newPartita.getId());
+        partitaService.iniziaPartitaAsync(newPartita.getId());
         logger.info("Partita avviata con successo.");
 
         return ResponseEntity.ok().body("success");
