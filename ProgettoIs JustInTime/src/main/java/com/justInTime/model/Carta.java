@@ -15,7 +15,7 @@ public class Carta {
      */
     public Carta(String tipo) {
         this.tipo = tipo;
-        this.valore = 99;  // Valore predefinito per carte non numerate
+        this.valore = 99;  
     }
 
     /**
