@@ -96,9 +96,15 @@ public class PartitaService {
         Carta carta = giocatoreCorrente.getMano().get(cartaIndex);
 
         if (cartaGiocabile(partita, carta)) {
-            if (carta.getValore() == 99) {
+            if (carta.getTipo().equals("Rallenta")) {
                 carta.applicaEffetto(giocatoreCorrente);
             }
+            if (carta.getTipo().equals("Accellera")) {
+                List <Player> giocatori = partita.getGiocatori();
+                carta.applicaEffetto(giocatori.get(partita.getIndiceGiocatoreCorrente()+1));
+            }
+
+            
             playerService.rimuoviCartaDallaMano(giocatoreCorrente.getId(), cartaIndex);
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
             partita.getGiocatoreCorrente().setTurnoInPausa(true);
