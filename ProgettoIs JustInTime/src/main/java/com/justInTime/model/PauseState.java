@@ -53,8 +53,8 @@ public class PauseState implements GameState {
 
             // Controllo timeout
             if (System.currentTimeMillis() - startTime >= TIMEOUT) {
-                nextPlayerReady = true; // Imposta il flag su true per uscire dal ciclo e cambiare stato
-                break; // Esci dal ciclo per eseguire la logica di stato
+                nextPlayerReady = true; 
+                break; 
             }
         }
         nextPlayerReady = false;
