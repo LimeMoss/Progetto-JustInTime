@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.justInTime.service.PartitaService;
 import com.justInTime.service.PlayerService;
 
-@Component
+@Component("pauseState")
 public class PauseState implements GameState {
     
     @Autowired

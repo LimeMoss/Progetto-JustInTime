@@ -6,9 +6,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(scanBasePackages = "static.WEB-INF")
-@ComponentScan("com.justInTime.controller")
-@ComponentScan("com.justInTime.service")
+@SpringBootApplication
+@ComponentScan(basePackages = {
+    "com.justInTime.controller",
+    "com.justInTime.service",
+    "com.justInTime.model",   // Aggiungi qui il pacchetto del modello
+    "static.WEB-INF"         // Se necessario per qualche motivo
+})
 public class SpringBootJspApplication extends SpringBootServletInitializer {
 
     @Override
@@ -17,6 +21,6 @@ public class SpringBootJspApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootJspApplication.class);
+        SpringApplication.run(SpringBootJspApplication.class, args);
     }
 }

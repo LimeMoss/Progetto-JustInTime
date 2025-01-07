@@ -9,6 +9,7 @@ import com.justInTime.service.UtenzaService;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,8 @@ import java.util.List;
 @RequestMapping("/utenze")
 public class UtenzaController {
 
-    private final UtenzaService utenzaService;
-   
-
-    public UtenzaController(UtenzaService utenzaService) {
-        this.utenzaService = utenzaService;
-  
-    }
+    @Autowired
+    private UtenzaService utenzaService;
 
 
     @PostMapping

@@ -13,7 +13,7 @@ import com.justInTime.service.PlayerService;
  * Implementa l'interfaccia {@link GameState} e gestisce le operazioni
  * da eseguire quando una partita termina.
  */
-@Component
+@Component("endGameState")
 public class EndGameState implements GameState {
   
     @Autowired

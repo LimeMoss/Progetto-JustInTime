@@ -1,5 +1,8 @@
 package com.justInTime.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,15 +108,23 @@ public class PartitaService {
      * 
      * @param partita la partita corrente
      */
-    public void distribuisciCarteIniziali(Long PartitaId) {
-        Partita partita = getPartita(PartitaId);
-        for (Player giocatore : partita.getGiocatori()) {
-            for (int i = 0; i < 5; i++) {
-                playerService.aggiungiCartaAllaMano(giocatore.getId(),
-                        mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
-            }
+   public void distribuisciCarteIniziali(Long PartitaId) {
+    Partita partita = getPartita(PartitaId);
+
+    // Crea una copia della lista dei giocatori
+    List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
+
+    for (Player giocatore : giocatori) {
+        for (int i = 0; i < 5; i++) {
+            // Pesca la carta dal mazzo e aggiungila alla mano del giocatore
+            playerService.aggiungiCartaAllaMano(
+                giocatore.getId(),
+                mazzoPescaService.pescaCarta(partita.getMazzoNormale())
+            );
         }
     }
+}
+
 
     /**
      * Passa al prossimo giocatore nella partita.

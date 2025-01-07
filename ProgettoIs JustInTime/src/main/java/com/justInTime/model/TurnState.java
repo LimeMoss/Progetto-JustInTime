@@ -5,10 +5,10 @@ import com.justInTime.service.PartitaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-@Component
+@Component("turnState")
 public class TurnState implements GameState {
     @Autowired
-    private ApplicationContext applicationContext;
+    private GameState pauseState;
     @Autowired
     private PartitaService partitaService;
 
@@ -87,8 +87,7 @@ public class TurnState implements GameState {
 
         partita.setIndiceGiocatoreCorrente(prossimoIndice);
 
-        
-         PauseState pauseState = applicationContext.getBean(PauseState.class);
+
         partitaService.setsGameState(partita.getId(), pauseState);
 
     

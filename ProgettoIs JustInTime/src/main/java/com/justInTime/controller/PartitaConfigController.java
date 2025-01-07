@@ -88,19 +88,24 @@ public class PartitaConfigController {
 
 
     
+    /**
+     * Crea una partita con i giocatori attualmente in configurazione e li
+     * associa alla partita.
+     * La partita viene salvata e lo stato della partita viene impostato su
+     * "inizio partita".
+     * La configurazione dei giocatori viene ripulita.
+     * Il metodo restituisce un oggetto ResponseEntity con un oggetto ModelAndView
+     * come body. Il ModelAndView contiene la vista "match" e l'oggetto partita
+     * appena creata.
+     *
+     * @param session la sessione HTTP
+     * @return un oggetto ResponseEntity con il ModelAndView come body
+     * @throws RuntimeException se si verifica un errore durante il processo
+     */
     @PostMapping("/create-and-start")
-    public ResponseEntity<Object> createAndStartGame(HttpSession session) {
+    public Object createAndStartGame(HttpSession session) {
         Logger logger = LoggerFactory.getLogger(getClass());
-        
         try {
-            // Debug: Verifica che la sessione e l'utente siano validi
-            logger.debug("Verifica sessione utente...");
-            if (session == null || session.getAttribute("utente") == null) {
-                logger.warn("Sessione non valida o utente non autenticato.");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Utente non autenticato.");
-            }
-    
             // Debug: Crea la nuova partita
             logger.debug("Creazione nuova partita...");
             Partita newPartita = partitaConfigService.creaPartita(session);
@@ -111,12 +116,17 @@ public class PartitaConfigController {
             logger.debug("Inizio della partita con ID: {}", newPartita.getId());
             partitaService.iniziaPartita(newPartita.getId());
     
-            // Debug: Creazione e invio del ModelAndView
+            // Aggiungi l'oggetto partita al modello della sessione
+            session.setAttribute("partita", newPartita);
+    
+            // Debug: Creazione del ModelAndView per la partita
             logger.debug("Preparazione della vista della partita...");
             ModelAndView modelAndView = new ModelAndView("match");
             modelAndView.addObject("partita", newPartita);
-            
+    
+            // Restituisci ResponseEntity con il ModelAndView come body
             return ResponseEntity.ok(modelAndView);
+    
         } catch (RuntimeException e) {
             // Debug: Errore durante il processo
             logger.error("Si è verificato un errore durante il processo: {}", e.getMessage(), e);

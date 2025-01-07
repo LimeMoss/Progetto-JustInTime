@@ -16,7 +16,6 @@ com\justInTime\repository\PartitaRepository.class
 com\justInTime\model\Player.class
 com\justInTime\service\MazzoScartoService.class
 com\justInTime\service\PartitaConfigService.class
-com\justInTime\model\StartGameState.class
 com\justInTime\service\PartitaService.class
 com\justInTime\model\MazzoFactory.class
 com\justInTime\model\Carta.class
