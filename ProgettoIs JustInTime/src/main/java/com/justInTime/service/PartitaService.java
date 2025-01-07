@@ -232,4 +232,10 @@ public class PartitaService {
 
     }
 
+    public boolean isFinished(Long partitaId){
+        Partita partita = getPartita(partitaId);
+        return partita.isFinita();
+
+    }
+
 }
