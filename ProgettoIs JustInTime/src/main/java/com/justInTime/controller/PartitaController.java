@@ -107,6 +107,14 @@ public class PartitaController {
         }
     }
 
+
+    /**
+     * Segnala che il giocatore corrente è pronto per continuare la partita.
+     * Il metodo imposta il flag nextPlayerReady a true, permettendo il proseguimento
+     * del gioco dallo stato di pausa.
+     * @param session la sessione HTTP
+     * @return ResponseEntity con il risultato dell'operazione
+     */
     @PostMapping("/playerReady")
     public ResponseEntity<?> nextPlayerReady(HttpSession session) {
     Partita partita = (Partita) session.getAttribute("partita");
@@ -118,6 +126,13 @@ public class PartitaController {
     partitaService.playerReady(partita.getId());
     return ResponseEntity.ok().build(); 
 }
+    /**
+     * Ritorna il tempo rimanente del giocatore corrente della partita con l'ID specificato.
+     * @param session la sessione HTTP
+     * @return ResponseEntity con il tempo rimanente del giocatore corrente
+     * @throws RuntimeException se non esiste una partita con l'ID specificato o
+     *                           se il giocatore non esiste nella partita
+     */
 
     @GetMapping("/timer")
     public ResponseEntity<?> getTimerPlayer(HttpSession session){
@@ -132,6 +147,22 @@ public class PartitaController {
     
     }
 
-   
+    /**
+     * Ritorna il nome dell'utente del giocatore corrente della partita con l'ID specificato.
+     * @param session la sessione HTTP
+     * @return ResponseEntity con il nome del giocatore corrente
+     * @throws RuntimeException se il giocatore non viene trovato nella partita
+     */
+    @GetMapping("/nameIndexPlayer")
+    public ResponseEntity<?> getTNameINdexPlayer(HttpSession session){
+       
+       try{
+        Partita partita = (Partita) session.getAttribute("partita");
+        return ResponseEntity.ok(partitaService.getPartita(partita.getId()).getGiocatoreCorrente().getUtente().getUsername());
+       }
+       catch(RuntimeException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Giocatore non trovato nella partita.");
+       }
     
+    }
 }

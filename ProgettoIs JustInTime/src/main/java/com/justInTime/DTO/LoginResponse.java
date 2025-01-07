@@ -1,16 +1,16 @@
-package com.justInTime.model;
+package com.justInTime.DTO;
 
 public class LoginResponse {
     private String message;
     private String username;
 
-    // Costruttore
+
     public LoginResponse(String message, String username) {
         this.message = message;
         this.username = username;
     }
 
-    // Getter e setter
+
     public String getMessage() {
         return message;
     }

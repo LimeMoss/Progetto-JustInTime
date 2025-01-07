@@ -37,7 +37,6 @@ com\justInTime\model\TurnState.class
 com\justInTime\model\Utente.class
 com\justInTime\repository\PlayerRepository.class
 com\justInTime\service\UtenzaPlayerService.class
-com\justInTime\model\LoginResponse.class
 com\justInTime\model\GameState.class
 com\justInTime\model\PauseState.class
 com\justInTime\repository\UtenzaRepository.class

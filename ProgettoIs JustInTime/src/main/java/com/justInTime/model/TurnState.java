@@ -99,6 +99,14 @@ public class TurnState implements GameState {
     
     }
 
+    /**
+     * Verifica se tutti i giocatori, ad eccezione di uno, sono stati esclusi
+     * dalla partita.
+     * 
+     * @param partita La partita corrente
+     * @return true se tutti i giocatori, ad eccezione di uno, sono stati esclusi,
+     *         false altrimenti
+     */
     private boolean tuttiEsclusi(Partita partita) {
         int counter = 0;
         for (Player giocatore : partita.getGiocatori()) {

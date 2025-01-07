@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.justInTime.model.LoginResponse;
+import com.justInTime.DTO.LoginResponse;
 import com.justInTime.model.Partita;
 import com.justInTime.model.Utente;
 import com.justInTime.service.PartitaConfigService;
@@ -106,9 +106,9 @@ public class PartitaConfigController {
  @PostMapping("/create-and-start")
 public ResponseEntity<Object> createAndStartGame(HttpSession session) {
     try {
-      
+      //TODO GESTIONE ASINCRONA O IL REDIRECT NON FUNZIONA//
         Logger logger = LoggerFactory.getLogger(PartitaController.class);
-        logger.info("Inizio creazione e avvio della partita...");
+
 
        
         Partita newPartita = partitaConfigService.creaPartita(session);
@@ -116,9 +116,7 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
 
      
         session.setAttribute("partita", newPartita);
-        logger.info("Partita salvata nella sessione.");
-
-        logger.info("Avvio della partita con ID: {}", newPartita.getId());
+   
         partitaService.iniziaPartita(newPartita.getId());
         logger.info("Partita avviata con successo.");
 

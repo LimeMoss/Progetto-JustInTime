@@ -9,6 +9,7 @@ C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\UtenzaController.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTO.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTOPsw.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\LoginResponse.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\paeseUtenzaDTO.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\PlayerRecord.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\SinglePlayerDataDTO.java
@@ -19,7 +20,6 @@ C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\EndGameState.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Feedback.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\GameState.java
-C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\LoginResponse.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Mazzo.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoFactory.java
 C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoPesca.java

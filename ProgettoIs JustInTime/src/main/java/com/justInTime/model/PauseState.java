@@ -27,21 +27,22 @@ public class PauseState implements GameState {
     @Qualifier("endGameState")
     @Lazy
     private GameState endGameState;
-    //TODO IMPOSTARE TEMPO DI TIMEOUT A 30000 (30 secondi)//
-    private static final long TIMEOUT = 2000; // Timeout di 30 secondi
+    // TODO IMPOSTARE TEMPO DI TIMEOUT A 30000 (30 secondi)//
+    private static final long TIMEOUT = 2000;
 
     /**
      * Esegue le operazioni specifiche di questo stato.
      * Il metodo esegue un loop finché il flag nextPlayerReady è false.
      * Quando il flag è true, il metodo verifica se la partita è terminata.
-     * Se la partita è terminata, il metodo imposta lo stato della partita a EndGameState.
+     * Se la partita è terminata, il metodo imposta lo stato della partita a
+     * EndGameState.
      * Altrimenti, il metodo imposta lo stato della partita a TurnState.
      *
      * @param partita La partita su cui eseguire le operazioni.
      */
     @Override
     public void execute(Partita partita) {
-        long startTime = System.currentTimeMillis(); // Tempo di inizio
+        long startTime = System.currentTimeMillis();
 
         while (!nextPlayerReady) {
             try {
@@ -50,23 +51,21 @@ public class PauseState implements GameState {
                 e.printStackTrace();
             }
 
-            // Verifica se è scaduto il timeout
+            // Controllo timeout
             if (System.currentTimeMillis() - startTime >= TIMEOUT) {
-                // Timeout scaduto, esci dallo stato di pausa
-                partitaService.setsGameState(partita.getId(), turnState);
-                return;
+                nextPlayerReady = true; // Imposta il flag su true per uscire dal ciclo e cambiare stato
+                break; // Esci dal ciclo per eseguire la logica di stato
             }
         }
-
-        // Reset flag
         nextPlayerReady = false;
-
-        // Verifica se la partita è terminata
+       
         if (isGameOver(partita)) {
             partitaService.setsGameState(partita.getId(), endGameState);
         } else {
             partitaService.setsGameState(partita.getId(), turnState);
         }
+
+        
     }
 
     /**
@@ -81,6 +80,7 @@ public class PauseState implements GameState {
     /**
      * Verifica se la partita è terminata.
      * La partita è terminata se almeno un giocatore ha finito le sue carte.
+     * 
      * @param partita La partita da verificare.
      * @return true se la partita è terminata, false altrimenti.
      */

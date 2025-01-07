@@ -33,8 +33,8 @@ public class PartitaService {
     @Autowired
     private MazzoPescaService mazzoPescaService;
 
-      @Autowired
-      @Lazy
+    @Autowired
+    @Lazy
     @Qualifier("startGameState")
     private GameState startGameState;
 
@@ -58,17 +58,15 @@ public class PartitaService {
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
-    
-   
+
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
-    
+
         for (Player player : giocatori) {
             playerService.addGame(player.getId());
         }
-    
+
         setsGameState(partita.getId(), startGameState);
     }
-    
 
     public Partita getPartita(Long partitaId) {
         return partitaRepository.findById(partitaId)
@@ -136,25 +134,21 @@ public class PartitaService {
      * 
      * @param partita la partita corrente
      */
-   public void distribuisciCarteIniziali(Long PartitaId) {
-    Partita partita = getPartita(PartitaId);
+    public void distribuisciCarteIniziali(Long PartitaId) {
+        Partita partita = getPartita(PartitaId);
 
-    // Crea una copia della lista dei giocatori
-    List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
+        // Crea una copia della lista dei giocatori
+        List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
 
-    for (Player giocatore : giocatori) {
-        for (int i = 0; i < 5; i++) {
-            // Pesca la carta dal mazzo e aggiungila alla mano del giocatore
-            playerService.aggiungiCartaAllaMano(
-                giocatore.getId(),
-                mazzoPescaService.pescaCarta(partita.getMazzoNormale())
-            );
+        for (Player giocatore : giocatori) {
+            for (int i = 0; i < 5; i++) {
+                // Pesca la carta dal mazzo e aggiungila alla mano del giocatore
+                playerService.aggiungiCartaAllaMano(
+                        giocatore.getId(),
+                        mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+            }
         }
     }
-}
-
-
-
 
     /**
      * Termina la partita con l'id specificato.
@@ -186,7 +180,6 @@ public class PartitaService {
 
     }
 
-
     public Partita pescaCarta(Long PartitaId) {
         Partita partita = getPartita(PartitaId);
         Player player = partita.getGiocatoreCorrente();
@@ -210,8 +203,6 @@ public class PartitaService {
     public Partita tempoTerminato(Long partitaId) {
         Partita partita = getPartita(partitaId);
 
-       
-
         setsGameStateArgument(partitaId, EndGameState, "TempoTerminato");
 
         return partita;
@@ -228,12 +219,11 @@ public class PartitaService {
         }
     }
 
-    public int getCurrentPlayerTimer(Long partitaId){
+    public int getCurrentPlayerTimer(Long partitaId) {
         Partita partita = getPartita(partitaId);
-        Player player=partita.getGiocatoreCorrente();
+        Player player = partita.getGiocatoreCorrente();
         return playerService.getTimer(player.getId());
 
     }
-
 
 }
