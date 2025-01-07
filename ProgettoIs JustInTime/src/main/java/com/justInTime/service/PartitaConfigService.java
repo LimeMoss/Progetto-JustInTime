@@ -187,7 +187,6 @@ public class PartitaConfigService {
         for (Player giocatore : giocatoriInConfigurazione) {
 
             giocatore = playerService.savePlayer(giocatore.getId());
-
             partita.getGiocatori().add(giocatore);
             giocatore.getPartite().add(partita);
         }

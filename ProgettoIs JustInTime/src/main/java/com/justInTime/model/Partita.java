@@ -39,7 +39,7 @@ public class Partita {
         this.finita = finita;
     }
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(name = "partita_giocatori", joinColumns = @JoinColumn(name = "partita_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
     private List<Player> giocatori;
 
