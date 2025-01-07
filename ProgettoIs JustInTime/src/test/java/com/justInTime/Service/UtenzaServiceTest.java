@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,7 +35,9 @@ public class UtenzaServiceTest {
     private UtenzaService utenzaService;
 
     private Utente utente;
+    private Utente utente2;
     private String confirmPassword;
+    private String confirmPassword2;
 
     @SuppressWarnings("deprecation")
     @BeforeEach
@@ -49,6 +52,17 @@ public class UtenzaServiceTest {
         utente.setTelefono("+39 112 233 4455");
         utente.setPaese("Italia");
         utente.setDataNascita(new Date(2004, Calendar.JANUARY,11));
+
+        utente2 = new Utente();
+        utente2.setUsername("IlCorsaro2");
+        utente2.setEmail("corsaromaster@gmail.com");
+        utente2.setPassword("Castoro7!");
+        confirmPassword2="Castoro7!";
+        utente2.setNome("Corsaro");
+        utente2.setCognome("Master");
+        utente2.setTelefono("+39 112 233 4455");
+        utente2.setPaese("Italia");
+        utente2.setDataNascita(new Date(2004, Calendar.JANUARY,11));
 
     }
     //----------------REGISTRAZIONE UTENTE---------------------//
@@ -427,51 +441,62 @@ public class UtenzaServiceTest {
     @Test
     public void ES1_username_altro_account_modifica() {
         // Simula il salvataggio dell'utente
+        AtomicLong idGenerator = new AtomicLong(1);
+
         when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
             Utente savedUtente = invocation.getArgument(0);
-            savedUtente.setId(1L); // Imposta l'ID utente
+            savedUtente.setId(idGenerator.getAndIncrement()); // Assegna un ID univoco e incrementa
             return savedUtente;
         });
 
         utenzaService.registerUser(utente, confirmPassword);
-        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+        utenzaService.registerUser(utente2, confirmPassword2);
 
-        // Crea un altro utente con la stessa email
-        Utente altroUtente = new Utente();
-        altroUtente.setId(2L);
-        altroUtente.setUsername("IlCorsaroMaster");
-        when(utenzaRepository.existsByUsername("IlCorsaroMaster")).thenReturn(true);
+        //nuovo utente con i campi dell'utente da modificare
+        Utente utente3 = new Utente();
+        utente3.setId(utente2.getId());
+        utente3.setUsername("IlCorsaro");
+        utente3.setPassword(utente2.getPassword());
+        utente3.setTelefono(utente2.getTelefono());
+        utente3.setNome(utente2.getName());
+        utente3.setCognome(utente2.getCognome());
+        utente3.setPaese(utente2.getPaese());
+        utente3.setEmail(utente2.getEmail());
+        utente3.setDataNascita(utente2.getDataNascita());
 
         // Prova ad aggiornare l'utente con lo stesso username di un altro utente
-        utente.setUsername("IlCorsaroMaster");
-        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
+        //utente 2 è quello nella sessione e vuole modificare il proprio username, utente 3 è la modifica di utente2
+        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente2.getId(), utente3, utente3.getPassword()));
     }
 
     // TC_1.2_13: Email associato ad un altro account
     @Test
     public void ESE1_email_altro_account_modifica() {
         // Simula il salvataggio dell'utente
+        AtomicLong idGenerator = new AtomicLong(1);
+
         when(utenzaRepository.save(any(Utente.class))).thenAnswer(invocation -> {
             Utente savedUtente = invocation.getArgument(0);
-            savedUtente.setId(1L); // Imposta l'ID utente
+            savedUtente.setId(idGenerator.getAndIncrement()); // Assegna un ID univoco e incrementa
             return savedUtente;
         });
 
-        // Salva l'utente iniziale
         utenzaService.registerUser(utente, confirmPassword);
+        utenzaService.registerUser(utente2, confirmPassword2);
 
-        // Simula il reperimento dell'utente salvato
-        when(utenzaRepository.findById(1L)).thenReturn(Optional.of(utente));
+        //nuovo utente con i campi dell'utente da modificare
+        Utente utente3 = new Utente();
+        utente3.setId(utente2.getId());
+        utente3.setUsername(utente2.getUsername());
+        utente3.setPassword(utente2.getPassword());
+        utente3.setTelefono(utente2.getTelefono());
+        utente3.setNome(utente2.getName());
+        utente3.setCognome(utente2.getCognome());
+        utente3.setPaese(utente2.getPaese());
+        utente3.setEmail("corsaromaster7@gmail.com");
+        utente3.setDataNascita(utente2.getDataNascita());
 
-        // Crea un altro utente con la stessa email
-        Utente altroUtente = new Utente();
-        altroUtente.setId(2L);
-        altroUtente.setEmail("corsaromaster@gmail.com");
-        when(utenzaRepository.existsByEmail("corsaromaster@gmail.com")).thenReturn(true);
-
-        // Prova ad aggiornare l'utente con l'email esistente
-        utente.setEmail("corsaromaster@gmail.com");
-        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente.getId(), utente, confirmPassword));
+        assertThrows(RuntimeException.class, () -> utenzaService.aggiornaUtente(utente2.getId(), utente3, utente3.getPassword()));
     }
 
     // TC_1.2_14: Corretto!
