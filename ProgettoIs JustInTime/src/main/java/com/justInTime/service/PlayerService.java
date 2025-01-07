@@ -164,5 +164,11 @@ public class PlayerService {
         return player.getDurataTurno();
     }
 
+    public List<Carta> getPlayerMano(Long playerId){
+        Player player= trovaGiocatore(playerId);
+        return player.getMano();
+
+    }
+
 
 }

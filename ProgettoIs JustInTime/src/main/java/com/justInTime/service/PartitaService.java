@@ -16,7 +16,7 @@ import com.justInTime.model.MazzoScarto;
 import com.justInTime.model.Partita;
 import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
-
+import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
 
 @Service
@@ -144,12 +144,11 @@ public class PartitaService {
     public void distribuisciCarteIniziali(Long PartitaId) {
         Partita partita = getPartita(PartitaId);
 
-        // Crea una copia della lista dei giocatori
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
 
         for (Player giocatore : giocatori) {
             for (int i = 0; i < 5; i++) {
-                // Pesca la carta dal mazzo e aggiungila alla mano del giocatore
+        
                 playerService.aggiungiCartaAllaMano(
                         giocatore.getId(),
                         mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
@@ -209,11 +208,20 @@ public class PartitaService {
         return partita;
     }
 
-    public Partita playerReady(Long PartitaId) {
+    public Partita nextplayerReady(Long PartitaId) {
         Partita partita = getPartita(PartitaId);
         GameState gamestate = partita.getGameState();
         if (gamestate instanceof PauseState) {
             ((PauseState) gamestate).playerReady();
+        }
+        return partita;
+    }
+
+        public Partita playerReady(Long PartitaId) {
+        Partita partita = getPartita(PartitaId);
+        GameState gamestate = partita.getGameState();
+        if (gamestate instanceof StartGameState) {
+            ((StartGameState) gamestate).playerReady();
         }
         return partita;
     }
@@ -247,6 +255,13 @@ public class PartitaService {
     public boolean isFinished(Long partitaId){
         Partita partita = getPartita(partitaId);
         return partita.isFinita();
+
+    }
+
+    public List<Carta> getGiocatoreCorrenteMano(Long partitaId){
+        Partita partita = getPartita(partitaId);
+        Player player = partita.getGiocatoreCorrente();
+        return playerService.getPlayerMano(player.getId());
 
     }
 

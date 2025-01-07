@@ -12,12 +12,15 @@ public class StartGameState implements GameState {
     @Autowired
     private  PartitaService partitaService;
 
+   
+
        @Autowired
    
     @Qualifier("turnState")
     private GameState turnState;
     
-
+    private volatile boolean PlayerReady = false;
+    private static final long TIMEOUT = 5000;
     /**
      * Esegue le operazioni necessarie all'inizio di una partita.
      * Distribuisce le carte iniziali ai giocatori, imposta il primo giocatore
@@ -27,8 +30,29 @@ public class StartGameState implements GameState {
      */
     @Override
     public void execute(Partita partita) {
-        partitaService.distribuisciCarteIniziali(partita.getId());
-        partita.setIndiceGiocatoreCorrente(0);
-        partitaService.setsGameState(partita.getId(), turnState);
+        long startTime = System.currentTimeMillis();
+
+        while (!PlayerReady) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+    
+          
+                if (System.currentTimeMillis() - startTime >= TIMEOUT) {
+                PlayerReady = true; 
+                break; 
+            }
+            partitaService.distribuisciCarteIniziali(partita.getId());
+            partita.setIndiceGiocatoreCorrente(0);
+            partitaService.setsGameState(partita.getId(), turnState);
+        }
+        PlayerReady = false;    
+    }
+
+        public void playerReady() {
+        this.PlayerReady = true;
     }
 }

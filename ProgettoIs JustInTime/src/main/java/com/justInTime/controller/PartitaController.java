@@ -1,9 +1,7 @@
 package com.justInTime.controller;
 
-import com.justInTime.model.EndGameState;
 import com.justInTime.model.Partita;
-import com.justInTime.model.PauseState;
-import com.justInTime.model.StartGameState;
+
 import com.justInTime.service.PartitaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 
 @RestController
@@ -46,31 +47,6 @@ public class PartitaController {
      * @param gameState lo stato da impostare
      * @return ResponseEntity con il risultato dell'operazione
      */
-    @PostMapping("/set-game-state/{gameState}")
-    public ResponseEntity<String> setGameState(@PathVariable String gameState, HttpSession session) {
-        try {
-            // Recupera la partita dalla sessione
-            Partita partita = (Partita) session.getAttribute("partita");
-
-            switch (gameState.toLowerCase()) {
-                case "start":
-                    partitaService.setsGameState(partita.getId(), new StartGameState());
-                    break;
-                case "pause":
-                    partitaService.setsGameState(partita.getId(), new PauseState());
-                    break;
-                case "end":
-                    partitaService.setsGameState(partita.getId(), new EndGameState());
-                    break;
-                default:
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stato di gioco non valido.");
-            }
-
-            return ResponseEntity.ok("Stato del gioco aggiornato.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
-        }
-    }
 
 
 
@@ -107,6 +83,18 @@ public class PartitaController {
         }
     }
 
+    @PostMapping("/playerMano")
+    public ResponseEntity<Object> getGiocatoreCorrenteMano(HttpSession session){
+        try{
+            Partita partita = (Partita) session.getAttribute("partita");
+            return ResponseEntity.ok(partitaService.getGiocatoreCorrenteMano(partita.getId()));
+        }catch(RuntimeException e){
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
+        }
+
+
+    }
+
 
     /**
      * Segnala che il giocatore corrente è pronto per continuare la partita.
@@ -115,8 +103,20 @@ public class PartitaController {
      * @param session la sessione HTTP
      * @return ResponseEntity con il risultato dell'operazione
      */
-    @PostMapping("/playerReady")
+    @PostMapping("/nextPlayerReady")
     public ResponseEntity<?> nextPlayerReady(HttpSession session) {
+    Partita partita = (Partita) session.getAttribute("partita");
+
+    if (partita == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
+    }
+
+    partitaService.nextplayerReady(partita.getId());
+    return ResponseEntity.ok().build(); 
+}
+
+    @PostMapping("/PlayerReady")
+    public ResponseEntity<?> PlayerReady(HttpSession session) {
     Partita partita = (Partita) session.getAttribute("partita");
 
     if (partita == null) {
@@ -126,6 +126,18 @@ public class PartitaController {
     partitaService.playerReady(partita.getId());
     return ResponseEntity.ok().build(); 
 }
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Ritorna il tempo rimanente del giocatore corrente della partita con l'ID specificato.
      * @param session la sessione HTTP
@@ -165,4 +177,6 @@ public class PartitaController {
        }
     
     }
+
+    
 }
