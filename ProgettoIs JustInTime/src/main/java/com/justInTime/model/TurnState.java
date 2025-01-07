@@ -3,13 +3,19 @@ package com.justInTime.model;
 import org.springframework.stereotype.Component;
 import com.justInTime.service.PartitaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
+
 
 @Component("turnState")
 public class TurnState implements GameState {
+
     @Autowired
+    @Lazy
     private GameState pauseState;
+
+
     @Autowired
+    @Lazy
     private PartitaService partitaService;
 
     /**

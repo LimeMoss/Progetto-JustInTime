@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.justInTime.model.Carta;
@@ -13,7 +15,7 @@ import com.justInTime.model.MazzoScarto;
 import com.justInTime.model.Partita;
 import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
-import com.justInTime.model.StartGameState;
+
 import com.justInTime.repository.PartitaRepository;
 
 @Service
@@ -31,16 +33,42 @@ public class PartitaService {
     @Autowired
     private MazzoPescaService mazzoPescaService;
 
-    public void iniziaPartita(Long PartitaId) {
-        Partita partita = getPartita(PartitaId);
+      @Autowired
+      @Lazy
+    @Qualifier("startGameState")
+    private GameState startGameState;
+
+    @Autowired
+    @Lazy
+    @Qualifier("pauseState")
+    private GameState pauseState;
+
+    @Autowired
+    @Lazy
+    @Qualifier("endGameState")
+    private GameState EndGameState;
+
+    @Autowired
+    @Lazy
+    @Qualifier("turnState")
+    private GameState turnState;
+
+    public void iniziaPartita(Long partitaId) {
+        Partita partita = getPartita(partitaId);
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
-        for (Player player : partita.getGiocatori()) {
+    
+   
+        List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
+    
+        for (Player player : giocatori) {
             playerService.addGame(player.getId());
         }
-        setsGameState(PartitaId, new StartGameState());
+    
+        setsGameState(partita.getId(), startGameState);
     }
+    
 
     public Partita getPartita(Long partitaId) {
         return partitaRepository.findById(partitaId)
@@ -69,7 +97,7 @@ public class PartitaService {
             playerService.rimuoviCartaDallaMano(giocatoreCorrente.getId(), cartaIndex);
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
             partita.getGiocatoreCorrente().setTurnoInPausa(true);
-            setsGameState(partitaId, new PauseState());
+            setsGameState(partitaId, pauseState);
             return partita;
         }
         throw new RuntimeException("Carta non giocabile");
@@ -126,15 +154,7 @@ public class PartitaService {
 }
 
 
-    /**
-     * Passa al prossimo giocatore nella partita.
-     * Il giocatore corrente viene impostato al successivo nella lista dei giocatori
-     * della partita,
-     * se il giocatore corrente l'ultimo della lista, il prossimo giocatore sar il
-     * primo della lista.
-     * 
-     * @param partita la partita corrente
-     */
+
 
     /**
      * Termina la partita con l'id specificato.
@@ -144,11 +164,10 @@ public class PartitaService {
      */
     public void terminaPartita(Long partitaId) {
         Partita partita = getPartita(partitaId);
-        setsGameState(partitaId, new EndGameState());
+        setsGameState(partitaId, EndGameState);
         for (Player giocatore : partita.getGiocatori()) {
             playerService.savePlayer(giocatore.getId());
         }
-        partitaRepository.save(partita);
     }
 
     /**
@@ -189,9 +208,9 @@ public class PartitaService {
     public Partita tempoTerminato(Long partitaId) {
         Partita partita = getPartita(partitaId);
 
-        EndGameState endGameState = new EndGameState();
+       
 
-        setsGameStateArgument(partitaId, endGameState, "TempoTerminato");
+        setsGameStateArgument(partitaId, EndGameState, "TempoTerminato");
 
         return partita;
     }

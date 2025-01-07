@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    color: #F5ECD8;
+    display: flex;
+}
+
+/* Contenitore degli obiettivi */
+.achievements-container {
+    margin: 110px 20px;
+    width: 99%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.achievement {
+    width: 99%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* pulsanti superiori */
+.top-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 99%;
+    margin-bottom: 20px;
+}
+
+.top-button {
+    height: auto;
+    width: 15%;
+    background-color: #DDA15E;
+    margin: 0 20px 20px 0;
+    border: none;
+    border-radius: 15px;
+    padding: 20px 50px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #F5ECD8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+    align-content: center;
+}
+
+button:hover {
+    background-color: #D9773B;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
+}
+
+#globaltitle{
+    font-size: 50px;
+    color: #FFEDDC;
+    margin-top: 15px;
+}
+
+/* Sezione sinistra: obiettivi */
+.achievements-left {
+    width: 50%;
+}
+
+.achievements-left h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Obiettivo card */
+.achievement-card.completed {
+    background-color: #E48826;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+}
+
+.achievement-card {
+    background-color: #D1A376;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 88%;
+}
+
+.achievement-card h2 {
+    font-size: 20px;
+    color: #F5ECD8;
+}
+
+.achievement-card p {
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+/* Sezione destra: Trofei */
+.achievements-right {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #658B3F;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    right: 0;
+    top: 120px;
+    margin-right: 20%;
+    margin-top: 200px;
+}
+
+.achievements-right h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #2D3B1F;
+}
+
+.achievements-right .completed-count {
+    font-size: 36px;
+    color: #E48826;
+    margin-bottom: 20px;
+}
+
+.trophy {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+}
+
+.trophy.disabled {
+    visibility: hidden;
+}
+
+.trophy.enabled {
+    visibility: visible;
+}

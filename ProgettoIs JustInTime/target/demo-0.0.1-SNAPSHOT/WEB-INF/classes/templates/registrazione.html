@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignIn</title>
+    <link rel="stylesheet" href="../css/registrazione.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <script src="../script/FormValidation.js"></script>
+
+    <script>
+        function togglePasswordMessage() {
+            var message = document.querySelector('.password-message');
+            if (message.style.display === 'block') {
+                message.style.display = 'none';
+            } else {
+                message.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="header-container">
+    <header class="header">
+        <div class="logo">
+            <a title=""  href="/" class="logo-image" id="logo-image">
+                <img src="../images/logo.png" alt="">
+            </a>
+            <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="/rules">Regolamento</a>
+        </nav>
+    </header>
+</div>
+
+<main>
+    <div class="signin-container">
+        <h1 class="signin-title">Registrati</h1>
+        <form class="signin-form">
+            <div class="input-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" placeholder="Inserisci nome" name="nome">
+            </div>
+            <div class="input-group">
+                <label for="cognome">Cognome</label>
+                <input type="text" id="cognome" placeholder="Inserisci cognome" name="cognome">
+            </div>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Inserisci username" name="username">
+            </div>
+            <div class="input-group">
+                <label for="telefono">Telefono</label>
+                <div class="phone-fields">
+                    <select class="input-field" name="countryCode">
+                        <option value="+39">+39</option>
+                        <option value="+1">+1</option>
+                        <option value="+44">+44</option>
+                        <option value="+33">+33</option>
+                        <option value="+49">+49</option>
+                        <option value="+34">+34</option>
+                        <option value="+61">+61</option>
+                        <option value="+91">+91</option>
+                        <option value="+81">+81</option>
+                        <option value="+86">+86</option>
+                        <option value="+7">+7</option>
+                        <option value="+55">+55</option>
+                        <option value="+27">+27</option>
+                        <option value="+64">+64</option>
+                        <option value="+32">+32</option>
+                        <option value="+31">+31</option>
+                        <option value="+46">+46</option>
+                        <option value="+47">+47</option>
+                        <option value="+41">+41</option>
+                        <option value="+358">+358</option>
+                        <option value="+30">+30</option>
+                        <option value="+52">+52</option>
+                        <option value="+90">+90</option>
+                        <option value="+82">+82</option>
+                        <option value="+60">+60</option>
+                        <option value="+63">+63</option>
+                        <option value="+65">+65</option>
+                        <option value="+62">+62</option>
+                        <option value="+94">+94</option>
+                        <option value="+66">+66</option>
+                        <option value="+353">+353</option>
+                        <option value="+48">+48</option>
+                        <option value="+36">+36</option>
+                        <option value="+386">+386</option>
+                        <option value="+421">+421</option>
+                        <option value="+420">+420</option>
+                        <option value="+40">+40</option>
+                        <option value="+380">+380</option>
+                        <option value="+20">+20</option>
+                        <option value="+212">+212</option>
+                        <option value="+216">+216</option>
+                        <option value="+218">+218</option>
+                        <option value="+254">+254</option>
+                        <option value="+256">+256</option>
+                        <option value="+255">+255</option>
+                        <option value="+234">+234</option>
+                        <option value="+233">+233</option>
+                        <option value="+92">+92</option>
+                        <option value="+93">+93</option>
+                        <option value="+880">+880</option>
+                        <option value="+98">+98</option>
+                        <option value="+964">+964</option>
+                        <option value="+962">+962</option>
+                        <option value="+965">+965</option>
+                        <option value="+961">+961</option>
+                        <option value="+968">+968</option>
+                        <option value="+974">+974</option>
+                        <option value="+966">+966</option>
+                        <option value="+963">+963</option>
+                        <option value="+971">+971</option>
+                        <option value="+967">+967</option>
+                    </select>
+
+                    <input type="tel" id="telefono" placeholder="111 111 1111" name="telefono">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="datanascita">Data di nascita</label>
+                <input type="date" id="datanascita" placeholder="gg/mm/aaaa" name="dataNascita">
+            </div>
+
+            <div class="input-group">
+                <label for="country">Nazione</label>
+
+                <select class="input-field" id="country" name="paese">
+                    <option value="">Seleziona la nazione</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Austria">Austria</option>
+                    <option value="Belgio">Belgio</option>
+                    <option value="Brasile">Brasile</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Cina">Cina</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Corea del Nord">Corea del Nord</option>
+                    <option value="Corea del Sud">Corea del Sud</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="Danimarca">Danimarca</option>
+                    <option value="Egitto">Egitto</option>
+                    <option value="Emirati Arabi Uniti">Emirati Arabi Uniti</option>
+                    <option value="Etiopia">Etiopia</option>
+                    <option value="Filippine">Filippine</option>
+                    <option value="Finlandia">Finlandia</option>
+                    <option value="Francia">Francia</option>
+                    <option value="Germania">Germania</option>
+                    <option value="Giappone">Giappone</option>
+                    <option value="Grecia">Grecia</option>
+                    <option value="India">India</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Irlanda">Irlanda</option>
+                    <option value="Israele">Israele</option>
+                    <option value="Italia">Italia</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Messico">Messico</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Norvegia">Norvegia</option>
+                    <option value="Nuova Zelanda">Nuova Zelanda</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Paesi Bassi">Paesi Bassi</option>
+                    <option value="Polonia">Polonia</option>
+                    <option value="Portogallo">Portogallo</option>
+                    <option value="Regno Unito">Regno Unito</option>
+                    <option value="Repubblica Ceca">Repubblica Ceca</option>
+                    <option value="Repubblica Democratica del Congo">Repubblica Democratica del Congo</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Spagna">Spagna</option>
+                    <option value="Stati Uniti">Stati Uniti</option>
+                    <option value="Sudafrica">Sudafrica</option>
+                    <option value="Svezia">Svezia</option>
+                    <option value="Svizzera">Svizzera</option>
+                    <option value="Turchia">Turchia</option>
+                    <option value="Ucraina">Ucraina</option>
+                    <option value="Venezuela">Venezuela</option>
+
+                </select>
+            </div>
+
+
+            <div class="input-group password-container">
+                <div>
+                    <div class="password-container">
+                        <label for="password">Password</label>
+                        <img src="../images/question.png" alt="question icon" class="question-icon" onclick="togglePasswordMessage()">
+                    </div>
+                    <input type="password" id="password" placeholder="Inserisci password" name="password">
+                </div>
+                <div class="password-message">
+                    <h3>Indicazioni sulla password</h3>
+                    <p>La password deve:</p>
+                    <ul>
+                        <li>Essere lunga almeno gli 8 caratteri</li>
+                        <li>Contenere lettere maiuscole e minuscole</li>
+                        <li>Includere dei caratteri speciali (@$!%*?&)</li>
+                        <li>Deve contenere almeno un numero</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="text@text.text" name="email">
+            </div>
+            <div class="input-group">
+                <label for="confirmpassword">Conferma Password</label>
+                <input type="password" id="confirmpassword" placeholder="Inserisci password" name="password2">
+            </div>
+            <div class="input-group">
+                <button type="submit" class="signin-button">Conferma registrazione</button>
+            </div>
+
+        </form>
+
+    </div>
+</main>
+
+<div id="footer-container">
+    <footer class="footer">
+        <div class="nav-links">
+            <a href="#contatti">Contatti</a>
+        </div>
+        <div class="logo">
+            <img class="logo-image" src="../images/logo.png" alt="">
+        </div>
+    </footer>
+</div>
+</body>
+</html>

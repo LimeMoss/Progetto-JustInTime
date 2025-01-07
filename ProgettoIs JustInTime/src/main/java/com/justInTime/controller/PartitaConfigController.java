@@ -3,6 +3,8 @@ package com.justInTime.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,7 @@ import com.justInTime.model.Partita;
 import com.justInTime.model.Utente;
 import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -102,38 +103,36 @@ public class PartitaConfigController {
      * @return un oggetto ResponseEntity con il ModelAndView come body
      * @throws RuntimeException se si verifica un errore durante il processo
      */
-    @PostMapping("/create-and-start")
-    public Object createAndStartGame(HttpSession session) {
-        Logger logger = LoggerFactory.getLogger(getClass());
-        try {
-            // Debug: Crea la nuova partita
-            logger.debug("Creazione nuova partita...");
-            Partita newPartita = partitaConfigService.creaPartita(session);
-            session.setAttribute("partita", newPartita);
-            logger.debug("Partita creata con ID: {}", newPartita.getId());
-    
-            // Debug: Avvio della partita
-            logger.debug("Inizio della partita con ID: {}", newPartita.getId());
-            partitaService.iniziaPartita(newPartita.getId());
-    
-            // Aggiungi l'oggetto partita al modello della sessione
-            session.setAttribute("partita", newPartita);
-    
-            // Debug: Creazione del ModelAndView per la partita
-            logger.debug("Preparazione della vista della partita...");
-            ModelAndView modelAndView = new ModelAndView("match");
-            modelAndView.addObject("partita", newPartita);
-    
-            // Restituisci ResponseEntity con il ModelAndView come body
-            return ResponseEntity.ok(modelAndView);
-    
-        } catch (RuntimeException e) {
-            // Debug: Errore durante il processo
-            logger.error("Si è verificato un errore durante il processo: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Si è verificato un errore durante il processo.");
-        }
+ @PostMapping("/create-and-start")
+public ResponseEntity<Object> createAndStartGame(HttpSession session) {
+    try {
+        // Logger per avviare il processo
+        Logger logger = LoggerFactory.getLogger(PartitaController.class);
+        logger.info("Inizio creazione e avvio della partita...");
+
+        // Creazione della partita
+        Partita newPartita = partitaConfigService.creaPartita(session);
+        logger.info("Partita creata con successo: {}", newPartita);
+
+        // Salvataggio della partita nella sessione
+        session.setAttribute("partita", newPartita);
+        logger.info("Partita salvata nella sessione.");
+
+        // Avvio della partita
+        logger.info("Avvio della partita con ID: {}", newPartita.getId());
+        partitaService.iniziaPartita(newPartita.getId());
+        logger.info("Partita avviata con successo.");
+
+        return ResponseEntity.ok().body("success");
+
+    } catch (Exception e) {
+        // Log dell'errore
+        Logger logger = LoggerFactory.getLogger(PartitaController.class);
+        logger.error("Errore durante la creazione o l'avvio della partita", e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Si è verificato un errore durante il processo.");
     }
+}
+
     
     
 

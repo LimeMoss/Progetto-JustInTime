@@ -1,7 +1,9 @@
 package com.justInTime.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.justInTime.service.PartitaService;
@@ -11,14 +13,25 @@ import com.justInTime.service.PlayerService;
 public class PauseState implements GameState {
     
     @Autowired
+
     private PartitaService partitaService;
+
     @Autowired
     private PlayerService playerService;
 
-    @Autowired
-    private ApplicationContext applicationContext;
+
     
     private volatile boolean nextPlayerReady = false;
+
+        @Autowired
+    @Qualifier("turnState")
+    @Lazy
+    private GameState turnState;
+
+    @Autowired
+    @Qualifier("endGameState")
+    @Lazy
+    private GameState endGameState;
 
 
     /**
@@ -49,11 +62,11 @@ public class PauseState implements GameState {
 
         if (isGameOver(partita)) {
             
-            EndGameState endGameState = applicationContext.getBean(EndGameState.class);
+        
             partitaService.setsGameState(partita.getId(),endGameState);
           
         } else {
-            TurnState turnState = applicationContext.getBean(TurnState.class);
+
             partitaService.setsGameState(partita.getId(),turnState);
    
         }

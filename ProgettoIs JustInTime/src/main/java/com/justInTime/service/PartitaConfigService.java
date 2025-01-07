@@ -189,8 +189,6 @@ public class PartitaConfigService {
 
         partita = partitaRepository.save(partita);
 
-        partitaService.setsGameState(partita.getId(), startGameState);
-
         giocatoriInConfigurazione.clear();
 
         return partita;
@@ -233,7 +231,6 @@ public class PartitaConfigService {
         if (!partita.getGiocatori().contains(player)) {
             partita.getGiocatori().add(player);
             player.getPartite().add(partita);
-            partitaRepository.save(partita);
         }
 
         return playerService.savePlayer(player.getId());

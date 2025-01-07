@@ -203,9 +203,9 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.textContent = 'È necessario avere almeno 2 e massimo 4 giocatori registrati per avviare la partita.';
             errorMessage.style.display = 'block';
             
-        } else {
+        }  else {
             errorMessage.style.display = 'none';
-
+        
             fetch('/api/game-config/create-and-start', {
                 method: 'POST',
                 credentials: 'include'
@@ -216,8 +216,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 return response.text();
             })
-            .then(() => {
-                window.location.href = '/startmatch';
+            .then(responseText => {
+                if (responseText === 'success') {
+                    window.location.href = '/startmatch'; // Reindirizzamento alla pagina della partita
+                }
             })
             .catch(error => {
                 console.error('Errore:', error);

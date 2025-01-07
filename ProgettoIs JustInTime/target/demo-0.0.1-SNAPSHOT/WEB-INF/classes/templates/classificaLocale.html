@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifica Locale</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/classificalocale.css">
+    <script src="../script/classificaLocale.js"></script>
+</head>
+<body>
+<div id="header-container">
+    <header class="header">
+        <div class="logo">
+            <a title="" href="/userHomepage" class="logo-image" id="logo-image">
+                <img src="../images/logo.png" alt="">
+            </a>
+            <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span></div>
+        </div>
+        <nav class="nav-links">
+            <a href="/rules">Regolamento</a>
+            <div class="logo">
+                <a title="" href="/consultazioneProfilo" class="logo-image" id="user-image">
+                    <img src="../images/user.png" alt="">
+                </a>
+            </div>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+</div>
+
+<div class="highscore-container">
+    <div class="top-buttons">
+        <button class="top-button" id="homebutton" onclick="window.location.href='/userHomepage'" >Home</button>
+        <h1 id="localtitle">Classifica Locale</h1>
+        <button class="top-button" onclick="window.location.href='/classificaGlobale'">Classifica globale </button>
+    </div>
+    <h2 id="nazionalita">Nazionalità: Italia</h2>
+    <div id="highscore-list" class="highscore-list">
+        <!-- I giocatori verranno aggiunti dinamicamente dal JS -->
+    </div>
+</div>
+
+<div id="footer-container">
+    <footer class="footer">
+        <div class="nav-links">
+            <a href="#contatti">Contatti</a>
+        </div>
+        <div class="logo">
+            <img class="logo-image" src="../images/logo.png" alt="">
+        </div>
+    </footer>
+</div>
+</body>
+</html>

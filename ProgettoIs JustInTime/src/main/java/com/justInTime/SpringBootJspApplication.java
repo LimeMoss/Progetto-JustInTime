@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
     "com.justInTime.controller",
     "com.justInTime.service",
-    "com.justInTime.model",   // Aggiungi qui il pacchetto del modello
-    "static.WEB-INF"         // Se necessario per qualche motivo
+    "com.justInTime.model",    
+    "com.justInTime.repository"
 })
 public class SpringBootJspApplication extends SpringBootServletInitializer {
 

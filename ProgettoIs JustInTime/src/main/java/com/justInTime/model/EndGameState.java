@@ -3,7 +3,6 @@ package com.justInTime.model;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Component;
 import com.justInTime.service.PartitaService;
 import com.justInTime.service.PlayerService;
