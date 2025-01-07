@@ -8,7 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.justInTime.DTO.LoginResponse;
@@ -106,7 +111,7 @@ public class PartitaConfigController {
  @PostMapping("/create-and-start")
 public ResponseEntity<Object> createAndStartGame(HttpSession session) {
     try {
-      //TODO GESTIONE ASINCRONA O IL REDIRECT NON FUNZIONA//
+      
         Logger logger = LoggerFactory.getLogger(PartitaController.class);
 
 
@@ -129,6 +134,14 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Si è verificato un errore durante il processo.");
     }
 }
+    @GetMapping("/match-status")
+    public ResponseEntity<Boolean> getPartitaStatus(HttpSession session) {
+
+        Partita partita = (Partita) session.getAttribute("partita");
+        boolean status = partitaService.isFinished(partita.getId());
+        
+        return ResponseEntity.ok(status);
+    }
 
     
     
