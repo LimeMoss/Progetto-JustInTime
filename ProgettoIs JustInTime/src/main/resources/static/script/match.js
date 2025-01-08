@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchCurrentPlayer() {
-        fetch('/nameIndexPlayer', {
+        fetch('/game/nameIndexPlayer', {
             method: 'GET',
             credentials: 'include',
         })
