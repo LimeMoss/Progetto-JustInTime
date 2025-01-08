@@ -203,15 +203,15 @@ public class PartitaService {
 
     }
 
-    public Partita pescaCarta(Long PartitaId) {
+    public Carta pescaCarta(Long PartitaId) {
         Partita partita = getPartita(PartitaId);
         Player player = partita.getGiocatoreCorrente();
-        playerService.aggiungiCartaAllaMano(player.getId(), mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+        Carta carta = playerService.aggiungiCartaAllaMano(player.getId(), mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
         player.setTurnoInPausa(true);
 
         setsGameState(PartitaId, new PauseState());
 
-        return partita;
+        return carta;
     }
 
     public Partita nextplayerReady(Long PartitaId) {

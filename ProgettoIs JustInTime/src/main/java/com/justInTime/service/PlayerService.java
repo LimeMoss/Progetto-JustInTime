@@ -66,10 +66,11 @@ public class PlayerService {
      * @return il giocatore con la carta aggiunta
      */
     @Transactional
-    public Player aggiungiCartaAllaMano(Long playerId, Carta carta) {
+    public Carta aggiungiCartaAllaMano(Long playerId, Carta carta) {
         Player player = trovaGiocatore(playerId);
         player.getMano().add(carta);
-        return playerRepository.save(player);
+        playerRepository.save(player);
+        return carta;
     }
 
 /**

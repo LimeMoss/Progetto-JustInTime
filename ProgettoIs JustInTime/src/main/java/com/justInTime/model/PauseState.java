@@ -14,6 +14,7 @@ public class PauseState implements GameState {
     private PartitaService partitaService;
 
     @Autowired
+    @Lazy
     private PlayerService playerService;
 
     private volatile boolean nextPlayerReady = false;
