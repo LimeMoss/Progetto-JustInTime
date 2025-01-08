@@ -66,10 +66,8 @@ public class PlayerService {
      * @return il giocatore con la carta aggiunta
      */
     @Transactional
-    public Carta aggiungiCartaAllaMano(Long playerId, Carta carta) {
-        Player player = trovaGiocatore(playerId);
+    public Carta aggiungiCartaAllaMano(Player player, Carta carta) {
         player.getMano().add(carta);
-        playerRepository.save(player);
         return carta;
     }
 

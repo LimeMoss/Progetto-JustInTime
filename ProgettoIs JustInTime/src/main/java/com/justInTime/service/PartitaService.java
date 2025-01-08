@@ -169,7 +169,7 @@ public class PartitaService {
             for (int i = 0; i < 5; i++) {
 
                 playerService.aggiungiCartaAllaMano(
-                        giocatore.getId(),
+                        giocatore,
                         mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
             }
         }
@@ -224,7 +224,7 @@ public class PartitaService {
    
 
 
-        Carta carta = playerService.aggiungiCartaAllaMano(player.getId(),
+        Carta carta = playerService.aggiungiCartaAllaMano(player,
                 mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
 
 
@@ -301,7 +301,7 @@ public class PartitaService {
 
     public List<Carta> getGiocatoreCorrenteMano(Partita partita) {
         Player player = partita.getGiocatoreCorrente();
-        return playerService.getPlayerMano(player.getId());
+        return player.getMano();
 
     }
 
