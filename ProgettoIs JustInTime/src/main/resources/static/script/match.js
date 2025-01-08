@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const timeLeftLabel = document.getElementById('timeLeft');
 
-    let turnoInCorso = true;
-    let tempoRimanente = 0;
+    let player_name;
 
     function aggiornaTempoRimanente() {
         fetch('/game/timer') // Endpoint per ottenere la durata turno
@@ -49,27 +48,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 
-    let players = []; // Lista dei giocatori
-    let currentPlayerIndex = 0; // Indice del giocatore corrente
-
-    // Recupera la lista dei giocatori configurati
-    function fetchPlayers() {
-        fetch('/api/game-config/players', {
+    function fetchCurrentPlayer() {
+        fetch('/nameIndexPlayer', {
             method: 'GET',
             credentials: 'include',
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Errore durante il recupero dei giocatori configurati.');
+                if (!response.ok) {
+                    throw new Error('Errore nel recupero del giocatore corrente');
                 }
+                return response.text(); // Il backend restituisce una stringa (nome utente del giocatore corrente)
             })
-            .then(playerNames => {
-                players = playerNames;
-                console.log(players);
+            .then(username => {
+                player_name=username;
             })
-            .catch(error => console.error('Errore:', error));
+            .catch(error => console.error('Errore nel recupero del giocatore corrente:', error));
     }
 
     function fetchPlayerHand() {
@@ -169,8 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function passTurnToNextPlayer() {
         // Incrementa l'indice ciclicamente
         currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        const nextTurnUser = players[currentPlayerIndex];
-        showPopup(`Turno di ${nextTurnUser}`, 'Premi OK per iniziare', true);
+        showPopup(`Turno di ${player_name}`, 'Premi OK per iniziare', true);
     }
 
     function updateCardSizes() {
