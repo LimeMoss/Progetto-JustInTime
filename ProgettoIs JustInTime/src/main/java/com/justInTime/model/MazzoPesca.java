@@ -45,7 +45,7 @@ public class MazzoPesca extends Mazzo {
 
     private void generaCartePesca() {
         for (int i = 0; i < 6; i++) {
-            for (int valore = 0; valore <= 9; valore++) {
+            for (int valore = 1; valore <= 9; valore++) {
                 carte.add(new Carta(valore));
             }
         }
