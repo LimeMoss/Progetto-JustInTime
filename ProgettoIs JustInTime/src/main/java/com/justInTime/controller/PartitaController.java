@@ -34,7 +34,7 @@ public class PartitaController {
         try {
             // Prendi la partita dalla sessione usando l'ID
             Partita partita = (Partita) session.getAttribute("partita");
-            Carta carta = partitaService.giocaCarta(partita.getId(), cartaIndex); 
+            Carta carta = partitaService.giocaCarta(partita, cartaIndex); 
             return ResponseEntity.ok(carta);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -51,31 +51,33 @@ public class PartitaController {
      */
    
     
-    @PostMapping("/pesca-carta/")
-    public ResponseEntity<?> pescaCarta(HttpSession session) {
 
-        try {
-  
-    
-            Partita partita = (Partita) session.getAttribute("partita");
-            if (partita == null) {
-            
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(Map.of("errore", "Partita non trovata"));
-            }
-    
-    
-            Carta carta = partitaService.pescaCarta(partita.getId());
      
-    
-            return ResponseEntity.ok(carta); 
-        } catch (RuntimeException e) {
-         
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("errore", e.getMessage()));
-        }
-    }
+     @PostMapping("/pesca-carta/")
+     public ResponseEntity<?> pescaCarta(HttpSession session) {
 
+         try {
+    
+           
+             Partita partita = (Partita) session.getAttribute("partita");
+             if (partita == null) {
+
+                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                         .body(Map.of("errore", "Partita non trovata"));
+             }
+     
+           
+             Carta carta = partitaService.pescaCarta(partita);
+       
+     
+             return ResponseEntity.ok(carta); 
+         } catch (RuntimeException e) {
+    
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                     .body(Map.of("errore", e.getMessage()));
+         }
+     }
+     
     /**
      * Termina la partita con l'ID specificato.
      * 
@@ -86,7 +88,7 @@ public class PartitaController {
     public ResponseEntity<String> terminaPartita(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
-            partitaService.terminaPartita(partita.getId());
+            partitaService.terminaPartita(partita);
             return ResponseEntity.ok("Partita terminata con successo.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
@@ -97,7 +99,7 @@ public class PartitaController {
     public ResponseEntity<Object> getGiocatoreCorrenteMano(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
-            return ResponseEntity.ok(partitaService.getGiocatoreCorrenteMano(partita.getId()));
+            return ResponseEntity.ok(partitaService.getGiocatoreCorrenteMano(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }
@@ -121,7 +123,7 @@ public class PartitaController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
         }
 
-        partitaService.nextplayerReady(partita.getId());
+        partitaService.nextplayerReady(partita);
         return ResponseEntity.ok().build();
     }
 
@@ -133,7 +135,7 @@ public class PartitaController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
         }
 
-        partitaService.playerReady(partita.getId());
+        partitaService.playerReady(partita);
         return ResponseEntity.ok().build();
     }
 
@@ -152,7 +154,7 @@ public class PartitaController {
 
         try {
             Partita partita = (Partita) session.getAttribute("partita");
-            return ResponseEntity.ok(partitaService.getCurrentPlayerTimer(partita.getId()));
+            return ResponseEntity.ok(partitaService.getCurrentPlayerTimer(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Giocatore non trovato nella partita.");
         }
@@ -168,24 +170,35 @@ public class PartitaController {
      * @throws RuntimeException se il giocatore non viene trovato nella partita
      */
     @GetMapping("/nameIndexPlayer")
-    public ResponseEntity<?> getTNameINdexPlayer(HttpSession session) {
-
+    public ResponseEntity<?> getNameINdexPlayer(HttpSession session) {
+    
+        
         try {
+    
+    
+            // Ottieni la partita dalla sessione
             Partita partita = (Partita) session.getAttribute("partita");
-            return ResponseEntity
-                    .ok(partitaService.getPartita(partita.getId()).getGiocatoreCorrente().getUtente().getUsername());
+            if (partita == null) {
+             
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
+            }
+   
+            // Recupera il nome utente del giocatore corrente
+            String username = partitaService.getPartitaRepository(partita.getId()).getGiocatoreCorrente().getUtente().getUsername();
+            
+
+            return ResponseEntity.ok(username);
+    
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Giocatore non trovato nella partita.");
         }
-
     }
-
 
     @GetMapping("/last-discarded-card/")
     public ResponseEntity<?> lastDiscardedCard(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
-            Carta carta = partitaService.getLastCardScarto(partita.getId());
+            Carta carta = partitaService.getLastCardScarto(partita);
             return ResponseEntity.ok(carta); 
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

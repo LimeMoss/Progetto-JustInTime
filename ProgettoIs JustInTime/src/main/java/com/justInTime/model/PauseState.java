@@ -14,7 +14,6 @@ public class PauseState implements GameState {
     private PartitaService partitaService;
 
     @Autowired
-    @Lazy
     private PlayerService playerService;
 
     private volatile boolean nextPlayerReady = false;
@@ -60,9 +59,11 @@ public class PauseState implements GameState {
         nextPlayerReady = false;
        
         if (isGameOver(partita)) {
-            partitaService.setsGameState(partita.getId(), endGameState);
+            partitaService.setsGameState(partita, endGameState);
+            endGameState.execute(partita);
         } else {
-            partitaService.setsGameState(partita.getId(), turnState);
+            partitaService.setsGameState(partita, turnState);
+            turnState.execute(partita);
         }
 
         

@@ -9,6 +9,7 @@ com\justInTime\service\ClassificaService.class
 com\justInTime\controller\FeedbackController.class
 com\justInTime\controller\PartitaConfigController.class
 com\justInTime\controller\SessionUtil.class
+com\justInTime\DTO\LoginResponse.class
 com\justInTime\controller\PartitaController.class
 com\justInTime\service\MazzoPescaService.class
 com\justInTime\controller\PagesController.class
@@ -20,6 +21,7 @@ com\justInTime\service\MazzoScartoService.class
 com\justInTime\service\PartitaConfigService.class
 com\justInTime\DTO\SinglePlayerDataDTO.class
 com\justInTime\model\StartGameState.class
+com\justInTime\config\AsyncConfig.class
 com\justInTime\service\PartitaService.class
 com\justInTime\DTO\FullPlayerDataDTO.class
 com\justInTime\model\MazzoFactory.class

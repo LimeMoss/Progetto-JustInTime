@@ -3,6 +3,7 @@ package com.justInTime.service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -27,6 +28,8 @@ public class PartitaService {
 
     @Autowired
     private PlayerService playerService;
+
+
 
     @Autowired
     private MazzoScartoService mazzoScartoService;
@@ -54,14 +57,15 @@ public class PartitaService {
     @Qualifier("turnState")
     private GameState turnState;
 
+    
+
     @Async
-    public void iniziaPartitaAsync(Long partitaId) {
-       iniziaPartita(partitaId);
-      
+    public void iniziaPartitaAsync(Partita partita) {
+        iniziaPartita(partita);
+
     }
 
-    public void iniziaPartita(Long partitaId) {
-        Partita partita = getPartita(partitaId);
+    public void iniziaPartita(Partita partita) {
         if (partita.getGiocatori().size() < 2) {
             throw new RuntimeException("Numero insufficiente di giocatori");
         }
@@ -72,10 +76,20 @@ public class PartitaService {
             playerService.addGame(player.getId());
         }
 
-        setsGameState(partita.getId(), startGameState);
+   
+        startGameState.execute(partita);
+
     }
 
-    public Partita getPartita(Long partitaId) {
+    /**
+     * Ritorna la partita con l'ID specificato.
+     * 
+     * @param partitaId l'ID della partita
+     * @return la partita con l'ID specificato
+     * @throws RuntimeException se la partita non esiste
+     */
+    
+    public Partita getPartitaRepository(Long partitaId) {
         return partitaRepository.findById(partitaId)
                 .orElseThrow(() -> new RuntimeException("Partita non trovata"));
     }
@@ -90,8 +104,7 @@ public class PartitaService {
      * @return la partita aggiornata
      * @throws RuntimeException se la carta non giocabile
      */
-    public Carta giocaCarta(Long partitaId, int cartaIndex) {
-        Partita partita = getPartita(partitaId);
+    public Carta giocaCarta(Partita partita, int cartaIndex) {
         Player giocatoreCorrente = partita.getGiocatoreCorrente();
         Carta carta = giocatoreCorrente.getMano().get(cartaIndex);
 
@@ -100,15 +113,15 @@ public class PartitaService {
                 carta.applicaEffetto(giocatoreCorrente);
             }
             if (carta.getTipo().equals("Accellera")) {
-                List <Player> giocatori = partita.getGiocatori();
-                carta.applicaEffetto(giocatori.get(partita.getIndiceGiocatoreCorrente()+1));
+                List<Player> giocatori = partita.getGiocatori();
+                carta.applicaEffetto(giocatori.get(partita.getIndiceGiocatoreCorrente() + 1));
             }
 
-            
             playerService.rimuoviCartaDallaMano(giocatoreCorrente.getId(), cartaIndex);
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
             partita.getGiocatoreCorrente().setTurnoInPausa(true);
-            setsGameState(partitaId, pauseState);
+            setsGameState(partita, pauseState);
+            pauseState.execute(partita);
             return carta;
         }
         throw new RuntimeException("Carta non giocabile");
@@ -147,14 +160,14 @@ public class PartitaService {
      * 
      * @param partita la partita corrente
      */
-    public void distribuisciCarteIniziali(Long PartitaId) {
-        Partita partita = getPartita(PartitaId);
+    public void distribuisciCarteIniziali(Partita partita) {
+      
 
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
 
         for (Player giocatore : giocatori) {
             for (int i = 0; i < 5; i++) {
-        
+
                 playerService.aggiungiCartaAllaMano(
                         giocatore.getId(),
                         mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
@@ -168,26 +181,24 @@ public class PartitaService {
      * 
      * @param partitaId l'id della partita da terminare
      */
-    public void terminaPartita(Long partitaId) {
-    
-        Partita partita = getPartita(partitaId);
-    
-      
+    public void terminaPartita(Partita partita) {
+
+       
+
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
         for (Player giocatore : giocatori) {
-          
+
             giocatore.getPartite().remove(partita);
-            playerService.savePlayer(giocatore.getId()); 
+            playerService.savePlayer(giocatore.getId());
         }
-    
+
         partita.setFinita(true);
         partitaRepository.save(partita);
         partita.setGameState(null);
         partita = null;
-    
-        System.out.println("Partita terminata, riferimenti rimossi.");
+
+      
     }
-    
 
     /**
      * Imposta lo stato della partita specificata.
@@ -196,27 +207,36 @@ public class PartitaService {
      * @param partita   la partita su cui impostare lo stato
      * @param gamestate il nuovo stato della partita
      */
-    public void setsGameState(Long partitaId, GameState gamestate) {
-        Partita partita = getPartita(partitaId);
+  
+    public void setsGameState(Partita partita, GameState gamestate) {
+       
         partita.setGameState(gamestate);
-        partita.getGameState().execute(partita);
+      
 
     }
 
-    public Carta pescaCarta(Long PartitaId) {
-        Partita partita = getPartita(PartitaId);
-        Player player = partita.getGiocatoreCorrente();
-        Carta carta = playerService.aggiungiCartaAllaMano(player.getId(), mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
-        player.setTurnoInPausa(true);
+    public Carta pescaCarta(Partita partita) {
 
-        
-        setsGameState(PartitaId, pauseState);
+
+
+
+        Player player = partita.getGiocatoreCorrente();
+   
+
+
+        Carta carta = playerService.aggiungiCartaAllaMano(player.getId(),
+                mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+
+
+
+        player.setTurnoInPausa(true);
+   ;
 
         return carta;
     }
 
-    public Partita nextplayerReady(Long PartitaId) {
-        Partita partita = getPartita(PartitaId);
+    public Partita nextplayerReady(Partita partita) {
+       
         GameState gamestate = partita.getGameState();
         if (gamestate instanceof PauseState) {
             ((PauseState) gamestate).playerReady();
@@ -224,25 +244,40 @@ public class PartitaService {
         return partita;
     }
 
-        public Partita playerReady(Long PartitaId) {
-        Partita partita = getPartita(PartitaId);
-        GameState gamestate = partita.getGameState();
-        if (gamestate instanceof StartGameState) {
-            ((StartGameState) gamestate).playerReady();
+    public Partita playerReady(Partita partita) {
+      
+        
+        if (partita == null) {
+            throw new IllegalArgumentException("Partita non trovata.");
         }
+
+       
+        GameState gameState = partita.getGameState();
+       
+
+
+     
+        if (gameState instanceof StartGameState) {
+   
+            ((StartGameState) gameState).playerReady();
+        } else {
+          
+            throw new IllegalStateException("Non è possibile segnare il giocatore come pronto in questo stato del gioco.");
+        }
+    
+        return partita;
+    }
+    
+
+    public Partita tempoTerminato(Partita partita) {
+
+        setsGameStateArgument(partita, EndGameState, "TempoTerminato");
+
         return partita;
     }
 
-    public Partita tempoTerminato(Long partitaId) {
-        Partita partita = getPartita(partitaId);
-
-        setsGameStateArgument(partitaId, EndGameState, "TempoTerminato");
-
-        return partita;
-    }
-
-    public void setsGameStateArgument(Long partitaId, GameState gameState, String Arg) {
-        Partita partita = getPartita(partitaId);
+    public void setsGameStateArgument(Partita partita, GameState gameState, String Arg) {
+    
         partita.setGameState(gameState);
 
         if (gameState instanceof EndGameState) {
@@ -252,31 +287,27 @@ public class PartitaService {
         }
     }
 
-    public int getCurrentPlayerTimer(Long partitaId) {
-        Partita partita = getPartita(partitaId);
+    public int getCurrentPlayerTimer(Partita partita) {
+
         Player player = partita.getGiocatoreCorrente();
         return playerService.getTimer(player.getId());
 
     }
 
-    public boolean isFinished(Long partitaId){
-        Partita partita = getPartita(partitaId);
+    public boolean isFinished(Partita partita) {
         return partita.isFinita();
 
     }
 
-    public List<Carta> getGiocatoreCorrenteMano(Long partitaId){
-        Partita partita = getPartita(partitaId);
+    public List<Carta> getGiocatoreCorrenteMano(Partita partita) {
         Player player = partita.getGiocatoreCorrente();
         return playerService.getPlayerMano(player.getId());
 
     }
 
-    public Carta getLastCardScarto(Long partitaId){
-            Partita partita = getPartita(partitaId);
-            MazzoScarto scarto=partita.getMazzoScarto();
-            return mazzoScartoService.ultimaCartaScartata(scarto);
-
+    public Carta getLastCardScarto(Partita partita) {
+        MazzoScarto scarto = partita.getMazzoScarto();
+        return mazzoScartoService.ultimaCartaScartata(scarto);
 
     }
 

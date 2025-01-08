@@ -3,8 +3,6 @@ package com.justInTime.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,25 +110,25 @@ public class PartitaConfigController {
 public ResponseEntity<Object> createAndStartGame(HttpSession session) {
     try {
       
-        Logger logger = LoggerFactory.getLogger(PartitaController.class);
+    
 
 
        
         Partita newPartita = partitaConfigService.creaPartita(session);
-        logger.info("Partita creata con successo: {}", newPartita);
+    
+   
 
      
         session.setAttribute("partita", newPartita);
    
-        partitaService.iniziaPartitaAsync(newPartita.getId());
-        logger.info("Partita avviata con successo.");
-
+        partitaService.iniziaPartitaAsync(newPartita);
+    
         return ResponseEntity.ok().body("success");
 
     } catch (Exception e) {
         // Log dell'errore
-        Logger logger = LoggerFactory.getLogger(PartitaController.class);
-        logger.error("Errore durante la creazione o l'avvio della partita", e);
+
+   
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Si è verificato un errore durante il processo.");
     }
 }
@@ -138,7 +136,7 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
     public ResponseEntity<Boolean> getPartitaStatus(HttpSession session) {
 
         Partita partita = (Partita) session.getAttribute("partita");
-        boolean status = partitaService.isFinished(partita.getId());
+        boolean status = partitaService.isFinished(partita);
         
         return ResponseEntity.ok(status);
     }
@@ -159,7 +157,7 @@ public Object playAgain(HttpSession session) {
        
         session.setAttribute("partita", nuovaPartita);
 
-        partitaService.iniziaPartita(nuovaPartita.getId());
+        partitaService.iniziaPartita(nuovaPartita);
 
         
         ModelAndView modelAndView = new ModelAndView("match"); 
