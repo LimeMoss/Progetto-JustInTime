@@ -43,14 +43,6 @@ public class PartitaController {
     }
 
     /**
-     * Imposta lo stato della partita
-     * 
-     * @param partitaId l'ID della partita
-     * @param gameState lo stato da impostare
-     * @return ResponseEntity con il risultato dell'operazione
-     */
-
-    /**
      * Pesca una carta dal mazzo per il giocatore corrente.
      * 
      * @param partitaId l'ID della partita
@@ -171,6 +163,19 @@ public class PartitaController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Giocatore non trovato nella partita.");
         }
 
+    }
+
+
+    @GetMapping("/last-discarded-card/")
+    public ResponseEntity<?> lastDiscardedCard(HttpSession session) {
+        try {
+            Partita partita = (Partita) session.getAttribute("partita");
+            Carta carta = partitaService.getLastCardScarto(partita.getId());
+            return ResponseEntity.ok(carta); 
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("errore", e.getMessage()));
+        }
     }
 
 }

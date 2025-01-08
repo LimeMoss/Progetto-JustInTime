@@ -271,4 +271,12 @@ public class PartitaService {
 
     }
 
+    public Carta getLastCardScarto(Long partitaId){
+            Partita partita = getPartita(partitaId);
+            MazzoScarto scarto=partita.getMazzoScarto();
+            return mazzoScartoService.ultimaCartaScartata(scarto);
+
+
+    }
+
 }
