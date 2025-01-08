@@ -215,18 +215,28 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         })
-        .then(response => response.json()) // Assicurati che la risposta venga trattata come JSON
-        .then(carta => {
-            if (carta) {
-                addCardToHand(carta);
-                updateCardSizes();
-            } else {
-                console.error('Errore: Nessuna carta restituita dal server');
-            }
-        })
-        .catch(error => console.error('Errore nel pescare la carta:', error));
+            .then(response => {
+                if (!response.ok) {
+                    // Se la risposta non è OK, prova a leggere il testo dell'errore
+                    return response.text().then(errorText => {
+                        throw new Error(errorText);
+                    });
+                }
+                return response.json();
+            })
+            .then(newCard => {
+                if (newCard) {
+                    addCardToHand(newCard);
+                    updateCardSizes();
+                } else {
+                    console.error('Errore: Nessuna carta restituita dal server');
+                }
+            })
+            .catch(error => console.error('Errore nel pescare la carta:', error.message));
     }
-    
+
+
+
     function addCardToHand(card) {
         const newCardElement = document.createElement('img');
         newCardElement.src = getCardImagePath(card.tipo, card.valore);
