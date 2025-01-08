@@ -10,17 +10,15 @@ import com.justInTime.service.PartitaService;
 public class StartGameState implements GameState {
 
     @Autowired
-    private  PartitaService partitaService;
+    private PartitaService partitaService;
 
-   
-
-       @Autowired
-   
+    @Autowired
     @Qualifier("turnState")
     private GameState turnState;
-    
+
     private volatile boolean PlayerReady = false;
-    private static final long TIMEOUT = 5000;
+    private static final long TIMEOUT = 30000;
+
     /**
      * Esegue le operazioni necessarie all'inizio di una partita.
      * Distribuisce le carte iniziali ai giocatori, imposta il primo giocatore
@@ -39,20 +37,18 @@ public class StartGameState implements GameState {
                 e.printStackTrace();
             }
 
-    
-          
-                if (System.currentTimeMillis() - startTime >= TIMEOUT) {
-                PlayerReady = true; 
-                break; 
+            if (System.currentTimeMillis() - startTime >= TIMEOUT) {
+                PlayerReady = true;
+                break;
             }
             partitaService.distribuisciCarteIniziali(partita.getId());
             partita.setIndiceGiocatoreCorrente(0);
             partitaService.setsGameState(partita.getId(), turnState);
         }
-        PlayerReady = false;    
+        PlayerReady = false;
     }
 
-        public void playerReady() {
+    public void playerReady() {
         this.PlayerReady = true;
     }
 }

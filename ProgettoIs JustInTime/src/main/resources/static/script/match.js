@@ -12,13 +12,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function aggiornaTempoRimanente() {
         fetch('/game/timer') // Endpoint per ottenere la durata turno
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nella risposta del server');
+                }
+                return response.json();
+            })
             .then(data => {
-                if (data && data.durataTurno !== undefined) {
-                    tempoRimanente = data.durataTurno;
+                // `data` è un valore intero restituito dal backend
+                if (typeof data === 'number') {
+                    tempoRimanente = data;
                     aggiornaTimer();
-                }else{
-                    console.log("Tempo undefined")
+                } else {
+                    console.log("Formato della risposta non corretto");
                 }
             })
             .catch(error => console.error('Errore durante il fetch del tempo turno:', error));

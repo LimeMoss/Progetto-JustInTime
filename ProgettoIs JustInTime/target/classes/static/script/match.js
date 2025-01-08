@@ -1,9 +1,76 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const onHandContainer = document.getElementById('onhand-cards');
     const onTableCard = document.getElementById('ontable-cards').querySelector('img');
     const deck = document.getElementById('deck').querySelector('img');
     const alertBanner = document.getElementById('alert-banner');
     const popupContainer = document.getElementById('popup-container');
+
+    const timeLeftLabel = document.getElementById('timeLeft');
+
+    let turnoInCorso = true;
+    let tempoRimanente = 0;
+
+    function aggiornaTempoRimanente() {
+        fetch('/game/timer') // Endpoint per ottenere la durata turno
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nella risposta del server');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // `data` è un valore intero restituito dal backend
+                if (typeof data === 'number') {
+                    tempoRimanente = data;
+                    aggiornaTimer();
+                } else {
+                    console.log("Formato della risposta non corretto");
+                }
+            })
+            .catch(error => console.error('Errore durante il fetch del tempo turno:', error));
+    }
+
+    function aggiornaTimer() {
+        const timerInterval = setInterval(() => {
+            if (!turnoInCorso) {
+                clearInterval(timerInterval);
+                return;
+            }
+
+            if (tempoRimanente > 0) {
+                tempoRimanente--;
+                timeLeftLabel.textContent = `${tempoRimanente}s`;
+            } else {
+                clearInterval(timerInterval);
+                turnoInCorso = false;
+                timeLeftLabel.textContent = 'Turno scaduto!';
+                showPopup('Il tuo tempo è terminato. Hai perso', 'Premi OK per passare il turno', false);
+            }
+        }, 1000);
+    }
+
+    let players = []; // Lista dei giocatori
+    let currentPlayerIndex = 0; // Indice del giocatore corrente
+
+    // Recupera la lista dei giocatori configurati
+    function fetchPlayers() {
+        fetch('/api/game-config/players', {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Errore durante il recupero dei giocatori configurati.');
+                }
+            })
+            .then(playerNames => {
+                players = playerNames;
+                console.log(players);
+            })
+            .catch(error => console.error('Errore:', error));
+    }
 
     function addCardToHand() {
         const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
@@ -18,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
         newCard.addEventListener('click', handleCardClick);
         onHandContainer.appendChild(newCard);
         updateCardSizes();
-        showPopup('Turno completato', 'Premi OK per passare il turno', false); // Mostra il popup "Turno completato"
+        showPopup('Turno completato', 'Premi OK per passare il turno', false);
     }
 
     function handleCardClick(event) {
@@ -52,13 +119,32 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('popup-ok-btn').addEventListener('click', () => {
             popupContainer.style.display = 'none';
             if (title === 'Turno completato') {
-                showNextTurnUser();
+                notifyNextPlayerReady();
             }
         });
     }
 
-    function showNextTurnUser() {
-        const nextTurnUser = "Prossimo Utente"; // Sostituisci con logica per ottenere il prossimo utente
+    function notifyNextPlayerReady() {
+        fetch('/game/nextPlayerReady', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Next player notified successfully.');
+                    passTurnToNextPlayer();
+                } else {
+                    console.error('Failed to notify next player:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error notifying next player:', error));
+    }
+
+    function passTurnToNextPlayer() {
+        // Incrementa l'indice ciclicamente
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        const nextTurnUser = players[currentPlayerIndex];
         showPopup(`Turno di ${nextTurnUser}`, 'Premi OK per iniziare', true);
     }
 
@@ -97,4 +183,6 @@ document.addEventListener("DOMContentLoaded", function() {
     window.closeBanner = closeBanner;
 
     updateCardSizes();
+    fetchPlayers(); // Recupera i giocatori al caricamento della pagina
+    aggiornaTempoRimanente();
 });

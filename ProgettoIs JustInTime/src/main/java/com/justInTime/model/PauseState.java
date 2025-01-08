@@ -28,7 +28,7 @@ public class PauseState implements GameState {
     @Lazy
     private GameState endGameState;
     // TODO IMPOSTARE TEMPO DI TIMEOUT A 30000 (30 secondi)//
-    private static final long TIMEOUT = 2000;
+    private static final long TIMEOUT = 30000;
 
     /**
      * Esegue le operazioni specifiche di questo stato.

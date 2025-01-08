@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const startButton = document.getElementById("start-button");
     // Funzione per ottenere il nome utente dalla sessione
     function getSessionUser() {
         fetch('/api/game-config/getSessionUser', {
@@ -23,4 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Chiamare la funzione per caricare il nome utente
     getSessionUser();
+
+    startButton.addEventListener("click", () => {
+        fetch('/game/PlayerReady', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Next player notified successfully.');
+                    window.location.href = "/match";
+                } else {
+                    console.error('Failed to notify next player:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error notifying next player:', error));
+    })
 });
