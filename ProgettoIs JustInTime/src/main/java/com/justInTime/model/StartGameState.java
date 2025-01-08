@@ -17,7 +17,7 @@ public class StartGameState implements GameState {
     private GameState turnState;
 
     private volatile boolean PlayerReady = false;
-    private static final long TIMEOUT = 30000;
+    private static final long TIMEOUT = 50000;
 
     /**
      * Esegue le operazioni necessarie all'inizio di una partita.

@@ -49,13 +49,28 @@ public class PartitaController {
      * @param session   la sessione HTTP
      * @return ResponseEntity con il risultato dell'operazione
      */
+   
+    
     @PostMapping("/pesca-carta/")
     public ResponseEntity<?> pescaCarta(HttpSession session) {
+
         try {
+  
+    
             Partita partita = (Partita) session.getAttribute("partita");
+            if (partita == null) {
+            
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("errore", "Partita non trovata"));
+            }
+    
+    
             Carta carta = partitaService.pescaCarta(partita.getId());
+     
+    
             return ResponseEntity.ok(carta); 
         } catch (RuntimeException e) {
+         
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("errore", e.getMessage()));
         }

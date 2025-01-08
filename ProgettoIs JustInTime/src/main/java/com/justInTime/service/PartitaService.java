@@ -209,7 +209,8 @@ public class PartitaService {
         Carta carta = playerService.aggiungiCartaAllaMano(player.getId(), mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
         player.setTurnoInPausa(true);
 
-        setsGameState(PartitaId, new PauseState());
+        
+        setsGameState(PartitaId, pauseState);
 
         return carta;
     }
