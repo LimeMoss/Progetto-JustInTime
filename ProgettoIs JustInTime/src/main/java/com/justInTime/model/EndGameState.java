@@ -41,7 +41,7 @@ public void execute(Partita partita) {
         }
     }
     
-    partitaService.terminaPartita(partita.getId());
+    partitaService.terminaPartita(partita);
 }
 
     /**
@@ -66,7 +66,7 @@ public void execute(Partita partita) {
                 }
             }
     
-            partitaService.terminaPartita(partita.getId());
+            partitaService.terminaPartita(partita);
         }
     }
 }

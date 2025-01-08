@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!response.ok) {
                     throw new Error('Errore nel recupero del giocatore corrente');
                 }
-                return response.text(); // Il backend restituisce una stringa (nome utente del giocatore corrente)
+                return response.text(); 
             })
             .then(username => {
                 player_name=username;

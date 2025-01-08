@@ -64,7 +64,7 @@ public class Partita {
     }
 
     public GameState getGameState() {
-        return gameState;
+        return this.gameState;
     }
 
     public void setGameState(GameState gameState) {

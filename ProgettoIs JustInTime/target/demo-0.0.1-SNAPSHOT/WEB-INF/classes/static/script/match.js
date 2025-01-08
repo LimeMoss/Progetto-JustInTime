@@ -1,24 +1,109 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const onHandContainer = document.getElementById('onhand-cards');
     const onTableCard = document.getElementById('ontable-cards').querySelector('img');
     const deck = document.getElementById('deck').querySelector('img');
     const alertBanner = document.getElementById('alert-banner');
     const popupContainer = document.getElementById('popup-container');
 
-    function addCardToHand() {
-        const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
-        if (onhandCards.length >= 22) {
-            showAlertBanner();
-            return;
-        }
-        const newCard = document.createElement('img');
-        newCard.src = '../images/justcardbase.png';
-        newCard.alt = 'onhand-card';
-        newCard.classList.add('clickable-card');
-        newCard.addEventListener('click', handleCardClick);
-        onHandContainer.appendChild(newCard);
+    const timeLeftLabel = document.getElementById('timeLeft');
+
+    let player_name;
+
+    function aggiornaTempoRimanente() {
+        fetch('/game/timer') // Endpoint per ottenere la durata turno
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nella risposta del server');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // `data` è un valore intero restituito dal backend
+                if (typeof data === 'number') {
+                    tempoRimanente = data;
+                    aggiornaTimer();
+                } else {
+                    console.log("Formato della risposta non corretto");
+                }
+            })
+            .catch(error => console.error('Errore durante il fetch del tempo turno:', error));
+    }
+
+    function aggiornaTimer() {
+        const timerInterval = setInterval(() => {
+            if (!turnoInCorso) {
+                clearInterval(timerInterval);
+                return;
+            }
+
+            if (tempoRimanente > 0) {
+                tempoRimanente--;
+                timeLeftLabel.textContent = `${tempoRimanente}s`;
+            } else {
+                clearInterval(timerInterval);
+                turnoInCorso = false;
+                timeLeftLabel.textContent = 'Turno scaduto!';
+                showPopup('Il tuo tempo è terminato. Hai perso', 'Premi OK per passare il turno', false);
+            }
+        }, 1000);
+    }
+
+    function fetchCurrentPlayer() {
+        fetch('/nameIndexPlayer', {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nel recupero del giocatore corrente');
+                }
+                return response.text(); // Il backend restituisce una stringa (nome utente del giocatore corrente)
+            })
+            .then(username => {
+                player_name=username;
+            })
+            .catch(error => console.error('Errore nel recupero del giocatore corrente:', error));
+    }
+
+    function fetchPlayerHand() {
+        fetch('/game/playerMano', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(cards => {
+                updateHand(cards);
+            })
+            .catch(error => console.error('Errore nel recuperare la mano del giocatore:', error));
+    }
+
+    function updateHand(cards) {
+        onHandContainer.innerHTML = ''; // Svuota il contenitore delle carte
+
+        cards.forEach(card => {
+            const newCard = document.createElement('img');
+            newCard.src = getCardImagePath(card.tipo, card.valore);
+            newCard.alt = `Carta ${card.tipo}`;
+            newCard.classList.add('clickable-card');
+            newCard.addEventListener('click', handleCardClick);
+            onHandContainer.appendChild(newCard);
+        });
+
         updateCardSizes();
-        showPopup('Turno completato', 'Premi OK per passare il turno', false); // Mostra il popup "Turno completato"
+    }
+
+    function getCardImagePath(tipo, valore) {
+        if (tipo === 'numerata') {
+            return `../images/justcard${valore}.png`;
+        } else if (tipo === 'Accelera') {
+            return '../images/accelera_card.png';
+        } else if (tipo === 'Rallenta') {
+            return '../images/rallenta_card.png';
+        } else if (tipo === 'Jolly') {
+            return '../images/jolly_card.png';
+        }
+        return '../images/justcardbase.png';
     }
 
     function handleCardClick(event) {
@@ -35,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="popup-content">
                 <h1>${title}</h1>
                 <p>${message}</p>
-                <button id="popup-ok-btn">OK</button>
+                <button id="popup-ok-btn" style="background-color: #D9773B">OK</button>
             </div>
         `;
 
@@ -52,14 +137,32 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('popup-ok-btn').addEventListener('click', () => {
             popupContainer.style.display = 'none';
             if (title === 'Turno completato') {
-                showNextTurnUser();
+                notifyNextPlayerReady();
             }
         });
     }
 
-    function showNextTurnUser() {
-        const nextTurnUser = "Prossimo Utente"; // Sostituisci con logica per ottenere il prossimo utente
-        showPopup(`Turno di ${nextTurnUser}`, 'Premi OK per iniziare', true);
+    function notifyNextPlayerReady() {
+        fetch('/game/nextPlayerReady', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Next player notified successfully.');
+                    passTurnToNextPlayer();
+                } else {
+                    console.error('Failed to notify next player:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error notifying next player:', error));
+    }
+
+    function passTurnToNextPlayer() {
+        // Incrementa l'indice ciclicamente
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        showPopup(`Turno di ${player_name}`, 'Premi OK per iniziare', true);
     }
 
     function updateCardSizes() {
@@ -87,7 +190,6 @@ document.addEventListener("DOMContentLoaded", function() {
         alertBanner.style.display = 'none';
     }
 
-    deck.addEventListener('click', addCardToHand);
     window.addEventListener('resize', updateCardSizes);
 
     document.querySelectorAll('.onhand-cards .clickable-card').forEach(card => {
@@ -96,5 +198,49 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.closeBanner = closeBanner;
 
+
+    deck.addEventListener('click', drawCard);
+
+    function drawCard() {
+        fetch('/game/pesca-carta/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    // Se la risposta non è OK, prova a leggere il testo dell'errore
+                    return response.text().then(errorText => {
+                        throw new Error(errorText);
+                    });
+                }
+                return response.json();
+            })
+            .then(newCard => {
+                if (newCard) {
+                    addCardToHand(newCard);
+                    updateCardSizes();
+                    showPopup('Turno completato', 'Premi OK per passare il turno', false);
+                } else {
+                    console.error('Errore: Nessuna carta restituita dal server');
+                }
+            })
+            .catch(error => console.error('Errore nel pescare la carta:', error.message));
+    }
+
+
+
+    function addCardToHand(card) {
+        const newCardElement = document.createElement('img');
+        newCardElement.src = getCardImagePath(card.tipo, card.valore);
+        newCardElement.alt = `Carta ${card.tipo}`;
+        newCardElement.classList.add('clickable-card');
+        newCardElement.addEventListener('click', handleCardClick);
+        onHandContainer.appendChild(newCardElement);
+    }
+
     updateCardSizes();
+    fetchCurrentPlayer(); // Recupera i giocatori al caricamento della pagina
+    fetchPlayerHand(); // Inizializza il caricamento delle carte
+    aggiornaTempoRimanente();
 });

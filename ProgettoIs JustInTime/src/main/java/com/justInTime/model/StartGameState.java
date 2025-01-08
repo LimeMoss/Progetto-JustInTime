@@ -29,24 +29,35 @@ public class StartGameState implements GameState {
     @Override
     public void execute(Partita partita) {
         long startTime = System.currentTimeMillis();
-
+    
+    
+        partitaService.distribuisciCarteIniziali(partita);
+        partita.setIndiceGiocatoreCorrente(0);
+    
         while (!PlayerReady) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+    
 
             if (System.currentTimeMillis() - startTime >= TIMEOUT) {
-                PlayerReady = true;
+                PlayerReady = true;  
                 break;
             }
-            partitaService.distribuisciCarteIniziali(partita.getId());
-            partita.setIndiceGiocatoreCorrente(0);
-            partitaService.setsGameState(partita.getId(), turnState);
+            
+          
+            if (PlayerReady) {
+                partitaService.setsGameState(partita, turnState);
+                turnState.execute(partita);
+            }
         }
+    
+       
         PlayerReady = false;
     }
+    
 
     public void playerReady() {
         this.PlayerReady = true;

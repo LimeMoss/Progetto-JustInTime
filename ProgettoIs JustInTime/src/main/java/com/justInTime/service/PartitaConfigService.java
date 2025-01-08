@@ -12,6 +12,7 @@ import com.justInTime.model.GameState;
 import com.justInTime.model.Partita;
 
 import com.justInTime.model.Player;
+
 import com.justInTime.model.Utente;
 import com.justInTime.repository.PartitaRepository;
 
@@ -191,6 +192,8 @@ public class PartitaConfigService {
             giocatore.getPartite().add(partita);
         }
 
+        partita.setGameState(startGameState);
+       
         partita = partitaRepository.save(partita);
 
         giocatoriInConfigurazione.clear();
@@ -312,8 +315,9 @@ public class PartitaConfigService {
 
         Partita nuovaPartita = new Partita();
 
-        partitaService.setsGameState(nuovaPartita.getId(), startGameState);
-        ;
+        partitaService.setsGameState(nuovaPartita, startGameState);
+        
+        startGameState.execute(nuovaPartita);
 
         for (Player giocatore : partitaPrecedente.getGiocatori()) {
             nuovaPartita.getGiocatori().add(giocatore);

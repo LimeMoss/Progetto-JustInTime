@@ -11,11 +11,9 @@ import org.springframework.context.annotation.Lazy;
 public class TurnState implements GameState {
 
     @Autowired
-    @Lazy
+
     @Qualifier("pauseState")
     private GameState pauseState;
-    
-
 
     @Autowired
     @Lazy
@@ -35,29 +33,33 @@ public class TurnState implements GameState {
      * 
      * @param partita La partita su cui eseguire le operazioni.
      */
+
     @Override
     public void execute(Partita partita) {
 
-        Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
+    
 
+        Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
         int tempoRestante = giocatoreCorrente.getDurataTurno();
 
-
-    
+     
         if (tuttiEsclusi(partita)) {
-            
-            partitaService.tempoTerminato(partita.getId());
-
+           
+            partitaService.tempoTerminato(partita);
+            return; // Esci dalla funzione se tutti sono esclusi
         }
 
+        
         if (giocatoreCorrente.isEscluso()) {
+    
             passaAlProssimoGiocatore(partita);
             return;
         }
 
+        
         while (tempoRestante > 0) {
-
             if (giocatoreCorrente.hasFinishedTurn()) {
+             
                 break;
             }
 
@@ -67,13 +69,18 @@ public class TurnState implements GameState {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+             
+                Thread.currentThread().interrupt();
             }
         }
 
+        
         if (tempoRestante == 0) {
             giocatoreCorrente.setEscluso(true);
+
         }
+
+    
 
         passaAlProssimoGiocatore(partita);
     }
@@ -96,10 +103,9 @@ public class TurnState implements GameState {
 
         partita.setIndiceGiocatoreCorrente(prossimoIndice);
 
+        partitaService.setsGameState(partita, pauseState);
+        pauseState.execute(partita);
 
-        partitaService.setsGameState(partita.getId(), pauseState);
-
-    
     }
 
     /**

@@ -166,7 +166,6 @@ public class Player implements abstractPlayer {
 
     @Override
     public boolean hasFinishedTurn() {
-
         return this.turnoInPausa;
     }
 
