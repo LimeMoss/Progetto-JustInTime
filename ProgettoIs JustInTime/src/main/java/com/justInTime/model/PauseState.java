@@ -29,25 +29,40 @@ public class PauseState implements GameState {
     private GameState endGameState;
     private static final long TIMEOUT = 60000;
 
-
     /**
      * Esegue le operazioni necessarie per mettere in pausa una partita.
      * Il metodo va in attesa che il giocatore successivo si renda disponibile
      * per continuare la partita. Se il timeout scade, la partita viene terminata.
      *
-     * Il metodo utilizza un ciclo che verifica se il flag nextPlayerReady 
-     *   true, in tal caso esce dal ciclo e verifica se la partita   terminata.
-     *   Se la partita non   terminata, il metodo imposta lo stato di gioco
-     *   a "turnState" e lo esegue.
+     * Il metodo utilizza un ciclo che verifica se il flag nextPlayerReady
+     * true, in tal caso esce dal ciclo e verifica se la partita terminata.
+     * Se la partita non terminata, il metodo imposta lo stato di gioco
+     * a "turnState" e lo esegue.
      *
      * @param partita La partita su cui eseguire le operazioni.
      */
     @Override
     public void execute(Partita partita) {
-
         nextPlayerReady = false;
-        long startTime = System.currentTimeMillis();
 
+        if (!waitForPlayer()) {
+
+            if (isGameOver(partita)) {
+                handleGameOver(partita);
+            } else {
+
+                NextTurn(partita);
+            }
+        }
+    }
+
+    /**
+     * Attende che il giocatore sia pronto o che scada il timeout.
+     *
+     * @return true se il giocatore è pronto, false se il timeout è scaduto
+     */
+    private boolean waitForPlayer() {
+        long startTime = System.currentTimeMillis();
         while (!nextPlayerReady) {
             try {
                 Thread.sleep(100);
@@ -55,26 +70,36 @@ public class PauseState implements GameState {
                 e.printStackTrace();
             }
 
-            // Controllo timeout
+       
             if (System.currentTimeMillis() - startTime >= TIMEOUT) {
-                nextPlayerReady = true; 
-                break; 
+                nextPlayerReady = true;
+                return false; 
             }
         }
-      
-       
-        if (isGameOver(partita)) {
-       ;
-            partitaService.setsGameState(partita, endGameState);
-            endGameState.execute(partita);
-        } else {
-            if (nextPlayerReady) {
-       
-            partitaService.setsGameState(partita, turnState);
-            turnState.execute(partita);}
-        }
+        return true; 
+    }
 
-        
+    /**
+     * Gestisce il caso di game over, cambiando lo stato della partita.
+     *
+     * @param partita La partita da gestire.
+     */
+    private void handleGameOver(Partita partita) {
+        partitaService.setsGameState(partita, endGameState);
+        endGameState.execute(partita);
+    }
+
+    /**
+     * Gestisce il proseguimento del gioco, cambiando lo stato della partita al
+     * turno successivo.
+     *
+     * @param partita La partita da gestire.
+     */
+    private void NextTurn(Partita partita) {
+        if (nextPlayerReady) {
+            partitaService.setsGameState(partita, turnState);
+            turnState.execute(partita);
+        }
     }
 
     /**
