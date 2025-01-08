@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const timeLeftLabel = document.getElementById('timeLeft');
 
+    let turnoInCorso = true;
+    let tempoRimanente = 0;
     let player_name;
 
     function aggiornaTempoRimanente() {
