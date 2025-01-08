@@ -198,11 +198,25 @@ public class PartitaController {
     public ResponseEntity<?> lastDiscardedCard(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
+            if (partita == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("errore", "Partita non trovata nella sessione"));
+            }
+    
             Carta carta = partitaService.getLastCardScarto(partita);
-            return ResponseEntity.ok(carta); 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("errore", e.getMessage()));
+            
+            if (carta == null) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(Map.of("messaggio", "Nessuna carta scartata", "carta", null));
+            }
+    
+            return ResponseEntity.ok(carta);
+            
+        } catch (Exception e) {
+       
+            String errorMessage = e.getMessage() != null ? e.getMessage() : "Errore sconosciuto";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("errore", "Errore interno del server", "dettagli", errorMessage));
         }
     }
 
