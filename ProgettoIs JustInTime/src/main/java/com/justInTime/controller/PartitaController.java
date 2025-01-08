@@ -30,14 +30,15 @@ public class PartitaController {
      * @return ResponseEntity con il risultato dell'operazione
      */
     @PostMapping("/play-card/{cartaIndex}")
-    public ResponseEntity<String> playCard(@PathVariable int cartaIndex, HttpSession session) {
+    public ResponseEntity<?> playCard(@PathVariable int cartaIndex, HttpSession session) {
         try {
             // Prendi la partita dalla sessione usando l'ID
             Partita partita = (Partita) session.getAttribute("partita");
-            partitaService.giocaCarta(partita.getId(), cartaIndex); // Chiama il servizio per giocare la carta
-            return ResponseEntity.ok("Carta giocata con successo.");
+            Carta carta = partitaService.giocaCarta(partita.getId(), cartaIndex); 
+            return ResponseEntity.ok(carta);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("errore", e.getMessage()));
         }
     }
 

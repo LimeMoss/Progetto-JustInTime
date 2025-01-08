@@ -90,7 +90,7 @@ public class PartitaService {
      * @return la partita aggiornata
      * @throws RuntimeException se la carta non giocabile
      */
-    public Partita giocaCarta(Long partitaId, int cartaIndex) {
+    public Carta giocaCarta(Long partitaId, int cartaIndex) {
         Partita partita = getPartita(partitaId);
         Player giocatoreCorrente = partita.getGiocatoreCorrente();
         Carta carta = giocatoreCorrente.getMano().get(cartaIndex);
@@ -109,7 +109,7 @@ public class PartitaService {
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
             partita.getGiocatoreCorrente().setTurnoInPausa(true);
             setsGameState(partitaId, pauseState);
-            return partita;
+            return carta;
         }
         throw new RuntimeException("Carta non giocabile");
     }
