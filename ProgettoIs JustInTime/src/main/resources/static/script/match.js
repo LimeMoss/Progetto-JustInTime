@@ -52,9 +52,26 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('popup-ok-btn').addEventListener('click', () => {
             popupContainer.style.display = 'none';
             if (title === 'Turno completato') {
-                showNextTurnUser();
+                notifyNextPlayerReady();
             }
         });
+    }
+
+    function notifyNextPlayerReady() {
+        fetch('/game/nextPlayerReady', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Next player notified successfully.');
+                    showNextTurnUser();
+                } else {
+                    console.error('Failed to notify next player:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Error notifying next player:', error));
     }
 
     function showNextTurnUser() {

@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(responseText => {
                 if (responseText === 'success') {
+                    console.log('Partita creata');
                     window.location.href = '/startmatch'; // Reindirizzamento alla pagina della partita
                 }
             })
