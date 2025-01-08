@@ -81,8 +81,8 @@ public class PlayerService {
  */
 
     @Transactional
-    public Player rimuoviCartaDallaMano(Long playerId, int cartaIndex) {
-        Player player = trovaGiocatore(playerId);
+    public Player rimuoviCartaDallaMano(Player player, int cartaIndex) {
+
         player.getMano().remove(cartaIndex); 
         return playerRepository.save(player);
     }
@@ -158,8 +158,8 @@ public class PlayerService {
     }
 
     @Transactional
-    public int getTimer(Long playerId){
-        Player player= trovaGiocatore(playerId);
+    public int getTimer(Player player){
+      
         return player.getDurataTurno();
     }
 

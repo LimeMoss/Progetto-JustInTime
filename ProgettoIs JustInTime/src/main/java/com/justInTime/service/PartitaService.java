@@ -117,7 +117,7 @@ public class PartitaService {
                 carta.applicaEffetto(giocatori.get(partita.getIndiceGiocatoreCorrente() + 1));
             }
 
-            playerService.rimuoviCartaDallaMano(giocatoreCorrente.getId(), cartaIndex);
+            playerService.rimuoviCartaDallaMano(giocatoreCorrente, cartaIndex);
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
             partita.getGiocatoreCorrente().setTurnoInPausa(true);
             setsGameState(partita, pauseState);
@@ -290,7 +290,7 @@ public class PartitaService {
     public int getCurrentPlayerTimer(Partita partita) {
 
         Player player = partita.getGiocatoreCorrente();
-        return playerService.getTimer(player.getId());
+        return playerService.getTimer(player);
 
     }
 
