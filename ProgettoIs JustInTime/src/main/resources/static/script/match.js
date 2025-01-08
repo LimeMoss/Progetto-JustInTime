@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="popup-content">
                 <h1>${title}</h1>
                 <p>${message}</p>
-                <button id="popup-ok-btn">OK</button>
+                <button id="popup-ok-btn" style="background-color: #D9773B">OK</button>
             </div>
         `;
 
@@ -220,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (newCard) {
                     addCardToHand(newCard);
                     updateCardSizes();
+                    showPopup('Turno completato', 'Premi OK per passare il turno', false);
                 } else {
                     console.error('Errore: Nessuna carta restituita dal server');
                 }
@@ -239,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     updateCardSizes();
-    fetchPlayers(); // Recupera i giocatori al caricamento della pagina
+    fetchCurrentPlayer(); // Recupera i giocatori al caricamento della pagina
     fetchPlayerHand(); // Inizializza il caricamento delle carte
     aggiornaTempoRimanente();
 });
