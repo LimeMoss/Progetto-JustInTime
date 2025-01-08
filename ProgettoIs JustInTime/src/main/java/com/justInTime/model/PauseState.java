@@ -29,18 +29,23 @@ public class PauseState implements GameState {
     private GameState endGameState;
     private static final long TIMEOUT = 60000;
 
+
     /**
-     * Esegue le operazioni specifiche di questo stato.
-     * Il metodo esegue un loop finché il flag nextPlayerReady è false.
-     * Quando il flag è true, il metodo verifica se la partita è terminata.
-     * Se la partita è terminata, il metodo imposta lo stato della partita a
-     * EndGameState.
-     * Altrimenti, il metodo imposta lo stato della partita a TurnState.
+     * Esegue le operazioni necessarie per mettere in pausa una partita.
+     * Il metodo va in attesa che il giocatore successivo si renda disponibile
+     * per continuare la partita. Se il timeout scade, la partita viene terminata.
+     *
+     * Il metodo utilizza un ciclo che verifica se il flag nextPlayerReady 
+     *   true, in tal caso esce dal ciclo e verifica se la partita   terminata.
+     *   Se la partita non   terminata, il metodo imposta lo stato di gioco
+     *   a "turnState" e lo esegue.
      *
      * @param partita La partita su cui eseguire le operazioni.
      */
     @Override
     public void execute(Partita partita) {
+
+        nextPlayerReady = false;
         long startTime = System.currentTimeMillis();
 
         while (!nextPlayerReady) {
@@ -56,14 +61,17 @@ public class PauseState implements GameState {
                 break; 
             }
         }
-        nextPlayerReady = false;
+      
        
         if (isGameOver(partita)) {
+       ;
             partitaService.setsGameState(partita, endGameState);
             endGameState.execute(partita);
         } else {
+            if (nextPlayerReady) {
+       
             partitaService.setsGameState(partita, turnState);
-            turnState.execute(partita);
+            turnState.execute(partita);}
         }
 
         
