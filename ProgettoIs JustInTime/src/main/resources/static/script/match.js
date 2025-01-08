@@ -66,20 +66,45 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error('Errore:', error));
     }
 
-    function addCardToHand() {
-        const onhandCards = document.querySelectorAll('.onhand-cards .clickable-card');
-        if (onhandCards.length >= 22) {
-            showAlertBanner();
-            return;
-        }
-        const newCard = document.createElement('img');
-        newCard.src = '../images/justcardbase.png';
-        newCard.alt = 'onhand-card';
-        newCard.classList.add('clickable-card');
-        newCard.addEventListener('click', handleCardClick);
-        onHandContainer.appendChild(newCard);
+    function fetchPlayerHand() {
+        fetch('/game/playerMano', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(cards => {
+                updateHand(cards);
+            })
+            .catch(error => console.error('Errore nel recuperare la mano del giocatore:', error));
+    }
+
+    function updateHand(cards) {
+        onHandContainer.innerHTML = ''; // Svuota il contenitore delle carte
+
+        cards.forEach(card => {
+            const newCard = document.createElement('img');
+            newCard.src = getCardImagePath(card.tipo, card.valore);
+            newCard.alt = `Carta ${card.tipo}`;
+            newCard.classList.add('clickable-card');
+            newCard.addEventListener('click', handleCardClick);
+            onHandContainer.appendChild(newCard);
+        });
+
         updateCardSizes();
-        showPopup('Turno completato', 'Premi OK per passare il turno', false);
+    }
+
+    function getCardImagePath(tipo, valore) {
+        if (tipo === 'numerata') {
+            return `../images/justcard${valore}.png`;
+        } else if (tipo === 'Accelera') {
+            return '../images/accelera_card.png';
+        } else if (tipo === 'Rallenta') {
+            return '../images/rallenta_card.png';
+        } else if (tipo === 'Jolly') {
+            return '../images/jolly_card.png';
+        }
+        return '../images/justcardbase.png';
     }
 
     function handleCardClick(event) {
@@ -167,7 +192,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alertBanner.style.display = 'none';
     }
 
-    deck.addEventListener('click', addCardToHand);
     window.addEventListener('resize', updateCardSizes);
 
     document.querySelectorAll('.onhand-cards .clickable-card').forEach(card => {
@@ -176,7 +200,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.closeBanner = closeBanner;
 
+
+    deck.addEventListener('click', drawCard);
+
+    function drawCard() {
+        fetch('/game/pesca-carta/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(newCard => {
+                if (newCard) {
+                    addCardToHand(newCard);
+                    updateCardSizes();
+                } else {
+                    console.error('Errore: Nessuna carta restituita dal server');
+                }
+            })
+            .catch(error => console.error('Errore nel pescare la carta:', error));
+    }
+
+    function addCardToHand(card) {
+        const newCardElement = document.createElement('img');
+        newCardElement.src = getCardImagePath(card.tipo, card.valore);
+        newCardElement.alt = `Carta ${card.tipo}`;
+        newCardElement.classList.add('clickable-card');
+        newCardElement.addEventListener('click', handleCardClick);
+        onHandContainer.appendChild(newCardElement);
+    }
+
     updateCardSizes();
     fetchPlayers(); // Recupera i giocatori al caricamento della pagina
+    fetchPlayerHand(); // Inizializza il caricamento delle carte
     aggiornaTempoRimanente();
 });
