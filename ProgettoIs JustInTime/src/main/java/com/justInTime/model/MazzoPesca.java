@@ -51,7 +51,7 @@ public class MazzoPesca extends Mazzo {
         }
 
         for (int i = 0; i < 6; i++) {
-            carte.add(new Carta("Accellera"));
+            carte.add(new Carta("Accelera"));
             carte.add(new Carta("Rallenta"));
         }
 
