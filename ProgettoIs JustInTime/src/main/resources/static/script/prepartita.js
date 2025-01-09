@@ -78,16 +78,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (playerToRemove) {
                     playersForm.removeChild(playerToRemove);
-                    shiftPlayers(); // Aggiorna gli ID e le etichette
+                    shiftPlayers(false); // Aggiorna gli ID e le etichette
                     updateButtons(); // Aggiorna i pulsanti
                 }
             })
-            .catch(error => console.error('Errore:', error));
+                .catch(error => {
+                    shiftPlayers(true);
+                    updateButtons();
+                    console.error('Errore:', error);
+                });
         }
     });
 
     // Funzione per aggiornare etichette, ID e stati dei giocatori
-    function shiftPlayers() {
+    function shiftPlayers(empty) {
+        if(empty){
+            const playerToRemove = playersForm.lastElementChild;
+            playersForm.removeChild(playerToRemove);
+            return;
+        }
         const playerGroups = Array.from(playersForm.querySelectorAll('.input-group'));
 
         playerGroups.forEach((group, index) => {
