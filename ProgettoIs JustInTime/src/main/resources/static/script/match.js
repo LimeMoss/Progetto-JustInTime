@@ -201,7 +201,16 @@ document.addEventListener("DOMContentLoaded", function () {
     window.closeBanner = closeBanner;
 
 
-    deck.addEventListener('click', drawCard);
+    deck.addEventListener('click', () => {
+        const cardCount = document.querySelectorAll('.onhand-cards img').length;
+
+        if (cardCount >= 22) {
+            showPopup('Limite di carte raggiunto', 'Hai già 22 carte in mano. Non puoi pescarne altre.', false);
+        } else {
+            drawCard();
+        }
+    });
+
 
     function drawCard() {
         fetch('/game/pesca-carta/', {

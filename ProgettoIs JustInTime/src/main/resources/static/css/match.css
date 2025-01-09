@@ -45,7 +45,7 @@ body {
 .ontable-cards {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    height: fit-content;
 }
 
 .ontable-cards img {
@@ -65,7 +65,7 @@ body {
 
 .onhand-cards img {
     flex-shrink: 0;
-    margin: 10px;
+    margin: 0 10px 10px;
     cursor: pointer; /* Cambia il cursore a una mano per indicare che è cliccabile */
     transition: transform 0.2s;
 }
