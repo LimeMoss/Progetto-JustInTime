@@ -112,7 +112,7 @@ public class PartitaService {
             if (carta.getTipo().equals("Rallenta")) {
                 carta.applicaEffetto(giocatoreCorrente);
             }
-            if (carta.getTipo().equals("Accellera")) {
+            if (carta.getTipo().equals("Accelera")) {
                 List<Player> giocatori = partita.getGiocatori();
                 carta.applicaEffetto(giocatori.get(partita.getIndiceGiocatoreCorrente() + 1));
             }
