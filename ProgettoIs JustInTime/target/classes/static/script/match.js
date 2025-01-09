@@ -4,10 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const deck = document.getElementById('deck').querySelector('img');
     const alertBanner = document.getElementById('alert-banner');
     const popupContainer = document.getElementById('popup-container');
-
+    var currentPlayerIndex = 1;
     const timeLeftLabel = document.getElementById('timeLeft');
 
+    let turnoInCorso = true;
+    let tempoRimanente = 0;
     let player_name;
+
+
 
     function aggiornaTempoRimanente() {
         fetch('/game/timer') // Endpoint per ottenere la durata turno
@@ -49,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchCurrentPlayer() {
-        fetch('/nameIndexPlayer', {
+        fetch('/game/nameIndexPlayer', {
             method: 'GET',
             credentials: 'include',
         })
@@ -160,8 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function passTurnToNextPlayer() {
-        // Incrementa l'indice ciclicamente
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        fetchCurrentPlayer();
+        fetchPlayerHand();
         showPopup(`Turno di ${player_name}`, 'Premi OK per iniziare', true);
     }
 
@@ -199,7 +203,16 @@ document.addEventListener("DOMContentLoaded", function () {
     window.closeBanner = closeBanner;
 
 
-    deck.addEventListener('click', drawCard);
+    deck.addEventListener('click', () => {
+        const cardCount = document.querySelectorAll('.onhand-cards img').length;
+
+        if (cardCount >= 22) {
+            showPopup('Limite di carte raggiunto', 'Hai già 22 carte in mano. Non puoi pescarne altre.', false);
+        } else {
+            drawCard();
+        }
+    });
+
 
     function drawCard() {
         fetch('/game/pesca-carta/', {

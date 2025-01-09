@@ -39,4 +39,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Devi essere loggato per avviare una nuova partita.');
             });
     });
+    updateRanking();
 });
+
+    function updateRanking() {
+        fetch("/api/game-config/players")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Errore durante il recupero dei dati dei giocatori.");
+                }
+                return response.json();
+            })
+            .then(players => {
+                 //prendere il numero di carte
+
+                playerData.sort((a, b) => a.cards - b.cards);
+
+                renderRanking(playerData);
+            })
+            .catch(error => {
+                console.error("Errore:", error);
+            });
+    }
+
+    function renderRanking(players) {
+        players.forEach(player => {
+            const playerContainer = document.getElementById(`name${players.findIndex(player)}`);
+        });
+    }
