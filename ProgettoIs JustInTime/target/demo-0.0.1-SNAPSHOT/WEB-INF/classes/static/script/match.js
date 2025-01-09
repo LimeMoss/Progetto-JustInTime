@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const timeLeftLabel = document.getElementById('timeLeft');
 
+    let turnoInCorso = true;
+    let tempoRimanente = 0;
     let player_name;
 
     function aggiornaTempoRimanente() {
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchCurrentPlayer() {
-        fetch('/nameIndexPlayer', {
+        fetch('/game/nameIndexPlayer', {
             method: 'GET',
             credentials: 'include',
         })
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!response.ok) {
                     throw new Error('Errore nel recupero del giocatore corrente');
                 }
-                return response.text(); // Il backend restituisce una stringa (nome utente del giocatore corrente)
+                return response.text(); 
             })
             .then(username => {
                 player_name=username;

@@ -79,6 +79,7 @@ public class Player implements abstractPlayer {
         this.durataTurno = 15;
         this.partiteGiocate = 0;
         this.vittorie = 0;
+        this.escluso = false;
     }
 
     public Player(int maxScore) {
@@ -88,11 +89,13 @@ public class Player implements abstractPlayer {
         this.mano = new ArrayList<Carta>();
         this.partiteGiocate = 0;
         this.vittorie = 0;
+        this.escluso = false;
     }
 
     public Player(String jackson) {
 
         this.durataTurno = 15;
+        this.escluso = false;
 
         mano = new ArrayList<Carta>();
     }
