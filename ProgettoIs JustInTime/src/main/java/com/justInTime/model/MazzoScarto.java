@@ -2,6 +2,7 @@ package com.justInTime.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MazzoScarto extends Mazzo {
 
@@ -9,6 +10,7 @@ public class MazzoScarto extends Mazzo {
 
     public MazzoScarto() {
         carteScartate = new ArrayList<>();
+        aggiungiCartaCasuale();
     }
 
     @Override
@@ -53,6 +55,21 @@ public class MazzoScarto extends Mazzo {
     }
     public boolean isEmpty() {
         return carteScartate.isEmpty();
+    }
+
+    public final void aggiungiCartaCasuale(){
+        Random random= new Random();
+        int randomValue= random.nextInt(10);
+
+        Carta nuovaCarta;
+
+        if(randomValue==0){
+            nuovaCarta= new Carta("Jolly");
+        }else{
+            nuovaCarta= new Carta(randomValue);
+        }
+        aggiungi(nuovaCarta);
+
     }
 
 }
