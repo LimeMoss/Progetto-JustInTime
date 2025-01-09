@@ -11,7 +11,42 @@ document.addEventListener("DOMContentLoaded", function () {
     let tempoRimanente = 0;
     let player_name;
 
+    function fetchLastDiscardedCard() {
+        fetch('/game/last-discarded-card/', {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nella risposta del server');
+                }
+                return response.text(); // Otteniamo il testo come stringa
+            })
+            .then(dataString => {
+                try {
+                    // Parsing della stringa JSON
+                    const data = JSON.parse(dataString);
+                    console.log('Dati ricevuti:', data);
 
+                    // Controlla che `data` contenga `tipo` e `valore`
+                    if (data && typeof data === 'object' && data.tipo && data.valore !== undefined) {
+                        const tipo = data.tipo;
+                        const valore = data.valore;
+                        onTableCard.src = getCardImagePath(tipo, valore);
+                        onTableCard.alt = `Carta ${tipo}`;
+                    } else {
+                        // Nessuna carta scartata o dati incompleti
+                        onTableCard.src = '../images/justcardbase.png';
+                        onTableCard.alt = 'Nessuna carta scartata';
+                    }
+                } catch (error) {
+                    console.error('Errore nel parsing dei dati JSON:', error);
+                    onTableCard.src = '../images/justcardbase.png';
+                    onTableCard.alt = 'Errore nella carta scartata';
+                }
+            })
+            .catch(error => console.error('Errore durante il fetch della carta scartata:', error));
+    }
 
     function aggiornaTempoRimanente() {
         fetch('/game/timer') // Endpoint per ottenere la durata turno
@@ -135,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 closeBanner();
                 showPopup('Turno completato', 'Premi OK per passare il turno', false);
             })
-            .catch(error => console.error('Errore durante la giocata:', error.message));
+            .catch(error => console.error('Errore:', error.message));
     }
 
     function showPopup(title, message, blurBackground) {
@@ -275,4 +310,5 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchCurrentPlayer(); // Recupera i giocatori al caricamento della pagina
     fetchPlayerHand(); // Inizializza il caricamento delle carte
     aggiornaTempoRimanente();
+    fetchLastDiscardedCard();
 });
