@@ -195,9 +195,10 @@ public void eseguiPauseStateAsync(Partita partita) {
     
         // Verifica le condizioni di giocabilità
         int ultimaValore = ultimaCarta.getValore();
-        boolean giocabile = carta.getValore() == ultimaValore + 1 ||
+        boolean giocabile = (carta.getValore() == ultimaValore + 1 ||
                             carta.getValore() == ultimaValore - 1 ||
-                            carta.getValore() == specialValue;
+                            carta.getValore() == specialValue||
+                            ultimaValore==specialValue);
     
         if (giocabile) {
             logger.info("Carta giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
