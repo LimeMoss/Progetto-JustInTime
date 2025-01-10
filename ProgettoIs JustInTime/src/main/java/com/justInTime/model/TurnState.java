@@ -2,18 +2,22 @@ package com.justInTime.model;
 
 import org.springframework.stereotype.Component;
 import com.justInTime.service.PartitaService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 
-
+import jakarta.servlet.http.HttpSession;
 @Component("turnState")
 public class TurnState implements GameState {
 
     @Autowired
-
     @Qualifier("pauseState")
     private GameState pauseState;
+    
+    HttpSession session;
+
 
     @Autowired
     @Lazy
@@ -36,6 +40,7 @@ public class TurnState implements GameState {
 
      @Override
      public void execute(Partita partita) {
+         session.setAttribute("partitaInGame", partita);
          System.out.println("Esecuzione dello stato TurnState avviata.");
      
          Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
@@ -81,9 +86,10 @@ public class TurnState implements GameState {
          }
      
          passaAlProssimoGiocatore(partita);
-     }
-     
-     private void passaAlProssimoGiocatore(Partita partita) {
+    
+              }
+              
+      private void passaAlProssimoGiocatore(Partita partita) {
          System.out.println("Passando al prossimo giocatore...");
          int indiceCorrente = partita.getIndiceGiocatoreCorrente();
          int prossimoIndice = (indiceCorrente + 1) % partita.getGiocatori().size();
@@ -98,6 +104,8 @@ public class TurnState implements GameState {
      
          partitaService.setsGameState(partita, pauseState);
          pauseState.execute(partita);
+         
+        
      }
      
      private boolean tuttiEsclusi(Partita partita) {
@@ -111,4 +119,32 @@ public class TurnState implements GameState {
          System.out.println("Numero di giocatori esclusi: " + counter + " su " + partita.getGiocatori().size());
          return counter == partita.getGiocatori().size() - 1;
      }
+
+        /**
+         * Ritorna il giocatore successivo non escluso, oppure null se tutti i giocatori
+         * sono esclusi.
+         * 
+         * @param partita la partita corrente
+         * @return il prossimo giocatore non escluso, oppure null se tutti i giocatori
+         *         sono esclusi.
+         */
+        public Player getPlayerSuccessivo(Partita partita) {
+            int indiceCorrente = partita.getIndiceGiocatoreCorrente();
+            int prossimoIndice = (indiceCorrente + 1) % partita.getGiocatori().size();  
+    
+            while (partita.getGiocatori().get(prossimoIndice).isEscluso()) {
+                prossimoIndice = (prossimoIndice + 1) % partita.getGiocatori().size();
+                
+            
+                if (prossimoIndice == indiceCorrente) {
+                    return null;
+                }
+            }
+        
+            return partita.getGiocatori().get(prossimoIndice);
+        }
+
     }
+
+
+    

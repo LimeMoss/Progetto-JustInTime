@@ -2,7 +2,7 @@ package com.justInTime.controller;
 
 import com.justInTime.model.Carta;
 import com.justInTime.model.Partita;
-
+import com.justInTime.model.TurnState;
 import com.justInTime.service.PartitaService;
 
 import java.util.Map;
@@ -32,11 +32,11 @@ public class PartitaController {
     @PostMapping("/play-card/{cartaIndex}")
     public ResponseEntity<?> playCard(@PathVariable int cartaIndex, HttpSession session) {
         try {
-            // Prendi la partita dalla sessione usando l'ID
-            System.out.println("Indice carta preso: "+ cartaIndex);
+         
+      
             Partita partita = (Partita) session.getAttribute("partita");
             Carta carta = partitaService.giocaCarta(partita, cartaIndex); 
-            System.out.println("La carta restituita è:" + carta.getTipo() + carta.getValore());
+     
             return ResponseEntity.ok(carta);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -218,6 +218,23 @@ public class PartitaController {
             String errorMessage = e.getMessage() != null ? e.getMessage() : "Errore sconosciuto";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("errore", "Errore interno del server", "dettagli", errorMessage));
+        }
+    }
+
+    @PostMapping("/nextPlayer")
+    public String goNextPlayer(HttpSession session) {
+        Partita partita = (Partita) session.getAttribute("partitaInGame");
+       
+        if (partita == null) {
+            return "Non sei in partita!";
+        }
+
+       
+        try {
+            if(partita.getGameState() instanceof TurnState) ((TurnState) partita.getGameState()).getPlayerSuccessivo(partita);
+            return "Passato al prossimo giocatore.";
+        } catch (Exception e) {
+            return "Errore nel passaggio al prossimo giocatore: " + e.getMessage();
         }
     }
 

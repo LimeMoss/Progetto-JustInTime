@@ -126,7 +126,7 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
         return ResponseEntity.ok().body("success");
 
     } catch (Exception e) {
-        // Log dell'errore
+     
 
    
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Si è verificato un errore durante il processo.");

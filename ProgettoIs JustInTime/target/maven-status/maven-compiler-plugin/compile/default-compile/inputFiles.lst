@@ -1,47 +1,47 @@
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\config\AsyncConfig.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\AuthController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\ClassificaController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\FeedbackController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PagesController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PartitaConfigController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PartitaController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PlayerController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\SessionUtil.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\UtenzaController.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTO.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTOPsw.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\LoginResponse.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\paeseUtenzaDTO.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\PlayerRecord.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\SinglePlayerDataDTO.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\abstractPlayer.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\abstractUtente.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Achievements.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Carta.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\EndGameState.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Feedback.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\GameState.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Mazzo.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoFactory.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoPesca.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoScarto.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Partita.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\PauseState.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Player.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\StartGameState.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\TurnState.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Utente.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\FeedbackRepository.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\PartitaRepository.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\PlayerRepository.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\UtenzaRepository.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\ClassificaService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\FeedbackService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\MazzoPescaService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\MazzoScartoService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\PartitaConfigService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\PartitaService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\PlayerService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\UtenzaPlayerService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\UtenzaService.java
-C:\Users\giuli\Desktop\Nuova cartella\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\SpringBootJspApplication.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\config\AsyncConfig.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\AuthController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\ClassificaController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\FeedbackController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PagesController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PartitaConfigController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PartitaController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\PlayerController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\SessionUtil.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\controller\UtenzaController.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTO.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\FullPlayerDataDTOPsw.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\LoginResponse.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\paeseUtenzaDTO.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\PlayerRecord.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\DTO\SinglePlayerDataDTO.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\abstractPlayer.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\abstractUtente.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Achievements.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Carta.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\EndGameState.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Feedback.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\GameState.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Mazzo.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoFactory.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoPesca.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\MazzoScarto.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Partita.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\PauseState.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Player.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\StartGameState.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\TurnState.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\model\Utente.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\FeedbackRepository.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\PartitaRepository.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\PlayerRepository.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\repository\UtenzaRepository.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\ClassificaService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\FeedbackService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\MazzoPescaService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\MazzoScartoService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\PartitaConfigService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\PartitaService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\PlayerService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\UtenzaPlayerService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\service\UtenzaService.java
+C:\Users\rivys\Is\Progetto-JustInTime\Progetto-JustInTime\ProgettoIs JustInTime\src\main\java\com\justInTime\SpringBootJspApplication.java
