@@ -102,14 +102,16 @@ public class PartitaConfigServiceTest{
     @Test
     public void AggiungiGiocatoreConfig_PasswordNonCorrisponde(){
 
-    String usernameOrEmail = "user1";
+    String usernameOrEmail = "user2";
     String password = "wrongPassword";
 
     HttpSession session = mock(HttpSession.class);
 
-    when(utenzaService.login(usernameOrEmail, password)).thenReturn(null);
+    Utente SessionUser = mock(Utente.class);
     when(session.getAttribute("SessionListener")).thenReturn(true);
-    when(session.getAttribute("utente")).thenReturn(null);
+    when(session.getAttribute("utente")).thenReturn(SessionUser);
+    when(utenzaService.login(usernameOrEmail, password)).thenReturn(null);
+
     Exception e= assertThrows(IllegalArgumentException.class, () -> partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password,session));
 
     assertEquals("Credenziali non valide.", e.getMessage());
@@ -123,7 +125,7 @@ public class PartitaConfigServiceTest{
     @Test
     void AggiungiGiocatoreConfig_NoUsernameOrEmail() {
     
-    String usernameOrEmail = null; 
+    String usernameOrEmail = ""; 
     String password = "password1";
     
     HttpSession session = mock(HttpSession.class);
