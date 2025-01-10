@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(() => {
                 // Rimuovi la carta dal DOM
+                onTableCard.src = clickedCard.src;
                 clickedCard.remove();
                 if(document.querySelectorAll('.onhand-cards .clickable-card').length===0){
                     closeBanner();
