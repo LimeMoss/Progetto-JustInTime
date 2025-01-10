@@ -85,11 +85,10 @@ public class PartitaController {
      * @return ResponseEntity con il risultato dell'operazione
      */
     @PostMapping("/termina-partita/")
-    public ResponseEntity<String> terminaPartita(HttpSession session) {
+    public ResponseEntity<?> terminaPartita(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
-            partitaService.terminaPartita(partita);
-            return ResponseEntity.ok("Partita terminata con successo.");
+            return ResponseEntity.ok(partitaService.terminaPartita(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }
@@ -219,5 +218,7 @@ public class PartitaController {
                     .body(Map.of("errore", "Errore interno del server", "dettagli", errorMessage));
         }
     }
+
+
 
 }

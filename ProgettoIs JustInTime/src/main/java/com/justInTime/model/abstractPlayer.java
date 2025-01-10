@@ -27,5 +27,6 @@ public interface abstractPlayer{
     public List<Partita> getPartite();
     public void setPartite(List<Partita> partite);
     public boolean hasFinishedTurn() ;
+    public void dimishTurn();
 
 }

@@ -52,10 +52,6 @@ public class PartitaService {
     @Qualifier("endGameState")
     private GameState EndGameState;
 
-    @Autowired
-    @Lazy
-    @Qualifier("turnState")
-    private GameState turnState;
 
     
 
@@ -181,13 +177,17 @@ public class PartitaService {
      * 
      * @param partitaId l'id della partita da terminare
      */
-    public void terminaPartita(Partita partita) {
+    public List<Player> terminaPartita(Partita partita) {
 
-       
-
+        List <Player> podio= new ArrayList<>();
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
-        for (Player giocatore : giocatori) {
+        giocatori.sort((p1, p2) -> Double.compare(playerService.estimateScore(p2), playerService.estimateScore(p1)));
+        podio.addAll(giocatori);
 
+
+      
+        for (Player giocatore : giocatori) {
+            
             giocatore.getPartite().remove(partita);
             playerService.savePlayer(giocatore.getId());
         }
@@ -195,7 +195,7 @@ public class PartitaService {
         partita.setFinita(true);
         partitaRepository.save(partita);
         partita.setGameState(null);
-        partita = null;
+        return podio;
 
       
     }
@@ -226,23 +226,24 @@ public class PartitaService {
 
         Carta carta = playerService.aggiungiCartaAllaMano(player,
                 mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+        playerService.riduzioneTurnoPlayer(player);
 
 
 
         player.setTurnoInPausa(true);
-   ;
+   
 
         return carta;
     }
 
-    public Partita nextplayerReady(Partita partita) {
-       
-        GameState gamestate = partita.getGameState();
-        if (gamestate instanceof PauseState) {
-            ((PauseState) gamestate).playerReady();
-        }
-        return partita;
+   public Partita nextplayerReady(Partita partita) {
+    GameState gamestate = partita.getGameState();
+    if (gamestate instanceof PauseState thePauseState) {
+        thePauseState.playerReady();
     }
+    return partita;
+}
+
 
     public Partita playerReady(Partita partita) {
       
@@ -257,9 +258,9 @@ public class PartitaService {
 
 
      
-        if (gameState instanceof StartGameState) {
+        if (gameState instanceof StartGameState startGameState1) {
    
-            ((StartGameState) gameState).playerReady();
+            startGameState1.playerReady();
         } else {
           
             throw new IllegalStateException("Non è possibile segnare il giocatore come pronto in questo stato del gioco.");
@@ -280,8 +281,8 @@ public class PartitaService {
     
         partita.setGameState(gameState);
 
-        if (gameState instanceof EndGameState) {
-            ((EndGameState) gameState).execute(partita, Arg);
+        if (gameState instanceof EndGameState endGameState) {
+            endGameState.execute(partita, Arg);
         } else {
             partita.getGameState().execute(partita);
         }
@@ -301,7 +302,7 @@ public class PartitaService {
 
     public List<Carta> getGiocatoreCorrenteMano(Partita partita) {
         Player player = partita.getGiocatoreCorrente();
-        return player.getMano();
+        return playerService.getPlayerMano(player);
 
     }
 
@@ -309,6 +310,10 @@ public class PartitaService {
         MazzoScarto scarto = partita.getMazzoScarto();
         return mazzoScartoService.ultimaCartaScartata(scarto);
 
+    }
+
+    public int estimatePlayerScore(Player player){
+       return playerService.estimateScore(player);
     }
 
 }

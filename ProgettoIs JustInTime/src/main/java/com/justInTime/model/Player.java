@@ -75,7 +75,7 @@ public class Player implements abstractPlayer {
     private int maxScore;
 
     public Player() {
-        this.mano = new ArrayList<Carta>();
+        this.mano = new ArrayList<>();
         this.durataTurno = 15;
         this.partiteGiocate = 0;
         this.vittorie = 0;
@@ -86,7 +86,7 @@ public class Player implements abstractPlayer {
 
         this.maxScore = maxScore;
         this.durataTurno = 15;
-        this.mano = new ArrayList<Carta>();
+        this.mano = new ArrayList<>();
         this.partiteGiocate = 0;
         this.vittorie = 0;
         this.escluso = false;
@@ -97,7 +97,7 @@ public class Player implements abstractPlayer {
         this.durataTurno = 15;
         this.escluso = false;
 
-        mano = new ArrayList<Carta>();
+        mano = new ArrayList<>();
     }
 
     public void setId(Long id) {
@@ -116,12 +116,13 @@ public class Player implements abstractPlayer {
         return utente;
     }
 
+    @Override
     public void setUtente(Utente utente) {
         this.utente = utente;
     }
 
     // Metodi Utility
-
+    @Override
     public void increaseMaxScore() {
         this.maxScore++;
     }
@@ -171,5 +172,10 @@ public class Player implements abstractPlayer {
     public boolean hasFinishedTurn() {
         return this.turnoInPausa;
     }
+
+    @Override
+    public void dimishTurn(){
+        this.durataTurno=this.durataTurno-1;
+        }
 
 }

@@ -37,7 +37,7 @@ public void execute(Partita partita) {
         if (partita.getIndiceGiocatoreCorrente() == i) {
             playerService.addVictory(player.getId());
         } else {
-            playerService.addScore(player.getId());
+            playerService.addScore(player);
         }
     }
     
@@ -62,7 +62,7 @@ public void execute(Partita partita) {
                     playerService.addVictory(player.getId());
                 } else {
       
-                    playerService.addScore(player.getId());
+                    playerService.addScore(player);
                 }
             }
     

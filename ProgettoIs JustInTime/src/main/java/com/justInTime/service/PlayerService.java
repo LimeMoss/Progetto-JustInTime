@@ -131,7 +131,7 @@ public class PlayerService {
         
         Player player = trovaGiocatore(playerId);
         player.setVittorie(player.getVittorie()+1);
-        player.setMaxScore(player.getMaxScore()+20);
+        player.setMaxScore(player.getMaxScore()+estimateScore((player)));
         return playerRepository.save(player);
 
 
@@ -146,10 +146,18 @@ public class PlayerService {
     }
 
     @Transactional
-    public Player addScore(Long playerId){
-        Player player= trovaGiocatore(playerId);
-        player.setMaxScore(player.getMaxScore()+(10-(player.getMano().size())));
+    public Player addScore(Player player){
+        player.setMaxScore(player.getMaxScore()+estimateScore(player));
         return playerRepository.save(player);
+    }
+    @Transactional
+    public int estimateScore(Player player){
+
+        if(player.getMano().isEmpty())
+        return 20;
+        else
+        return 10-(player.getMano().size());
+
     }
         @Transactional
     public Player savePlayer(Long playerId){
@@ -163,10 +171,14 @@ public class PlayerService {
         return player.getDurataTurno();
     }
 
-    public List<Carta> getPlayerMano(Long playerId){
-        Player player= trovaGiocatore(playerId);
+    public List<Carta> getPlayerMano(Player player){
         return player.getMano();
 
+    }
+    @Transactional
+    public void riduzioneTurnoPlayer(Player player){
+        player.dimishTurn();
+        
     }
 
 
