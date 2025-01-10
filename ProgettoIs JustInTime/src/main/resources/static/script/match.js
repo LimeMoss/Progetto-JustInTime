@@ -197,6 +197,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (title === 'Turno completato') {
                 notifyNextPlayerReady();
             }
+            if (title === `Turno di ${player_name}`) {
+                aggiornaTempoRimanente();
+            }
         });
     }
 
