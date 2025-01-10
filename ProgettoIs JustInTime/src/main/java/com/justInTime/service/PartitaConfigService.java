@@ -148,12 +148,19 @@ public class PartitaConfigService {
      */
     public String rimuoviGiocatore(HttpSession session) {
         Utente utente = (Utente) session.getAttribute("utente");
-        if ((giocatoriInConfigurazione != null) && (giocatoriInConfigurazione.getLast().getId() != utente.getId())) {
-            // playerService.deletePlayer(giocatoriInConfigurazione.getLast().getId());
+    
+
+        if (giocatoriInConfigurazione == null || giocatoriInConfigurazione.isEmpty()) {
+            throw new IllegalArgumentException("Non ci sono giocatori da rimuovere.");
+        }
+    
+        if (giocatoriInConfigurazione.getLast().getId() != utente.getId()) {
+        
             Player player = giocatoriInConfigurazione.removeLast();
             return player.getUtente().getUsername();
-        } else
+        } else {
             throw new IllegalArgumentException("Non ci sono giocatori da rimuovere.");
+        }
     }
 
     /**

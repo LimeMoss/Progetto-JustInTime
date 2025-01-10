@@ -3,7 +3,19 @@ package com.justInTime.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Player implements abstractPlayer {
@@ -60,8 +72,7 @@ public class Player implements abstractPlayer {
     private boolean escluso;
 
     @ManyToMany(mappedBy = "giocatori", fetch = FetchType.EAGER)
-    private List<Partita> partite = new ArrayList<>();
-
+    private List<Partita> partite;
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "utente_id", referencedColumnName = "id")
@@ -80,6 +91,7 @@ public class Player implements abstractPlayer {
         this.partiteGiocate = 0;
         this.vittorie = 0;
         this.escluso = false;
+        partite= new ArrayList<>();
     }
 
     public Player(int maxScore) {

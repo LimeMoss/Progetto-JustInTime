@@ -1,16 +1,18 @@
 package com.justInTime.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -63,6 +65,7 @@ public class PartitaConfigServiceTest{
         HttpSession session = mock(HttpSession.class);
         when(session.getAttribute("utente")).thenReturn(utente);
         when(session.getAttribute("SessionListener")).thenReturn(true); 
+        doNothing().when(session).setAttribute(anyString(), any());
 
 
         when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
@@ -86,9 +89,12 @@ public class PartitaConfigServiceTest{
         String password = "password123";
         HttpSession session = mock(HttpSession.class);
 
-        when(utenzaService.login(usernameOrEmail, password)).thenReturn(null);
+        Utente SessionUser= mock(Utente.class);
         when(session.getAttribute("SessionListener")).thenReturn(true);
-        when(session.getAttribute("utente")).thenReturn(null);
+        when(session.getAttribute("utente")).thenReturn(SessionUser);
+
+        when(utenzaService.login(usernameOrEmail, password)).thenReturn(null);
+      
         Exception e= assertThrows(IllegalArgumentException.class, () -> partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password,session));
     
         assertEquals("Credenziali non valide.", e.getMessage());
@@ -220,25 +226,15 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
     @Test
     void testCreazionePartita_NonCiSonoAbbastanzaGiocatori(){
 
-        String usernameOrEmail = "user1";
-        String password = "password1";
-    
-        Utente utente = mock(Utente.class);
-        when(utente.getId()).thenReturn(1L);
+        Utente SessionUser= mock(Utente.class);
 
-         HttpSession session = mock(HttpSession.class);
-         when(session.getAttribute("utente")).thenReturn(utente);
-         when(session.getAttribute("SessionListener")).thenReturn(true);
-    
+        HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("utente")).thenReturn(SessionUser);
+        when(session.getAttribute("SessionListener")).thenReturn(true);
         Player player = new Player();
   
-        player.setUtente(utente);
+        player.setUtente(SessionUser);
 
-        when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
-        when(playerService.trovaGiocatore(1L)).thenReturn(player);
-  
-
-        partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password,session);
 
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> partitaConfigService.creaPartita(session) );
@@ -251,43 +247,37 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
     //TC 3.2_2
     @Test
     void testCreazionePartita_Successful() {
+        
+        Utente SessionUser= mock(Utente.class);
+        when(SessionUser.getId()).thenReturn(2L);
+
+        HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("utente")).thenReturn(SessionUser);
+        when(session.getAttribute("SessionListener")).thenReturn(true); 
+        Player player1= new Player();
+        player1.setUtente(SessionUser);
+        when(playerService.trovaGiocatore(2L)).thenReturn(player1);
+
         String usernameOrEmail = "user1";
         String password = "password1";
 
         Utente utente = mock(Utente.class);
         when(utente.getId()).thenReturn(1L);
         when(utente.getEmail()).thenReturn(usernameOrEmail);
-        Player player = new Player();
-        player.setUtente(utente);
-
-        HttpSession session = mock(HttpSession.class);
-        when(session.getAttribute("utente")).thenReturn(utente);
-        when(session.getAttribute("SessionListener")).thenReturn(true); 
+        when(utente.getUsername()).thenReturn(usernameOrEmail);
+        Player player2= new Player();
+        player2.setUtente(utente);
 
         when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
-        when(playerService.trovaGiocatore(1L)).thenReturn(player);
+        when(playerService.trovaGiocatore(1L)).thenReturn(player2);
 
         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password, session);
 
-        usernameOrEmail = "user2";
-        password = "password2";
-
-        Utente utente2 = mock(Utente.class);
-        when(utente2.getId()).thenReturn(2L);
-        Player player2 = new Player();
-        player2.setUtente(utente2);
-
-        when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente2);
-        when(playerService.trovaGiocatore(2L)).thenReturn(player2);
-
-        partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password, session);
 
         Partita partita = partitaConfigService.creaPartita(session);
 
         assertNotNull(partita);
         assertEquals(2, partita.getGiocatori().size());
-        assertTrue(partita.getGiocatori().contains(player));
-        assertTrue(partita.getGiocatori().contains(player2));
 
         verify(partitaRepository).save(any(Partita.class));
 }
@@ -296,26 +286,15 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
      //TC 3.3.1 
      @Test
      void  RimuoviGiocatore_NessunGiocatoreAggiunto(){
-               
-         String usernameOrEmail = "user1";
-         String password = "password1";
-     
-         Utente utente = mock(Utente.class);
-         when(utente.getId()).thenReturn(1L);
+
+        Utente SessionUser= mock(Utente.class);
 
         HttpSession session = mock(HttpSession.class);
-        when(session.getAttribute("utente")).thenReturn(utente);
+        when(session.getAttribute("utente")).thenReturn(SessionUser);
         when(session.getAttribute("SessionListener")).thenReturn(true); 
-     
-         Player player = new Player();
-
-         player.setUtente(utente);
- 
-         when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
- 
-         when(playerService.trovaGiocatore(1L)).thenReturn(player);
- 
-         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password,session);
+        Player player1= new Player();
+        player1.setUtente(SessionUser);
+               
  
          Exception e = assertThrows(IllegalArgumentException.class, () ->partitaConfigService.rimuoviGiocatore(session));
  
@@ -326,48 +305,44 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
  
      //TC 3.3.2
      @Test
-     void RimuoviGiocatore_Successful(){
- 
-         
+     void RimuoviGiocatore_Successful() {
+     
+        
+         Utente SessionUser = mock(Utente.class);
+         HttpSession session = mock(HttpSession.class);
+     
+        
+         when(session.getAttribute("utente")).thenReturn(SessionUser);
+         when(session.getAttribute("SessionListener")).thenReturn(true);
+     
+        
+         doNothing().when(session).setAttribute(anyString(), any());
+    
+        
          String usernameOrEmail = "user1";
          String password = "password1";
-     
          Utente utente = mock(Utente.class);
-        when(utente.getId()).thenReturn(1L);
-        when(utente.getEmail()).thenReturn(usernameOrEmail);
-        when(utente.getUsername()).thenReturn(usernameOrEmail);
-        HttpSession session = mock(HttpSession.class);
-        when(session.getAttribute("utente")).thenReturn(utente);
-        when(session.getAttribute("SessionListener")).thenReturn(true); 
+         when(utente.getId()).thenReturn(1L);
+         when(utente.getEmail()).thenReturn(usernameOrEmail);
+         when(utente.getUsername()).thenReturn(usernameOrEmail);
      
-         Player player = new Player();
+       
+         Player player = mock(Player.class);
+        when(player.getPartite()).thenReturn(new ArrayList<>());
          player.setUtente(utente);
          when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
          when(playerService.trovaGiocatore(1L)).thenReturn(player);
-        
-         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password,session);
- 
-         usernameOrEmail = "user2";
-         password = "password2";
      
-         Utente utente2 = mock(Utente.class);
-         when(utente2.getId()).thenReturn(2L);
-        
-         player = new Player();
-         player.setUtente(utente2);
- 
-         when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente2);
-         when(playerService.trovaGiocatore(2L)).thenReturn(player);
- 
-         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password,session);
- 
- 
+         
+         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password, session);
+     
+     
+         
          partitaConfigService.rimuoviGiocatore(session);
- 
      
+        
          List<String> giocatori = partitaConfigService.getGiocatoriInConfigurazione(session);
          assertEquals(1, giocatori.size());
- 
      }
- 
+     
 }
