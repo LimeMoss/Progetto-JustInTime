@@ -100,6 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 return response.text(); 
             })
             .then(username => {
+
+                console.log(username);
                 player_name=username;
             })
             .catch(error => console.error('Errore nel recupero del giocatore corrente:', error));
@@ -228,7 +230,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('popup-ok-btn').addEventListener('click', () => {
             popupContainer.style.display = 'none';
             if (title === 'Turno completato') {
-                notifyNextPlayerReady();
+                passTurnToNextPlayer();
+                //notifyNextPlayerReady();
             }
             if (title === `Turno di ${player_name}`) {
                 aggiornaTempoRimanente();
@@ -245,7 +248,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => {
                 if (response.ok) {
                     console.log('Next player notified successfully.');
-                    passTurnToNextPlayer();
+                    //passTurnToNextPlayer();
+                    notifyNextPlayerReady();
                 } else {
                     console.error('Failed to notify next player:', response.statusText);
                 }
