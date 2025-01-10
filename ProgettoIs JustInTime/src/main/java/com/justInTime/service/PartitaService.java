@@ -19,9 +19,13 @@ import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Service
 public class PartitaService {
+    private static final Logger logger = LoggerFactory.getLogger(PartitaService.class);
 
     @Autowired
     private PartitaRepository partitaRepository;
@@ -100,28 +104,67 @@ public class PartitaService {
      * @return la partita aggiornata
      * @throws RuntimeException se la carta non giocabile
      */
+
+   
     public Carta giocaCarta(Partita partita, int cartaIndex) {
+        logger.info("Inizio esecuzione di giocaCarta per la partita ID: {}, cartaIndex: {}", partita.getId(), cartaIndex);
+
         Player giocatoreCorrente = partita.getGiocatoreCorrente();
-        Carta carta = giocatoreCorrente.getMano().get(cartaIndex);
+        if (giocatoreCorrente == null) {
+            logger.error("Giocatore corrente è null nella partita ID: {}", partita.getId());
+            throw new IllegalStateException("Giocatore corrente non può essere null");
+        }
+        logger.info("Giocatore corrente: {} con ID: {}", giocatoreCorrente.getUtente().getName(), giocatoreCorrente.getId());
+
+        Carta carta;
+        try {
+            carta = giocatoreCorrente.getMano().get(cartaIndex);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("Indice della carta non valido: {}. Mano del giocatore contiene {} carte.", cartaIndex, giocatoreCorrente.getMano().size());
+            throw new IllegalArgumentException("Indice carta non valido", e);
+        }
+
+        logger.info("Carta selezionata: {} (tipo: {}, valore: {})", carta.getTipo(), carta.getTipo(), carta.getValore());
 
         if (cartaGiocabile(partita, carta)) {
+            logger.info("La carta {} è giocabile.", carta.getTipo());
+
             if (carta.getTipo().equals("Rallenta")) {
+                logger.info("Applicazione effetto 'Rallenta' al giocatore: {}", giocatoreCorrente.getUtente().getName());
                 carta.applicaEffetto(giocatoreCorrente);
-            }
-            if (carta.getTipo().equals("Accelera")) {
+            } else if (carta.getTipo().equals("Accelera")) {
                 List<Player> giocatori = partita.getGiocatori();
-                carta.applicaEffetto(giocatori.get(partita.getIndiceGiocatoreCorrente() + 1));
+                int indiceSuccessivo = (partita.getIndiceGiocatoreCorrente() + 1) % giocatori.size();
+                logger.info("Applicazione effetto 'Accelera' al giocatore successivo: {} (indice: {})", giocatori.get(indiceSuccessivo).getUtente().getName(), indiceSuccessivo);
+                carta.applicaEffetto(giocatori.get(indiceSuccessivo));
             }
 
             playerService.rimuoviCartaDallaMano(giocatoreCorrente, cartaIndex);
+            logger.info("Carta {} rimossa dalla mano del giocatore {}", carta.getTipo(), giocatoreCorrente.getUtente().getName());
+
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
-            partita.getGiocatoreCorrente().setTurnoInPausa(true);
+            logger.info("Carta {} aggiunta al mazzo di scarto della partita ID: {}", carta.getTipo(), partita.getId());
+
+            giocatoreCorrente.setTurnoInPausa(true);
+            logger.info("Il turno del giocatore {} è stato messo in pausa", giocatoreCorrente.getUtente().getName());
+            
             setsGameState(partita, pauseState);
-            pauseState.execute(partita);
+            logger.info("Stato della partita impostato su 'pauseState'");
+
+            eseguiPauseStateAsync(partita);
+            logger.info("Esecuzione dello stato 'pauseState' completata per la partita ID: {}", partita.getId());
+
             return carta;
+        } else {
+            logger.warn("La carta {} non è giocabile (tipo: {}, valore: {}).", carta.getTipo(), carta.getTipo(), carta.getValore());
+            throw new RuntimeException("Carta non giocabile");
         }
-        throw new RuntimeException("Carta non giocabile");
     }
+
+    @Async
+public void eseguiPauseStateAsync(Partita partita) {
+    pauseState.execute(partita);
+}
 
     /**
      * Verifica se la carta puo essere giocata rispetto allo stato della partita.
@@ -134,23 +177,39 @@ public class PartitaService {
      * @return true se la carta pu essere giocata, false altrimenti
      */
     private boolean cartaGiocabile(Partita partita, Carta carta) {
-        int specialValue = 99;
+        final int specialValue = 99;
         MazzoScarto mazzoScarto = partita.getMazzoScarto();
-        Carta ultimaCarta;
-
-        if (mazzoScarto != null && !mazzoScarto.isEmpty()) {
-            ultimaCarta = mazzoScartoService.ultimaCartaScartata(partita.getMazzoScarto());
-            if (ultimaCarta != null) {
-                int value = ultimaCarta.getValore();
-                return carta.getValore() == value + 1 ||
-                        carta.getValore() == value - 1 ||
-                        carta.getValore() == specialValue;
-            }
+    
+        if (mazzoScarto == null || mazzoScarto.isEmpty()) {
+            // Mazzo vuoto, considera la carta giocabile
+            logger.info("Mazzo di scarto vuoto o non inizializzato, carta giocabile di default: {}", carta.getTipo());
+            return true;
         }
-
-        return true;
+    
+        // Recupera l'ultima carta scartata
+        Carta ultimaCarta = mazzoScartoService.ultimaCartaScartata(mazzoScarto);
+        if (ultimaCarta == null) {
+            logger.warn("Nessuna ultima carta scartata trovata, carta giocabile di default: {}", carta.getTipo());
+            return true;
+        }
+    
+        // Verifica le condizioni di giocabilità
+        int ultimaValore = ultimaCarta.getValore();
+        boolean giocabile = carta.getValore() == ultimaValore + 1 ||
+                            carta.getValore() == ultimaValore - 1 ||
+                            carta.getValore() == specialValue;
+    
+        if (giocabile) {
+            logger.info("Carta giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
+                        carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
+        } else {
+            logger.info("Carta NON giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
+                        carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
+        }
+    
+        return giocabile;
     }
-
+    
     /**
      * Distribuisce 5 carte iniziali ad ogni giocatore partecipante alla partita.
      * 
