@@ -29,12 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log('Dati ricevuti:', data);
 
                     // Controlla che `data` contenga `tipo` e `valore`
-                    if (data && typeof data === 'object' && data.tipo && data.valore !== undefined) {
+                    if (data.tipo && data.valore !== undefined) {
                         const tipo = data.tipo;
                         const valore = data.valore;
                         onTableCard.src = getCardImagePath(tipo, valore);
                         onTableCard.alt = `Carta ${tipo}`;
                     } else {
+                        console.log('Dati ricevuti errati');
                         // Nessuna carta scartata o dati incompleti
                         onTableCard.src = '../images/justcardbase.png';
                         onTableCard.alt = 'Nessuna carta scartata';
@@ -166,12 +167,41 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(() => {
                 // Rimuovi la carta dal DOM
                 clickedCard.remove();
+                if(document.querySelectorAll('.onhand-cards .clickable-card').length===0){
+                    closeBanner();
+                    showPopup('Hai vinto!', 'Premi ok per vedere la classifica', false);
+                    terminaPartita();
+                }
                 updateCardSizes();
                 closeBanner();
                 showPopup('Turno completato', 'Premi OK per passare il turno', false);
             })
             .catch(error => console.error('Errore:', error.message));
     }
+
+    function terminaPartita() {
+        fetch('/game/termina-partita/', {
+            method: 'POST',
+            credentials: 'include',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorText => {
+                        throw new Error(errorText);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Partita terminata con successo:', data);
+                window.location.href = '/endMatch';
+            })
+            .catch(error => {
+                console.error('Errore durante la terminazione della partita:', error.message);
+                showPopup('Errore', 'Non è stato possibile terminare la partita. Riprova più tardi.', false);
+            });
+    }
+
 
     function showPopup(title, message, blurBackground) {
         popupContainer.innerHTML = `
