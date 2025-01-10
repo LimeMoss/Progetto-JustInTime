@@ -1,19 +1,11 @@
 -------------------------------------------------------------------------------
 Test set: com.justInTime.Service.PartitaConfigServiceTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.375 s <<< FAILURE! -- in com.justInTime.Service.PartitaConfigServiceTest
-com.justInTime.Service.PartitaConfigServiceTest.RimuoviGiocatore_Successful -- Time elapsed: 0.061 s <<< ERROR!
-java.lang.IllegalArgumentException: Non ci sono giocatori da rimuovere.
-	at com.justInTime.service.PartitaConfigService.rimuoviGiocatore(PartitaConfigService.java:162)
-	at com.justInTime.Service.PartitaConfigServiceTest.RimuoviGiocatore_Successful(PartitaConfigServiceTest.java:341)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
-com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful -- Time elapsed: 0.010 s <<< ERROR!
+Tests run: 11, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.364 s <<< FAILURE! -- in com.justInTime.Service.PartitaConfigServiceTest
+com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful -- Time elapsed: 0.063 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.justInTime.model.Player.getPartite()" because "giocatore" is null
-	at com.justInTime.service.PartitaConfigService.creaPartita(PartitaConfigService.java:199)
-	at com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful(PartitaConfigServiceTest.java:277)
+	at com.justInTime.service.PartitaConfigService.creaPartita(PartitaConfigService.java:202)
+	at com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful(PartitaConfigServiceTest.java:285)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)

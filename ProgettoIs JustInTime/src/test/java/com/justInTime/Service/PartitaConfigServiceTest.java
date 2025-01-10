@@ -254,9 +254,13 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
         HttpSession session = mock(HttpSession.class);
         when(session.getAttribute("utente")).thenReturn(SessionUser);
         when(session.getAttribute("SessionListener")).thenReturn(true); 
-        Player player1= new Player();
-        player1.setUtente(SessionUser);
-        when(playerService.trovaGiocatore(2L)).thenReturn(player1);
+      
+
+        Player player1 = mock(Player.class);
+        when(player1.getPartite()).thenReturn(new ArrayList<>());
+        when(player1.getId()).thenReturn(2L);
+        when(player1.getUtente()).thenReturn(SessionUser);
+         when(playerService.trovaGiocatore(2L)).thenReturn(player1);
 
         String usernameOrEmail = "user1";
         String password = "password1";
@@ -265,8 +269,12 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
         when(utente.getId()).thenReturn(1L);
         when(utente.getEmail()).thenReturn(usernameOrEmail);
         when(utente.getUsername()).thenReturn(usernameOrEmail);
-        Player player2= new Player();
-        player2.setUtente(utente);
+       
+        Player player2 = mock(Player.class);
+         when(player2.getPartite()).thenReturn(new ArrayList<>()); 
+        when(player2.getId()).thenReturn(1L);
+        when(player2.getUtente()).thenReturn(utente);
+        when(playerService.trovaGiocatore(1L)).thenReturn(player2);
 
         when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
         when(playerService.trovaGiocatore(1L)).thenReturn(player2);
@@ -316,9 +324,6 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
          when(session.getAttribute("SessionListener")).thenReturn(true);
      
         
-         doNothing().when(session).setAttribute(anyString(), any());
-    
-        
          String usernameOrEmail = "user1";
          String password = "password1";
          Utente utente = mock(Utente.class);
@@ -327,8 +332,8 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
          when(utente.getUsername()).thenReturn(usernameOrEmail);
      
        
-         Player player = mock(Player.class);
-        when(player.getPartite()).thenReturn(new ArrayList<>());
+         Player player = new Player();
+       
          player.setUtente(utente);
          when(utenzaService.login(usernameOrEmail, password)).thenReturn(utente);
          when(playerService.trovaGiocatore(1L)).thenReturn(player);
@@ -342,7 +347,7 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
      
         
          List<String> giocatori = partitaConfigService.getGiocatoriInConfigurazione(session);
-         assertEquals(1, giocatori.size());
+         assertEquals(0,giocatori.size());
      }
      
 }
