@@ -194,8 +194,7 @@ public void eseguiPauseStateAsync(Partita partita) {
           if (ultimaCarta.getValore() == specialValue) {
             return true;
           }
-    
-        // Verifica le condizioni di giocabilità
+
         int ultimaValore = ultimaCarta.getValore();
         boolean giocabile = carta.getValore() == ultimaValore + 1 ||
                             carta.getValore() == ultimaValore - 1 ||
