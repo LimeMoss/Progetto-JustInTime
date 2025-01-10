@@ -3,7 +3,8 @@ package com.justInTime.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -19,8 +20,6 @@ import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Service
@@ -194,9 +193,10 @@ public void eseguiPauseStateAsync(Partita partita) {
           }
 
         int ultimaValore = ultimaCarta.getValore();
-        boolean giocabile = carta.getValore() == ultimaValore + 1 ||
+        boolean giocabile = (carta.getValore() == ultimaValore + 1 ||
                             carta.getValore() == ultimaValore - 1 ||
-                            carta.getValore() == specialValue;
+                            carta.getValore() == specialValue||
+                            ultimaValore==specialValue);
     
         if (giocabile) {
             logger.info("Carta giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
@@ -204,8 +204,12 @@ public void eseguiPauseStateAsync(Partita partita) {
         } else {
             logger.info("Carta NON giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
                         carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
+
+
         }
-    
+        
+        partita.getGiocatoreCorrente().setTurnoInPausa(true);
+
         return giocabile;
     }
     
@@ -276,14 +280,12 @@ public void eseguiPauseStateAsync(Partita partita) {
     public Carta pescaCarta(Partita partita) {
 
 
-
-
         Player player = partita.getGiocatoreCorrente();
    
 
 
         Carta carta = playerService.aggiungiCartaAllaMano(player,
-                mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+        mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
         playerService.riduzioneTurnoPlayer(player);
 
 
