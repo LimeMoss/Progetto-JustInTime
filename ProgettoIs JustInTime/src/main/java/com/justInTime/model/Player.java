@@ -102,12 +102,14 @@ public class Player implements abstractPlayer {
         this.partiteGiocate = 0;
         this.vittorie = 0;
         this.escluso = false;
+        partite= new ArrayList<>();
     }
 
     public Player(String jackson) {
 
         this.durataTurno = 15;
         this.escluso = false;
+        partite= new ArrayList<>();
 
         mano = new ArrayList<>();
     }

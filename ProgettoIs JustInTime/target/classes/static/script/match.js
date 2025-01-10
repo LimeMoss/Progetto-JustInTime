@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         throw new Error(errorText);
                     });
                 }
+                console.log("Carta giocata!")
                 return response.json();
             })
             .then(() => {

@@ -280,9 +280,9 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
         when(playerService.trovaGiocatore(1L)).thenReturn(player2);
 
         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password, session);
-
-
-        Partita partita = partitaConfigService.creaPartita(session);
+        Partita partita = mock(Partita.class);
+        doNothing().when(partita).setGameState(any());
+        partita = partitaConfigService.creaPartita(session);
 
         assertNotNull(partita);
         assertEquals(2, partita.getGiocatori().size());

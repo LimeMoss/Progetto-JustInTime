@@ -192,12 +192,14 @@ public class PartitaConfigService {
 
         Partita partita = new Partita();
 
+
         for (Player giocatore : giocatoriInConfigurazione) {
             if (giocatore == null) {
                 throw new IllegalStateException("Giocatore is null");
             }
             else {
-                giocatore = playerService.savePlayer(giocatore.getId());
+                
+                playerService.savePlayer(giocatore.getId());
                 partita.getGiocatori().add(giocatore);
                 giocatore.getPartite().add(partita);
             }
@@ -206,7 +208,7 @@ public class PartitaConfigService {
 
         partita.setGameState(startGameState);
        
-        partita = partitaRepository.save(partita);
+        partitaRepository.save(partita);
 
         giocatoriInConfigurazione.clear();
 
