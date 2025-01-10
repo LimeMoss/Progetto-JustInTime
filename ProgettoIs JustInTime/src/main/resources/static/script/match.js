@@ -150,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleCardClick(event) {
         const clickedCard = event.currentTarget;
         const cardIndex = clickedCard.getAttribute('data-index'); // Ottieni l'indice della carta
+        console.log('Index carta ' + cardIndex);
         // Invia richiesta al server per giocare la carta
         fetch(`/game/play-card/${cardIndex}`, {
             method: 'POST',

@@ -33,6 +33,7 @@ public class PartitaController {
     public ResponseEntity<?> playCard(@PathVariable int cartaIndex, HttpSession session) {
         try {
             // Prendi la partita dalla sessione usando l'ID
+            System.out.println("Indice carta preso: "+ cartaIndex);
             Partita partita = (Partita) session.getAttribute("partita");
             Carta carta = partitaService.giocaCarta(partita, cartaIndex); 
             return ResponseEntity.ok(carta);
