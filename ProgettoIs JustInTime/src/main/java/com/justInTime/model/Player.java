@@ -87,7 +87,7 @@ public class Player implements abstractPlayer {
 
     public Player() {
         this.mano = new ArrayList<>();
-        this.durataTurno = 15;
+        this.durataTurno = 25;
         this.partiteGiocate = 0;
         this.vittorie = 0;
         this.escluso = false;
@@ -98,7 +98,7 @@ public class Player implements abstractPlayer {
     public Player(int maxScore) {
 
         this.maxScore = maxScore;
-        this.durataTurno = 15;
+        this.durataTurno = 25;
         this.mano = new ArrayList<>();
         this.partiteGiocate = 0;
         this.vittorie = 0;
@@ -109,7 +109,7 @@ public class Player implements abstractPlayer {
 
     public Player(String jackson) {
 
-        this.durataTurno = 15;
+        this.durataTurno = 25;
         this.escluso = false;
         partite= new ArrayList<>();
         this.turnoInPausa = false;
