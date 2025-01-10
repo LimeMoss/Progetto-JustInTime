@@ -181,17 +181,19 @@ public void eseguiPauseStateAsync(Partita partita) {
         MazzoScarto mazzoScarto = partita.getMazzoScarto();
     
         if (mazzoScarto == null || mazzoScarto.isEmpty()) {
-            // Mazzo vuoto, considera la carta giocabile
             logger.info("Mazzo di scarto vuoto o non inizializzato, carta giocabile di default: {}", carta.getTipo());
             return true;
         }
-    
-        // Recupera l'ultima carta scartata
+
         Carta ultimaCarta = mazzoScartoService.ultimaCartaScartata(mazzoScarto);
         if (ultimaCarta == null) {
             logger.warn("Nessuna ultima carta scartata trovata, carta giocabile di default: {}", carta.getTipo());
             return true;
         }
+
+          if (ultimaCarta.getValore() == specialValue) {
+            return true;
+          }
     
         // Verifica le condizioni di giocabilità
         int ultimaValore = ultimaCarta.getValore();
