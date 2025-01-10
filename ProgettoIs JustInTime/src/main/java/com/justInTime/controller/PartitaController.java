@@ -36,6 +36,7 @@ public class PartitaController {
             System.out.println("Indice carta preso: "+ cartaIndex);
             Partita partita = (Partita) session.getAttribute("partita");
             Carta carta = partitaService.giocaCarta(partita, cartaIndex); 
+            System.out.println("La carta restituita è:" + carta.getTipo() + carta.getValore());
             return ResponseEntity.ok(carta);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

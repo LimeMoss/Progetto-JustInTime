@@ -92,6 +92,7 @@ public class Player implements abstractPlayer {
         this.vittorie = 0;
         this.escluso = false;
         partite= new ArrayList<>();
+        this.turnoInPausa = false;
     }
 
     public Player(int maxScore) {
@@ -103,6 +104,7 @@ public class Player implements abstractPlayer {
         this.vittorie = 0;
         this.escluso = false;
         partite= new ArrayList<>();
+        this.turnoInPausa = false;
     }
 
     public Player(String jackson) {
@@ -110,6 +112,7 @@ public class Player implements abstractPlayer {
         this.durataTurno = 15;
         this.escluso = false;
         partite= new ArrayList<>();
+        this.turnoInPausa = false;
 
         mano = new ArrayList<>();
     }

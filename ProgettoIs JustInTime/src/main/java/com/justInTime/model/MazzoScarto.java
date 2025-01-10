@@ -33,7 +33,7 @@ public class MazzoScarto extends Mazzo {
 
     public Carta ultimaCartaScartata() {
         if (!carteScartate.isEmpty()) {
-            return carteScartate.get(carteScartate.size() - 1);
+            return carteScartate.getFirst();
         }
         return null;
     }

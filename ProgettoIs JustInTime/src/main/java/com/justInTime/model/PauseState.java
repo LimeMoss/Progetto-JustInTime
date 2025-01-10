@@ -43,89 +43,94 @@ public class PauseState implements GameState {
      */
     @Override
     public void execute(Partita partita) {
+        System.out.println("Entrando nello stato PauseState.");
         nextPlayerReady = false;
-
+    
         if (!waitForPlayer()) {
-
+            System.out.println("Timeout scaduto o interruzione rilevata durante l'attesa del giocatore.");
+    
             if (isGameOver(partita)) {
+                System.out.println("La partita è terminata. Passaggio allo stato EndGameState.");
                 handleGameOver(partita);
             } else {
-
+                System.out.println("Timeout scaduto. Passaggio al turno successivo.");
                 NextTurn(partita);
             }
+        } else {
+            System.out.println("Il giocatore è pronto. Ripresa del gioco.");
         }
     }
-
+    
     /**
      * Attende che il giocatore sia pronto o che scada il timeout.
-     *
-     * @return true se il giocatore è pronto, false se il timeout è scaduto
      */
     private boolean waitForPlayer() {
         long startTime = System.currentTimeMillis();
+        System.out.println("In attesa che il giocatore sia pronto...");
+    
         while (!nextPlayerReady) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); 
-            return false; 
+                System.out.println("Thread interrotto durante l'attesa del giocatore.");
+                Thread.currentThread().interrupt();
+                return false;
             }
-
-       
-            if (System.currentTimeMillis() - startTime >= TIMEOUT) {
-                nextPlayerReady = true;
-                return false; 
+    
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            if (elapsedTime >= TIMEOUT) {
+                System.out.println("Timeout di " + TIMEOUT + "ms raggiunto. Il giocatore non è pronto.");
+                return false;
             }
         }
-        return true; 
+    
+        System.out.println("Il giocatore è pronto prima del timeout.");
+        return true;
     }
-
+    
     /**
-     * Gestisce il caso di game over, cambiando lo stato della partita.
-     *
-     * @param partita La partita da gestire.
+     * Gestisce il caso di game over.
      */
     private void handleGameOver(Partita partita) {
+        System.out.println("Gestione del game over per la partita.");
         partitaService.setsGameState(partita, endGameState);
         endGameState.execute(partita);
     }
-
+    
     /**
-     * Gestisce il proseguimento del gioco, cambiando lo stato della partita al
-     * turno successivo.
-     *
-     * @param partita La partita da gestire.
+     * Gestisce il proseguimento del turno.
      */
     private void NextTurn(Partita partita) {
         if (nextPlayerReady) {
+            System.out.println("Passaggio al turno successivo.");
             partitaService.setsGameState(partita, turnState);
             turnState.execute(partita);
+        } else {
+            System.out.println("Errore: il giocatore non è pronto ma è stato chiamato NextTurn.");
         }
     }
-
+    
     /**
-     * Segnala che il giocatore è pronto per continuare la partita.
-     * Imposta il flag nextPlayerReady a true, permettendo il proseguimento
-     * del gioco dallo stato di pausa.
+     * Segnala che il giocatore è pronto.
      */
     public void playerReady() {
         this.nextPlayerReady = true;
+        System.out.println("Il giocatore ha segnalato di essere pronto.");
     }
-
+    
     /**
      * Verifica se la partita è terminata.
-     * La partita è terminata se almeno un giocatore ha finito le sue carte.
-     * 
-     * @param partita La partita da verificare.
-     * @return true se la partita è terminata, false altrimenti.
      */
     private boolean isGameOver(Partita partita) {
+        System.out.println("Verifica se la partita è terminata.");
         for (Player player : partita.getGiocatori()) {
             if (player.getMano().isEmpty()) {
+                System.out.println("Il giocatore " + player.getUtente().getName() + " ha finito le sue carte. Partita terminata.");
                 playerService.addVictory(player.getId());
                 return true;
             }
         }
+        System.out.println("La partita non è ancora terminata.");
         return false;
     }
 }

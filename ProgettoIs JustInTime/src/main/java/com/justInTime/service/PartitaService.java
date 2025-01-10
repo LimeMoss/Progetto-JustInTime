@@ -148,11 +148,9 @@ public class PartitaService {
             giocatoreCorrente.setTurnoInPausa(true);
             logger.info("Il turno del giocatore {} è stato messo in pausa", giocatoreCorrente.getUtente().getName());
             
-            setsGameState(partita, pauseState);
+            partita.getGiocatoreCorrente().setTurnoInPausa(true);
             logger.info("Stato della partita impostato su 'pauseState'");
 
-            eseguiPauseStateAsync(partita);
-            logger.info("Esecuzione dello stato 'pauseState' completata per la partita ID: {}", partita.getId());
 
             return carta;
         } else {
@@ -289,7 +287,7 @@ public void eseguiPauseStateAsync(Partita partita) {
         playerService.riduzioneTurnoPlayer(player);
 
 
-
+    
         player.setTurnoInPausa(true);
    
 

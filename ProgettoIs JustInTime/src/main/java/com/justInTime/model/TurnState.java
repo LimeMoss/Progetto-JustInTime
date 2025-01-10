@@ -34,99 +34,81 @@ public class TurnState implements GameState {
      * @param partita La partita su cui eseguire le operazioni.
      */
 
-    @Override
-    public void execute(Partita partita) {
-
-    
-
-        Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
-        int tempoRestante = giocatoreCorrente.getDurataTurno();
-
+     @Override
+     public void execute(Partita partita) {
+         System.out.println("Esecuzione dello stato TurnState avviata.");
      
-        if (tuttiEsclusi(partita)) {
-           
-            partitaService.tempoTerminato(partita);
-            return; // Esci dalla funzione se tutti sono esclusi
-        }
-
-        
-        if (giocatoreCorrente.isEscluso()) {
-    
-            passaAlProssimoGiocatore(partita);
-            return;
-        }
-
-        
-        while (tempoRestante > 0) {
-            if (giocatoreCorrente.hasFinishedTurn()) {
-             
-                break;
-            }
-
-            tempoRestante--;
-            giocatoreCorrente.setDurataTurno(tempoRestante);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-             
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        
-        if (tempoRestante == 0) {
-            giocatoreCorrente.setEscluso(true);
-
-        }
-
-    
-
-        passaAlProssimoGiocatore(partita);
+         Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
+         int tempoRestante = giocatoreCorrente.getDurataTurno();
+         System.out.println("Giocatore corrente: " + giocatoreCorrente.getUtente().getName() + ", Tempo rimanente: " + tempoRestante);
+     
+         if (tuttiEsclusi(partita)) {
+             System.out.println("Tutti i giocatori, eccetto uno, sono esclusi. Terminando la partita.");
+             partitaService.tempoTerminato(partita);
+             return;
+         }
+     
+         if (giocatoreCorrente.isEscluso()) {
+             System.out.println("Il giocatore " + giocatoreCorrente.getUtente().getName() + " è già escluso. Passo al prossimo giocatore.");
+             passaAlProssimoGiocatore(partita);
+             return;
+         }
+     
+         System.out.println("Inizio il turno per il giocatore " + giocatoreCorrente.getUtente().getName());
+     
+         while (tempoRestante > 0) {
+             if (giocatoreCorrente.hasFinishedTurn()) {
+                 System.out.println("Il giocatore " + giocatoreCorrente.getUtente().getName() + " ha terminato il turno.");
+                 giocatoreCorrente.setTurnoInPausa(false);
+                 break;
+             }
+     
+             tempoRestante--;
+             giocatoreCorrente.setDurataTurno(tempoRestante);
+             System.out.println("Tempo rimanente per il giocatore " + giocatoreCorrente.getUtente().getName() + ": " + tempoRestante);
+     
+             try {
+                 Thread.sleep(1000);
+             } catch (InterruptedException e) {
+                 System.out.println("Thread interrotto durante il turno del giocatore " + giocatoreCorrente.getUtente().getName());
+                 Thread.currentThread().interrupt();
+             }
+         }
+     
+         if (tempoRestante == 0) {
+             giocatoreCorrente.setEscluso(true);
+             System.out.println("Il giocatore " + giocatoreCorrente.getUtente().getName() + " è stato escluso per aver terminato il tempo.");
+         }
+     
+         passaAlProssimoGiocatore(partita);
+     }
+     
+     private void passaAlProssimoGiocatore(Partita partita) {
+         System.out.println("Passando al prossimo giocatore...");
+         int indiceCorrente = partita.getIndiceGiocatoreCorrente();
+         int prossimoIndice = (indiceCorrente + 1) % partita.getGiocatori().size();
+     
+         while (partita.getGiocatori().get(prossimoIndice).isEscluso()) {
+             System.out.println("Il giocatore " + partita.getGiocatori().get(prossimoIndice).getUtente().getName() + " è escluso. Continuo la ricerca.");
+             prossimoIndice = (prossimoIndice + 1) % partita.getGiocatori().size();
+         }
+     
+         partita.setIndiceGiocatoreCorrente(prossimoIndice);
+         System.out.println("Il prossimo giocatore è " + partita.getGiocatori().get(prossimoIndice).getUtente().getName());
+     
+         partitaService.setsGameState(partita, pauseState);
+         pauseState.execute(partita);
+     }
+     
+     private boolean tuttiEsclusi(Partita partita) {
+         int counter = 0;
+         for (Player giocatore : partita.getGiocatori()) {
+             if (giocatore.isEscluso()) {
+                 counter++;
+             }
+         }
+     
+         System.out.println("Numero di giocatori esclusi: " + counter + " su " + partita.getGiocatori().size());
+         return counter == partita.getGiocatori().size() - 1;
+     }
     }
-
-    /**
-     * Passa il turno al prossimo giocatore non escluso nella partita.
-     * Aggiorna l'indice del giocatore corrente e imposta lo stato della partita
-     * su {@link PauseState} in attesa che il prossimo giocatore sia pronto.
-     *
-     * @param partita La partita corrente in cui si esegue il passaggio di turno.
-     */
-
-    private void passaAlProssimoGiocatore(Partita partita) {
-        int indiceCorrente = partita.getIndiceGiocatoreCorrente();
-        int prossimoIndice = (indiceCorrente + 1) % partita.getGiocatori().size();
-
-        while (partita.getGiocatori().get(prossimoIndice).isEscluso()) {
-            prossimoIndice = (prossimoIndice + 1) % partita.getGiocatori().size();
-        }
-
-        partita.setIndiceGiocatoreCorrente(prossimoIndice);
-
-        partitaService.setsGameState(partita, pauseState);
-        pauseState.execute(partita);
-
-    }
-
-    /**
-     * Verifica se tutti i giocatori, ad eccezione di uno, sono stati esclusi
-     * dalla partita.
-     * 
-     * @param partita La partita corrente
-     * @return true se tutti i giocatori, ad eccezione di uno, sono stati esclusi,
-     *         false altrimenti
-     */
-    private boolean tuttiEsclusi(Partita partita) {
-        int counter = 0;
-        for (Player giocatore : partita.getGiocatori()) {
-            if (giocatore.isEscluso()) {
-                counter++;
-            }
-        }
-        if (counter == partita.getGiocatori().size() - 1) {
-            return true;
-        }
-        return false;
-    }
-
-}
