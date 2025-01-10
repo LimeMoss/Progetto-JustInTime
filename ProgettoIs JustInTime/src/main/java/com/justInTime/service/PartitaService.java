@@ -3,7 +3,8 @@ package com.justInTime.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -19,8 +20,6 @@ import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Service
@@ -148,11 +147,7 @@ public class PartitaService {
             giocatoreCorrente.setTurnoInPausa(true);
             logger.info("Il turno del giocatore {} è stato messo in pausa", giocatoreCorrente.getUtente().getName());
             
-            setsGameState(partita, pauseState);
-            logger.info("Stato della partita impostato su 'pauseState'");
-
-            eseguiPauseStateAsync(partita);
-            logger.info("Esecuzione dello stato 'pauseState' completata per la partita ID: {}", partita.getId());
+        
 
             return carta;
         } else {
@@ -206,8 +201,12 @@ public void eseguiPauseStateAsync(Partita partita) {
         } else {
             logger.info("Carta NON giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
                         carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
+
+
         }
-    
+        
+        partita.getGiocatoreCorrente().setTurnoInPausa(true);
+
         return giocabile;
     }
     
@@ -278,14 +277,12 @@ public void eseguiPauseStateAsync(Partita partita) {
     public Carta pescaCarta(Partita partita) {
 
 
-
-
         Player player = partita.getGiocatoreCorrente();
    
 
 
         Carta carta = playerService.aggiungiCartaAllaMano(player,
-                mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
+        mazzoPescaService.pescaCarta(partita.getMazzoNormale()));
         playerService.riduzioneTurnoPlayer(player);
 
 
