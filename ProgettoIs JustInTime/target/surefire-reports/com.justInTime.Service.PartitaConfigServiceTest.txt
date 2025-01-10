@@ -1,0 +1,96 @@
+-------------------------------------------------------------------------------
+Test set: com.justInTime.Service.PartitaConfigServiceTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 5, Errors: 2, Skipped: 0, Time elapsed: 0.327 s <<< FAILURE! -- in com.justInTime.Service.PartitaConfigServiceTest
+com.justInTime.Service.PartitaConfigServiceTest.AggiungiGiocatoreConfig_UtenteNonEsiste -- Time elapsed: 0.015 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.IllegalStateException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.justInTime.Service.PartitaConfigServiceTest.AggiungiGiocatoreConfig_UtenteNonEsiste(PartitaConfigServiceTest.java:92)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: java.lang.IllegalStateException: Utente non presente nella sessione.
+	at com.justInTime.service.PartitaConfigService.aggiungiGiocatoreConfig(PartitaConfigService.java:73)
+	at com.justInTime.Service.PartitaConfigServiceTest.lambda$0(PartitaConfigServiceTest.java:92)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.justInTime.Service.PartitaConfigServiceTest.RimuoviGiocatore_Successful -- Time elapsed: 0.004 s <<< ERROR!
+java.lang.IllegalArgumentException: L'utente è già stato aggiunto
+	at com.justInTime.service.PartitaConfigService.aggiungiGiocatoreConfig(PartitaConfigService.java:78)
+	at com.justInTime.Service.PartitaConfigServiceTest.RimuoviGiocatore_Successful(PartitaConfigServiceTest.java:346)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful -- Time elapsed: 0.006 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "String.equals(Object)" because the return value of "com.justInTime.model.Utente.getUsername()" is null
+	at com.justInTime.service.PartitaConfigService.aggiungiGiocatoreConfig(PartitaConfigService.java:87)
+	at com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful(PartitaConfigServiceTest.java:281)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.justInTime.Service.PartitaConfigServiceTest.RimuoviGiocatore_NessunGiocatoreAggiunto -- Time elapsed: 0.005 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.justInTime.Service.PartitaConfigServiceTest.RimuoviGiocatore_NessunGiocatoreAggiunto(PartitaConfigServiceTest.java:318)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_NonCiSonoAbbastanzaGiocatori -- Time elapsed: 0.005 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_NonCiSonoAbbastanzaGiocatori(PartitaConfigServiceTest.java:242)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: java.lang.NullPointerException: Cannot invoke "String.equals(Object)" because the return value of "com.justInTime.model.Utente.getUsername()" is null
+	at com.justInTime.service.PartitaConfigService.aggiungiGiocatoreConfigNOLOGIN(PartitaConfigService.java:134)
+	at com.justInTime.service.PartitaConfigService.creaPartita(PartitaConfigService.java:180)
+	at com.justInTime.Service.PartitaConfigServiceTest.lambda$6(PartitaConfigServiceTest.java:242)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.justInTime.Service.PartitaConfigServiceTest.AggiungiGiocatoreConfig_PasswordNonCorrisponde -- Time elapsed: 0.006 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.IllegalStateException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.justInTime.Service.PartitaConfigServiceTest.AggiungiGiocatoreConfig_PasswordNonCorrisponde(PartitaConfigServiceTest.java:113)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: java.lang.IllegalStateException: Utente non presente nella sessione.
+	at com.justInTime.service.PartitaConfigService.aggiungiGiocatoreConfig(PartitaConfigService.java:73)
+	at com.justInTime.Service.PartitaConfigServiceTest.lambda$1(PartitaConfigServiceTest.java:113)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.justInTime.Service.PartitaConfigServiceTest.AggiungiGiocatoreConfig_NoUsernameOrEmail -- Time elapsed: 0.006 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.justInTime.Service.PartitaConfigServiceTest.AggiungiGiocatoreConfig_NoUsernameOrEmail(PartitaConfigServiceTest.java:132)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: java.lang.NullPointerException: Cannot invoke "String.equals(Object)" because "usernameOrEmail" is null
+	at com.justInTime.service.PartitaConfigService.aggiungiGiocatoreConfig(PartitaConfigService.java:77)
+	at com.justInTime.Service.PartitaConfigServiceTest.lambda$2(PartitaConfigServiceTest.java:132)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
