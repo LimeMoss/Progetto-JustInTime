@@ -232,9 +232,9 @@ public class PartitaController {
        
         try {
             if(partita.getGameState() instanceof TurnState) ((TurnState) partita.getGameState()).getPlayerSuccessivo(partita);
-            return "Passato al prossimo giocatore.";
+            return "Hai preso il giocatore successivo.";
         } catch (Exception e) {
-            return "Errore nel passaggio al prossimo giocatore: " + e.getMessage();
+            return "Errore nella presa del giocatore successivo: " + e.getMessage();
         }
     }
 
