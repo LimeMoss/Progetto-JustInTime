@@ -147,8 +147,7 @@ public class PartitaService {
             giocatoreCorrente.setTurnoInPausa(true);
             logger.info("Il turno del giocatore {} è stato messo in pausa", giocatoreCorrente.getUtente().getName());
             
-            partita.getGiocatoreCorrente().setTurnoInPausa(true);
-            logger.info("Stato della partita impostato su 'pauseState'");
+    
 
 
             return carta;
