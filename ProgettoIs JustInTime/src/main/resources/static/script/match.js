@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 // `data` è un valore intero restituito dal backend
                 if (typeof data === 'number') {
+                    turnoInCorso = true;
                     tempoRimanente = data;
                     aggiornaTimer();
                 } else {
@@ -100,12 +101,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 return response.text(); 
             })
             .then(username => {
-
                 console.log(username);
                 player_name=username;
             })
             .catch(error => console.error('Errore nel recupero del giocatore corrente:', error));
     }
+
+    function fetchCurrentPlayerName(){
+        fetch('/game/nextPlayer', {
+            method: 'POST',
+            credentials: 'include',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Errore nel recupero del giocatore successivo');
+                }
+                return response.text();
+            })
+            .then(username => {
+                console.log(username);
+                player_name=username;
+            })
+            .catch(error => console.error('Errore nel recupero del giocatore successivo:', error));
+    }
+
 
     function fetchPlayerHand() {
         fetch('/game/playerMano', {
@@ -175,7 +194,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 if(document.querySelectorAll('.onhand-cards .clickable-card').length===0){
                     closeBanner();
                     showPopup('Hai vinto!', 'Premi ok per vedere la classifica', false);
-                    terminaPartita();
                 }
                 updateCardSizes();
                 closeBanner();
@@ -231,10 +249,13 @@ document.addEventListener("DOMContentLoaded", function () {
             popupContainer.style.display = 'none';
             if (title === 'Turno completato') {
                 passTurnToNextPlayer();
-                //notifyNextPlayerReady();
             }
             if (title === `Turno di ${player_name}`) {
+                notifyNextPlayerReady();
                 aggiornaTempoRimanente();
+            }
+            if (title === 'Hai vinto!') {
+                window.location.href = '/endMatch';
             }
         });
     }
@@ -249,7 +270,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.ok) {
                     console.log('Next player notified successfully.');
                     //passTurnToNextPlayer();
-                    notifyNextPlayerReady();
                 } else {
                     console.error('Failed to notify next player:', response.statusText);
                 }
@@ -258,7 +278,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function passTurnToNextPlayer() {
-        fetchCurrentPlayer();
+        //fetchCurrentPlayer();
+        fetchCurrentPlayerName();
         fetchPlayerHand();
         showPopup(`Turno di ${player_name}`, 'Premi OK per iniziare', true);
     }
