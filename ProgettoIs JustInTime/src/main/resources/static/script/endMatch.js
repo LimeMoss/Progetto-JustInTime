@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Devi essere loggato per avviare una nuova partita.');
             });
     });
-    updateRanking();
 
     function terminaPartita() {
         fetch('/game/termina-partita/', {
@@ -72,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }else{
             document.getElementById('third').style.display = 'none';
         }
-
-        terminaPartita();
     }
+
+    terminaPartita();
 });
