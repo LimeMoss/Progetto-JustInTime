@@ -1,6 +1,8 @@
 package com.justInTime.model;
 
 import org.springframework.stereotype.Component;
+
+
 import com.justInTime.service.PartitaService;
 
 
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 @Component("turnState")
 public class TurnState implements GameState {
@@ -16,7 +19,6 @@ public class TurnState implements GameState {
     @Qualifier("pauseState")
     private GameState pauseState;
     
-    HttpSession session;
 
 
     @Autowired
@@ -40,7 +42,15 @@ public class TurnState implements GameState {
 
      @Override
      public void execute(Partita partita) {
-         session.setAttribute("partitaInGame", partita);
+        try {
+            HttpSession session = ((HttpServletRequest) Thread.currentThread().getContextClassLoader().loadClass("com.justInTime.controller.PartitaController").newInstance()).getSession(true);
+            session.setAttribute("partitaInGame", partita);
+     
+        } catch (Exception e) {
+      
+        }
+       
+
          System.out.println("Esecuzione dello stato TurnState avviata.");
      
          Player giocatoreCorrente = partita.getGiocatori().get(partita.getIndiceGiocatoreCorrente());
