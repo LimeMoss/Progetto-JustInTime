@@ -40,6 +40,7 @@ public class PartitaController {
          
       
             Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
             Carta carta = partitaService.giocaCarta(partita, cartaIndex); 
      
             return ResponseEntity.ok(carta);
@@ -105,6 +106,7 @@ public class PartitaController {
     public ResponseEntity<Object> getGiocatoreCorrenteMano(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
             return ResponseEntity.ok(partitaService.getGiocatoreCorrenteMano(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
@@ -166,6 +168,7 @@ public class PartitaController {
 
         try {
             Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
             return ResponseEntity.ok(partitaService.getCurrentPlayerTimer(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Giocatore non trovato nella partita.");
@@ -211,6 +214,7 @@ public class PartitaController {
     public ResponseEntity<?> lastDiscardedCard(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
             if (partita == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(Map.of("errore", "Partita non trovata nella sessione"));
