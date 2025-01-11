@@ -259,6 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         sessionStorage.setItem("IsPageOpen", "false"); 
     };
+
 });
 
    
