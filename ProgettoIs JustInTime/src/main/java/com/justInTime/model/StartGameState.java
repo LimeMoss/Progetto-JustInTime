@@ -19,6 +19,7 @@ public class StartGameState implements GameState {
     private volatile boolean PlayerReady = false;
     private static final long TIMEOUT = 50000;
 
+    private Partita tpartita = new Partita();
     /**
      * Esegue le operazioni necessarie all'inizio di una partita.
      * Distribuisce le carte iniziali ai giocatori, imposta il primo giocatore
@@ -28,6 +29,7 @@ public class StartGameState implements GameState {
      */
     @Override
     public void execute(Partita partita) {
+        tpartita = partita;
         long startTime = System.currentTimeMillis();
     
     
@@ -41,11 +43,12 @@ public class StartGameState implements GameState {
                 e.printStackTrace();
             }
     
-
+            /* 
             if (System.currentTimeMillis() - startTime >= TIMEOUT) {
                 PlayerReady = true;  
                 break;
             }
+                */
             
           
             if (PlayerReady) {
@@ -61,5 +64,9 @@ public class StartGameState implements GameState {
 
     public void playerReady() {
         this.PlayerReady = true;
+    }
+
+    public Partita getPartita() {
+        return tpartita;
     }
 }

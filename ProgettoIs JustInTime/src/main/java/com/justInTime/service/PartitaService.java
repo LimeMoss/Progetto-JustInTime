@@ -1,7 +1,9 @@
 package com.justInTime.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,7 +16,7 @@ import com.justInTime.model.EndGameState;
 import com.justInTime.model.GameState;
 import com.justInTime.model.MazzoScarto;
 import com.justInTime.model.Partita;
-import com.justInTime.model.PauseState;
+
 import com.justInTime.model.Player;
 import com.justInTime.model.StartGameState;
 import com.justInTime.repository.PartitaRepository;
@@ -52,8 +54,20 @@ public class PartitaService {
     @Qualifier("endGameState")
     private GameState EndGameState;
 
+    private Map<Long, Partita> partiteInCorso = new HashMap<>();
 
-    
+
+    public Partita getPartita(Long partitaId) {
+        return partiteInCorso.get(partitaId);
+    }
+
+    public void addPartita(Long partitaId, Partita partita) {
+        partiteInCorso.put(partitaId, partita);
+    }
+
+    public void updatePartita(Long partitaId, Partita partita) {
+        partiteInCorso.put(partitaId, partita);
+    }
 
     @Async
     public void iniziaPartitaAsync(Partita partita) {
@@ -258,6 +272,8 @@ public void eseguiPauseStateAsync(Partita partita) {
     public void setsGameState(Partita partita, GameState gamestate) {
        
         partita.setGameState(gamestate);
+
+    
       
 
     }
@@ -281,13 +297,7 @@ public void eseguiPauseStateAsync(Partita partita) {
         return carta;
     }
 
-   public Partita nextplayerReady(Partita partita) {
-    GameState gamestate = partita.getGameState();
-    if (gamestate instanceof PauseState thePauseState) {
-        thePauseState.playerReady();
-    }
-    return partita;
-}
+
 
 
     public Partita playerReady(Partita partita) {
@@ -360,5 +370,8 @@ public void eseguiPauseStateAsync(Partita partita) {
     public int estimatePlayerScore(Player player){
        return playerService.estimateScore(player);
     }
+
+
+
 
 }

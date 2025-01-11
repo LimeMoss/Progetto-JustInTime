@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: com.justInTime.Service.PartitaConfigServiceTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.364 s <<< FAILURE! -- in com.justInTime.Service.PartitaConfigServiceTest
-com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful -- Time elapsed: 0.063 s <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "com.justInTime.model.Player.getPartite()" because "giocatore" is null
-	at com.justInTime.service.PartitaConfigService.creaPartita(PartitaConfigService.java:202)
+Tests run: 11, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.849 s <<< FAILURE! -- in com.justInTime.Service.PartitaConfigServiceTest
+com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful -- Time elapsed: 0.187 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.justInTime.service.PartitaService.addPartita(java.lang.Long, com.justInTime.model.Partita)" because "this.partitaService" is null
+	at com.justInTime.service.PartitaConfigService.creaPartita(PartitaConfigService.java:195)
 	at com.justInTime.Service.PartitaConfigServiceTest.testCreazionePartita_Successful(PartitaConfigServiceTest.java:285)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)

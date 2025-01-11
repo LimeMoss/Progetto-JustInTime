@@ -13,4 +13,5 @@ public interface GameState {
      * @param partita La partita su cui eseguire le operazioni.
      */
     void execute(Partita partita);
+    Partita getPartita();
 }

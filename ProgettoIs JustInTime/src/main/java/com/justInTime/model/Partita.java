@@ -20,6 +20,9 @@ import jakarta.persistence.Transient;
 @Entity
 public class Partita {
 
+    @Transient
+    private static boolean checker = true;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -69,6 +72,7 @@ public class Partita {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+          System.out.println("L'id della partita: "+this.id+ "Gamestate:" +gameState.toString());
     
         
     }

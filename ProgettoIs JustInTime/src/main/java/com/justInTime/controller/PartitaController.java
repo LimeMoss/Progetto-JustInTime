@@ -2,8 +2,8 @@ package com.justInTime.controller;
 
 import com.justInTime.model.Carta;
 import com.justInTime.model.Partita;
+import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
-import com.justInTime.model.TurnState;
 import com.justInTime.service.PartitaService;
 
 import java.util.Map;
@@ -52,10 +52,6 @@ public class PartitaController {
      * @param session   la sessione HTTP
      * @return ResponseEntity con il risultato dell'operazione
      */
-   
-    
-
-     
      @PostMapping("/pesca-carta/")
      public ResponseEntity<?> pescaCarta(HttpSession session) {
 
@@ -117,15 +113,20 @@ public class PartitaController {
      * @param session la sessione HTTP
      * @return ResponseEntity con il risultato dell'operazione
      */
+  
     @PostMapping("/nextPlayerReady")
     public ResponseEntity<?> nextPlayerReady(HttpSession session) {
         Partita partita = (Partita) session.getAttribute("partita");
+        partita = partitaService.getPartita(partita.getId());    
 
-        if (partita == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
+      
+
+   
+        if (partita.getGameState() instanceof PauseState) {
+            PauseState pauseState = (PauseState) partita.getGameState();  
+            pauseState.notifyPlayerReady(partita.getId());  
         }
-
-        partitaService.nextplayerReady(partita);
+   
         return ResponseEntity.ok().build();
     }
 
@@ -178,14 +179,13 @@ public class PartitaController {
         try {
     
     
-            // Ottieni la partita dalla sessione
+        
             Partita partita = (Partita) session.getAttribute("partita");
             if (partita == null) {
              
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
             }
    
-            // Recupera il nome utente del giocatore corrente
             String username = partitaService.getPartitaRepository(partita.getId()).getGiocatoreCorrente().getUtente().getUsername();
             
 
@@ -222,25 +222,42 @@ public class PartitaController {
         }
     }
 
+    
+
     @PostMapping("/nextPlayer")
     public String goNextPlayer(HttpSession session) {
-        Partita partita = (Partita) session.getAttribute("partitaInGame");
-        Player player = new Player();
+        Partita partita = (Partita) session.getAttribute("partita");
         if (partita == null) {
-            return "Non sei in partita!";
+            return "Partita non trovata nella sessione!";
         }
-
-       
+    
+        partita = partitaService.getPartita(partita.getId());
+        if (partita == null) {
+            return "Partita non esistente!";
+        }
+    
+        if (partita.getGameState() == null) {
+            return "Stato di gioco non valido!";
+        }
+    
         try {
-            if(partita.getGameState() instanceof TurnState)   player =  ((TurnState) partita.getGameState()).getPlayerSuccessivo(partita);
-
-            System.out.println("l'utente successivo è " + player.getUtente().getUsername());
-            return player.getUtente().getUsername();
+            if (partita.getGameState() instanceof PauseState) {
+                Player player = ((PauseState) partita.getGameState()).getPlayerSuccessivo(partita);
+    
+                if (player == null) {
+                    return "Non ci sono giocatori successivi disponibili!";
+                }
+    
+                System.out.println("L'utente successivo è " + player.getUtente().getUsername());
+                return player.getUtente().getUsername();
+            } else {
+                return "Stato di gioco è: " + partita.getGameState().getClass().getSimpleName();
+            }
         } catch (Exception e) {
             return "Errore nella presa del giocatore successivo: " + e.getMessage();
         }
     }
-
+    
 
 
 }

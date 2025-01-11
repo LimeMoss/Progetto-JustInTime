@@ -15,7 +15,7 @@ import com.justInTime.service.PlayerService;
  */
 @Component("endGameState")
 public class EndGameState implements GameState {
-  
+    private Partita tpartita = new Partita();
     @Autowired
     private PartitaService partitaService;
     
@@ -30,6 +30,7 @@ public class EndGameState implements GameState {
      */
   @Override
 public void execute(Partita partita) {
+    tpartita = partita;
     List<Player> players = new ArrayList<>(partita.getGiocatori());  
     for (int i = 0; i < players.size(); i++) {
         Player player = players.get(i);
@@ -68,6 +69,10 @@ public void execute(Partita partita) {
     
             partitaService.terminaPartita(partita);
         }
+    }
+
+    public Partita getPartita() {
+        return tpartita;
     }
 }
     

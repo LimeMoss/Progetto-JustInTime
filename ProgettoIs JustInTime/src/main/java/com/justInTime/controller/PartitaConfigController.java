@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/api/game-config")
 public class PartitaConfigController {
 
+
     @Autowired
     private PartitaConfigService partitaConfigService;
 
@@ -115,8 +116,7 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
 
        
         Partita newPartita = partitaConfigService.creaPartita(session);
-    
-   
+
 
      
         session.setAttribute("partita", newPartita);
@@ -132,6 +132,8 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Si è verificato un errore durante il processo.");
     }
 }
+
+
     @GetMapping("/match-status")
     public ResponseEntity<Boolean> getPartitaStatus(HttpSession session) {
 
@@ -142,6 +144,8 @@ public ResponseEntity<Object> createAndStartGame(HttpSession session) {
     }
 
     
+
+
     
 
     @PostMapping("/play-again")
