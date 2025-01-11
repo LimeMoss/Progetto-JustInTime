@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const deck = document.getElementById('deck').querySelector('img');
     const alertBanner = document.getElementById('alert-banner');
     const popupContainer = document.getElementById('popup-container');
-    var currentPlayerIndex = 1;
     const timeLeftLabel = document.getElementById('timeLeft');
 
     let turnoInCorso = true;
@@ -70,10 +69,17 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error('Errore durante il fetch del tempo turno:', error));
     }
 
+    let timerInterval; // Dichiarazione fuori dalla funzione per tenere traccia dell'intervallo
+
     function aggiornaTimer() {
-        const timerInterval = setInterval(() => {
+        if (timerInterval) {
+            clearInterval(timerInterval); // Pulisce eventuali intervalli esistenti
+        }
+
+        timerInterval = setInterval(() => {
             if (!turnoInCorso) {
                 clearInterval(timerInterval);
+                timerInterval = null; // Imposta a null dopo averlo cancellato
                 return;
             }
 
@@ -82,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 timeLeftLabel.textContent = `${tempoRimanente}s`;
             } else {
                 clearInterval(timerInterval);
+                timerInterval = null; // Imposta a null dopo averlo cancellato
                 turnoInCorso = false;
                 timeLeftLabel.textContent = 'Turno scaduto!';
                 showPopup('Il tuo tempo è terminato. Hai perso', 'Premi OK per passare il turno', false);
