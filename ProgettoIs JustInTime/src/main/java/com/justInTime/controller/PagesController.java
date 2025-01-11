@@ -118,7 +118,7 @@ public class PagesController {
         if (!SessionUtil.isUtenteLoggato(session)) {
             return "redirect:/login"; 
         }
-        return "endmatch";
+        return "endMatch";
     }
 
     @GetMapping("/match")

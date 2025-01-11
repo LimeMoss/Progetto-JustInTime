@@ -199,12 +199,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Rimuovi la carta dal DOM
                 onTableCard.src = clickedCard.src;
                 clickedCard.remove();
+                console.log(document.querySelectorAll('.onhand-cards .clickable-card').length+" lunghezza");
                 if(document.querySelectorAll('.onhand-cards .clickable-card').length===0){
-                    closeBanner();
+                    console.log("Hai vinto");
                     showPopup('Hai vinto!', 'Premi ok per vedere la classifica', false);
+                    return;
                 }
                 updateCardSizes();
-                closeBanner();
                 updateArray();
                 showPopup('Turno completato', 'Premi OK per passare il turno', false);
             })
@@ -265,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 fetchPlayerHand();
             }
             if (title === 'Hai vinto!') {
-                window.location.href = '/endMatch';
+                window.location.href = '/endmatch';
             }
         });
     }
