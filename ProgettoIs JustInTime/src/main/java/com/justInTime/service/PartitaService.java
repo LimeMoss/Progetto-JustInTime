@@ -3,8 +3,6 @@ package com.justInTime.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -24,7 +22,6 @@ import com.justInTime.repository.PartitaRepository;
 
 @Service
 public class PartitaService {
-    private static final Logger logger = LoggerFactory.getLogger(PartitaService.class);
 
     @Autowired
     private PartitaRepository partitaRepository;
@@ -106,53 +103,53 @@ public class PartitaService {
 
    
     public Carta giocaCarta(Partita partita, int cartaIndex) {
-        logger.info("Inizio esecuzione di giocaCarta per la partita ID: {}, cartaIndex: {}", partita.getId(), cartaIndex);
+
 
         Player giocatoreCorrente = partita.getGiocatoreCorrente();
         if (giocatoreCorrente == null) {
-            logger.error("Giocatore corrente è null nella partita ID: {}", partita.getId());
+          
             throw new IllegalStateException("Giocatore corrente non può essere null");
         }
-        logger.info("Giocatore corrente: {} con ID: {}", giocatoreCorrente.getUtente().getName(), giocatoreCorrente.getId());
+
 
         Carta carta;
         try {
             carta = giocatoreCorrente.getMano().get(cartaIndex);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("Indice della carta non valido: {}. Mano del giocatore contiene {} carte.", cartaIndex, giocatoreCorrente.getMano().size());
+        
             throw new IllegalArgumentException("Indice carta non valido", e);
         }
 
-        logger.info("Carta selezionata: {} (tipo: {}, valore: {})", carta.getTipo(), carta.getTipo(), carta.getValore());
+ 
 
         if (cartaGiocabile(partita, carta)) {
-            logger.info("La carta {} è giocabile.", carta.getTipo());
+    
 
             if (carta.getTipo().equals("Rallenta")) {
-                logger.info("Applicazione effetto 'Rallenta' al giocatore: {}", giocatoreCorrente.getUtente().getName());
+             
                 carta.applicaEffetto(giocatoreCorrente);
             } else if (carta.getTipo().equals("Accelera")) {
                 List<Player> giocatori = partita.getGiocatori();
                 int indiceSuccessivo = (partita.getIndiceGiocatoreCorrente() + 1) % giocatori.size();
-                logger.info("Applicazione effetto 'Accelera' al giocatore successivo: {} (indice: {})", giocatori.get(indiceSuccessivo).getUtente().getName(), indiceSuccessivo);
+       
                 carta.applicaEffetto(giocatori.get(indiceSuccessivo));
             }
 
             playerService.rimuoviCartaDallaMano(giocatoreCorrente, cartaIndex);
-            logger.info("Carta {} rimossa dalla mano del giocatore {}", carta.getTipo(), giocatoreCorrente.getUtente().getName());
+  
 
             mazzoScartoService.aggiungiCarta(partita.getMazzoScarto(), carta);
-            logger.info("Carta {} aggiunta al mazzo di scarto della partita ID: {}", carta.getTipo(), partita.getId());
+     
 
             giocatoreCorrente.setTurnoInPausa(true);
-            logger.info("Il turno del giocatore {} è stato messo in pausa", giocatoreCorrente.getUtente().getName());
+         
             
     
 
 
             return carta;
         } else {
-            logger.warn("La carta {} non è giocabile (tipo: {}, valore: {}).", carta.getTipo(), carta.getTipo(), carta.getValore());
+        
             throw new RuntimeException("Carta non giocabile");
         }
     }
@@ -177,13 +174,13 @@ public void eseguiPauseStateAsync(Partita partita) {
         MazzoScarto mazzoScarto = partita.getMazzoScarto();
     
         if (mazzoScarto == null || mazzoScarto.isEmpty()) {
-            logger.info("Mazzo di scarto vuoto o non inizializzato, carta giocabile di default: {}", carta.getTipo());
+       
             return true;
         }
 
         Carta ultimaCarta = mazzoScartoService.ultimaCartaScartata(mazzoScarto);
         if (ultimaCarta == null) {
-            logger.warn("Nessuna ultima carta scartata trovata, carta giocabile di default: {}", carta.getTipo());
+      
             return true;
         }
 
@@ -198,10 +195,10 @@ public void eseguiPauseStateAsync(Partita partita) {
                             ultimaValore==specialValue);
     
         if (giocabile) {
-            logger.info("Carta giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
+           
                         carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
         } else {
-            logger.info("Carta NON giocabile: {} (valore: {}) rispetto all'ultima carta scartata: {} (valore: {})",
+      
                         carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
 
 
