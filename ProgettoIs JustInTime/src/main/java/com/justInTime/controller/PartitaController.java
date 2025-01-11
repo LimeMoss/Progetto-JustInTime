@@ -2,6 +2,7 @@ package com.justInTime.controller;
 
 import com.justInTime.model.Carta;
 import com.justInTime.model.Partita;
+import com.justInTime.model.Player;
 import com.justInTime.model.TurnState;
 import com.justInTime.service.PartitaService;
 
@@ -224,15 +225,17 @@ public class PartitaController {
     @PostMapping("/nextPlayer")
     public String goNextPlayer(HttpSession session) {
         Partita partita = (Partita) session.getAttribute("partitaInGame");
-       
+        Player player = new Player();
         if (partita == null) {
             return "Non sei in partita!";
         }
 
        
         try {
-            if(partita.getGameState() instanceof TurnState) ((TurnState) partita.getGameState()).getPlayerSuccessivo(partita);
-            return "Hai preso il giocatore successivo.";
+            if(partita.getGameState() instanceof TurnState)   player =  ((TurnState) partita.getGameState()).getPlayerSuccessivo(partita);
+
+            System.out.println("l'utente successivo è " + player.getUtente().getUsername());
+            return player.getUtente().getUsername();
         } catch (Exception e) {
             return "Errore nella presa del giocatore successivo: " + e.getMessage();
         }
