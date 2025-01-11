@@ -103,12 +103,12 @@ public class TurnState implements GameState {
          int indiceCorrente = partita.getIndiceGiocatoreCorrente();
          System.out.println("Indice giocatore corrente nel passa prossimogiocatore " + partita.getIndiceGiocatoreCorrente());
          int prossimoIndice = (indiceCorrente + 1) % partita.getGiocatori().size();
-     /* 
+  
          while (partita.getGiocatori().get(prossimoIndice).isEscluso()) {
         
              prossimoIndice = (prossimoIndice + 1) % partita.getGiocatori().size();
          }
-     */
+
          partita.setIndiceGiocatoreCorrente(prossimoIndice);
 
          partitaService.setsGameState(partita, pauseState);

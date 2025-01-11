@@ -113,23 +113,23 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => console.error('Errore nel recupero del giocatore corrente:', error));
     }
+    let players = JSON.parse(localStorage.getItem('playersPreGame')) || []; // Array per memorizzare i giocatori
+    fixFunction();
+    function fixFunction() {
+        players.shift();
+    }
 
-    function fetchCurrentPlayerName(){
-        fetch('/game/nextPlayer', {
-            method: 'POST',
-            credentials: 'include',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Errore nel recupero del giocatore successivo');
-                }
-                return response.text();
-            })
-            .then(username => {
-                console.log(username);
-                player_name=username;
-            })
-            .catch(error => console.error('Errore nel recupero del giocatore successivo:', error));
+    function updateArray() {
+        let currentPlayer=players[0];
+        console.log(' giocatore:', players);
+        if(players.length!==1){
+            currentPlayer = players.shift();
+        }
+        if((timeLeftLabel.textContent !== 'Turno scaduto!'))
+            players.push(currentPlayer);
+        console.log(' giocatore dopo shift:', players);
+        player_name = players[0];
+        console.log('Prossimo giocatore:', player_name);
     }
 
 
@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(cards => {
+                console.log(cards);
                 updateHand(cards);
             })
             .catch(error => console.error('Errore nel recuperare la mano del giocatore:', error));
@@ -198,12 +199,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Rimuovi la carta dal DOM
                 onTableCard.src = clickedCard.src;
                 clickedCard.remove();
+                console.log(document.querySelectorAll('.onhand-cards .clickable-card').length+" lunghezza");
                 if(document.querySelectorAll('.onhand-cards .clickable-card').length===0){
-                    closeBanner();
+                    console.log("Hai vinto");
                     showPopup('Hai vinto!', 'Premi ok per vedere la classifica', false);
+                    return;
                 }
                 updateCardSizes();
-                closeBanner();
+                updateArray();
                 showPopup('Turno completato', 'Premi OK per passare il turno', false);
             })
             .catch(error => console.error('Errore:', error.message));
@@ -260,9 +263,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (title === `Turno di ${player_name}`) {
                 notifyNextPlayerReady();
                 aggiornaTempoRimanente();
+                fetchPlayerHand();
             }
             if (title === 'Hai vinto!') {
-                window.location.href = '/endMatch';
+                window.location.href = '/endmatch';
             }
         });
     }
@@ -286,8 +290,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function passTurnToNextPlayer() {
         //fetchCurrentPlayer();
-        fetchCurrentPlayerName();
-        fetchPlayerHand();
         showPopup(`Turno di ${player_name}`, 'Premi OK per iniziare', true);
     }
 
@@ -306,10 +308,6 @@ document.addEventListener("DOMContentLoaded", function () {
         onhandCards.forEach(card => {
             card.style.width = `${cardWidth}px`;
         });
-    }
-
-    function showAlertBanner() {
-        alertBanner.style.display = 'block';
     }
 
     function closeBanner() {
@@ -355,6 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (newCard) {
                     addCardToHand(newCard);
                     updateCardSizes();
+                    updateArray();
                     showPopup('Turno completato', 'Premi OK per passare il turno', false);
                 } else {
                     console.error('Errore: Nessuna carta restituita dal server');

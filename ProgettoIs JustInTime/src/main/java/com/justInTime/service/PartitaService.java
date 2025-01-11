@@ -255,7 +255,7 @@ public void eseguiPauseStateAsync(Partita partita) {
 
         partita.setFinita(true);
         partitaRepository.save(partita);
-        partita.setGameState(null);
+        System.out.println("la partita è finita");
         return podio;
 
       
