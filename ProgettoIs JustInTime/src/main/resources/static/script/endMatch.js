@@ -40,30 +40,39 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
     updateRanking();
-});
 
-    function updateRanking() {
-        fetch("/api/game-config/players")
+    function terminaPartita() {
+        fetch('/game/termina-partita/', {
+            method: 'POST',
+            credentials: 'include',
+        })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Errore durante il recupero dei dati dei giocatori.");
+                    return response.text().then(errorText => {
+                        throw new Error(errorText);
+                    });
                 }
                 return response.json();
             })
-            .then(players => {
-                 //prendere il numero di carte
-
-                playerData.sort((a, b) => a.cards - b.cards);
-
-                renderRanking(playerData);
+            .then(data => {
+                console.log('Partita terminata con successo:', data);
+                updateRanking(data);
             })
             .catch(error => {
-                console.error("Errore:", error);
+                console.error('Errore durante la terminazione della partita:', error.message);
+                alert('Non è stato possibile terminare la partita. Riprova più tardi.');
             });
     }
 
-    function renderRanking(players) {
-        players.forEach(player => {
-            const playerContainer = document.getElementById(`name${players.findIndex(player)}`);
-        });
+    function updateRanking(players) {
+        document.getElementById('name1').textContent = players[0].username;
+        document.getElementById('name2').textContent = players[1].username;
+        if (players.length > 2) {
+            document.getElementById('name3').textContent = players[2].username;
+        }else{
+            document.getElementById('third').style.display = 'none';
+        }
+
+        terminaPartita();
     }
+});
