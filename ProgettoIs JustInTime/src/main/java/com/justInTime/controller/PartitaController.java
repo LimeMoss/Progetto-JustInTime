@@ -4,8 +4,10 @@ import com.justInTime.model.Carta;
 import com.justInTime.model.Partita;
 import com.justInTime.model.PauseState;
 import com.justInTime.model.Player;
+import com.justInTime.service.PartitaConfigService;
 import com.justInTime.service.PartitaService;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class PartitaController {
 
     @Autowired
     private PartitaService partitaService;
+    @Autowired
+    private PartitaConfigService partitaConfigService;
 
     /**
      * Gioca una carta dalla mano del giocatore corrente e passa il turno.
@@ -256,6 +260,15 @@ public class PartitaController {
         } catch (Exception e) {
             return "Errore nella presa del giocatore successivo: " + e.getMessage();
         }
+    }
+
+
+
+    @PostMapping("/nextPlayer2")
+    public List<String> goNextPlayer2(HttpSession session) {
+        List<String> giocatori=partitaConfigService.getGiocatoriInConfigurazione(session);
+        System.out.println(giocatori);
+        return partitaConfigService.getGiocatoriInConfigurazione(session);
     }
     
 
