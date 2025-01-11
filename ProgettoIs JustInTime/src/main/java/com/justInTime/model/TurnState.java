@@ -42,10 +42,12 @@ public class TurnState implements GameState {
 
      @Override
      public void execute(Partita partita) {
+        // TODO // IL CODICE per prendere il nome e metterlo nella sessione è questo. Però non va bene dove sta ora. va inserito nel while, esattamente non so dove sono troppo stanco//        
         try {
+         
+            @SuppressWarnings("deprecation")
             HttpSession session = ((HttpServletRequest) Thread.currentThread().getContextClassLoader().loadClass("com.justInTime.controller.PartitaController").newInstance()).getSession(true);
             session.setAttribute("partitaInGame", partita);
-     
         } catch (Exception e) {
       
         }
