@@ -22,7 +22,7 @@ public class Partita {
 
     @Transient
     private static boolean checker = true;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,6 +48,8 @@ public class Partita {
 
     @Transient
     private int indiceGiocatoreCorrente;
+    @Transient
+    private int lastIndex;
 
     @Transient
     private Mazzo mazzoNormale;
@@ -90,12 +92,17 @@ public class Partita {
         return this.giocatori.get(getIndiceGiocatoreCorrente());
     }
 
+    public Player getGiocatoreCorrenteless() {
+        return this.giocatori.get(lastIndex);
+    }
+
     public int getIndiceGiocatoreCorrente() {
         return indiceGiocatoreCorrente;
     }
 
     public void setIndiceGiocatoreCorrente(int indiceGiocatoreCorrente) {
         this.indiceGiocatoreCorrente = indiceGiocatoreCorrente;
+        lastIndex= this.indiceGiocatoreCorrente;
     }
 
     public MazzoPesca getMazzoNormale() {

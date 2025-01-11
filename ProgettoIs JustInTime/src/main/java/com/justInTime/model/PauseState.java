@@ -135,22 +135,6 @@ public class PauseState implements GameState {
         return false;
     }
 
-    public Player getPlayerSuccessivo(Partita partita) {
-        int indiceCorrente = partita.getIndiceGiocatoreCorrente();
-        int prossimoIndice = (indiceCorrente + 1) % partita.getGiocatori().size();  
-
-        while (partita.getGiocatori().get(prossimoIndice).isEscluso()) {
-            prossimoIndice = (prossimoIndice + 1) % partita.getGiocatori().size();
-            
-        
-            if (prossimoIndice == indiceCorrente) {
-                return null;
-            }
-        }
-    
-        return partita.getGiocatori().get(prossimoIndice);
-    }
-
     public Partita getPartita() {
         return Tpartita;
     }

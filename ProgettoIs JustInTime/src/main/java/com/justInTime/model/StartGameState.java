@@ -62,8 +62,17 @@ public class StartGameState implements GameState {
     }
     
 
-    public void playerReady() {
-        this.PlayerReady = true;
+    public void setPlayerReady(boolean playerReady) {
+        PlayerReady = playerReady;
+    }
+
+
+    public void playerReady(Long partitaId) {
+        Partita partita = partitaService.getPartita(partitaId);
+        if (partita != null && partita.getGameState() instanceof StartGameState){
+            setPlayerReady(true);
+            
+        }
     }
 
     public Partita getPartita() {

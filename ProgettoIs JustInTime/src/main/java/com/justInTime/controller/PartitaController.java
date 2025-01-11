@@ -58,7 +58,9 @@ public class PartitaController {
          try {
     
            
-             Partita partita = (Partita) session.getAttribute("partita");
+            Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
+    
              if (partita == null) {
 
                  return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -87,6 +89,8 @@ public class PartitaController {
     public ResponseEntity<?> terminaPartita(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
+    
             return ResponseEntity.ok(partitaService.terminaPartita(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
@@ -133,12 +137,13 @@ public class PartitaController {
     @PostMapping("/PlayerReady")
     public ResponseEntity<?> PlayerReady(HttpSession session) {
         Partita partita = (Partita) session.getAttribute("partita");
+        partita = partitaService.getPartita(partita.getId());    
 
         if (partita == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
         }
 
-        partitaService.playerReady(partita);
+        partitaService.playerReady(partita.getId());
         return ResponseEntity.ok().build();
     }
 
@@ -178,15 +183,17 @@ public class PartitaController {
         
         try {
     
-    
-        
             Partita partita = (Partita) session.getAttribute("partita");
+            partita = partitaService.getPartita(partita.getId());    
+    
             if (partita == null) {
              
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Partita non trovata nella sessione.");
             }
-   
-            String username = partitaService.getPartitaRepository(partita.getId()).getGiocatoreCorrente().getUtente().getUsername();
+
+            
+            String username = partita.getGiocatoreCorrenteless().getUtente().getUsername();
+            System.out.println("Username del giocatore corrente nel controller: " + username);
             
 
             return ResponseEntity.ok(username);
@@ -227,10 +234,11 @@ public class PartitaController {
     @PostMapping("/nextPlayer")
     public String goNextPlayer(HttpSession session) {
         Partita partita = (Partita) session.getAttribute("partita");
+        partita = partitaService.getPartita(partita.getId()); 
         if (partita == null) {
             return "Partita non trovata nella sessione!";
         }
-    
+        
         partita = partitaService.getPartita(partita.getId());
         if (partita == null) {
             return "Partita non esistente!";
@@ -242,7 +250,7 @@ public class PartitaController {
     
         try {
             if (partita.getGameState() instanceof PauseState) {
-                Player player = ((PauseState) partita.getGameState()).getPlayerSuccessivo(partita);
+                Player player = partita.getGiocatoreCorrente();
     
                 if (player == null) {
                     return "Non ci sono giocatori successivi disponibili!";

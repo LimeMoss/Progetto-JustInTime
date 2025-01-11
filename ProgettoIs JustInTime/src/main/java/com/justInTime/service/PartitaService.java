@@ -300,8 +300,8 @@ public void eseguiPauseStateAsync(Partita partita) {
 
 
 
-    public Partita playerReady(Partita partita) {
-      
+    public Partita playerReady(Long partitaId) {
+       Partita partita = getPartita(partitaId);
         
         if (partita == null) {
             throw new IllegalArgumentException("Partita non trovata.");
@@ -315,7 +315,7 @@ public void eseguiPauseStateAsync(Partita partita) {
      
         if (gameState instanceof StartGameState startGameState1) {
    
-            startGameState1.playerReady();
+            startGameState1.playerReady(partitaId);
         } else {
           
             throw new IllegalStateException("Non è possibile segnare il giocatore come pronto in questo stato del gioco.");
