@@ -194,17 +194,6 @@ public void eseguiPauseStateAsync(Partita partita) {
                             carta.getValore() == specialValue||
                             ultimaValore==specialValue);
     
-        if (giocabile) {
-           
-                        carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
-        } else {
-      
-                        carta.getTipo(), carta.getValore(), ultimaCarta.getTipo(), ultimaValore);
-
-
-        }
-        
-        partita.getGiocatoreCorrente().setTurnoInPausa(true);
 
         return giocabile;
     }
