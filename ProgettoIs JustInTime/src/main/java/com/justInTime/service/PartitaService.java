@@ -239,9 +239,9 @@ public void eseguiPauseStateAsync(Partita partita) {
      * 
      * @param partitaId l'id della partita da terminare
      */
-    public List<FullPlayerDataDTO> terminaPartita(Partita partita) {
+    public List<String> terminaPartita(Partita partita) {
 
-        List <FullPlayerDataDTO> podio= new ArrayList<>();
+        List <String> podio= new ArrayList<>();
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
         giocatori.sort((p1, p2) -> Double.compare(playerService.estimateScore(p2), playerService.estimateScore(p1)));
        ;
@@ -249,7 +249,7 @@ public void eseguiPauseStateAsync(Partita partita) {
 
       
         for (Player giocatore : giocatori) {
-            podio.add(new FullPlayerDataDTO(giocatore.getUtente().getUsername()));
+            podio.add(giocatore.getUtente().getUsername());
             giocatore.getPartite().remove(partita);
             playerService.savePlayer(giocatore.getId());
         }

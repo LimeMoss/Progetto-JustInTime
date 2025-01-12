@@ -96,9 +96,9 @@ public class PartitaController {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
             partita = partitaService.getPartita(partita.getId());    
-            List <FullPlayerDataDTO> podio = partitaService.terminaPartita(partita);
+            partitaService.terminaPartita(partita);
     
-            return ResponseEntity.ok(podio);
+            return ResponseEntity.ok(partitaService.terminaPartita(partita));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }
