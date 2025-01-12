@@ -71,7 +71,7 @@ public class Player implements abstractPlayer {
     @Transient
     private boolean escluso;
 
-    @ManyToMany(mappedBy = "giocatori", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "giocatori", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Partita> partite;
 
     @OneToOne(cascade = CascadeType.ALL,  orphanRemoval = true)
@@ -79,7 +79,7 @@ public class Player implements abstractPlayer {
     @JoinColumn(name = "utente_id", referencedColumnName = "id")
     private Utente utente;
 
-    @ManyToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "giocatori_achievement", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "achievement_id"))
     private List<Achievements> achievements;
 
