@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profilo utente</title>
+    <link rel="stylesheet" href="../css/consultazioneprofilo.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <script src="../script/consultazioneprofilo.js"></script>
+    <script src="../script/userHomepage.js"></script>
+    <link rel="icon" href="../images/logo.png">
+</head>
+<body>
+    <div id="header-container">
+        <header class="header">
+            <div class="logo">
+                <a title=""  href="/userHomepage" class="logo-image" id="logo-image">
+                    <img src="../images/logo.png" alt="">
+                </a>
+                <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="/rules">Regolamento</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </header>
+    </div>
+    <h1 id="username">NomeUtente</h1>
+    <div class="top-scores">
+        <div class="top-gamecounts">
+            <h3>Partite giocate</h3>
+            <p id="top-gamecounts">00</p>
+        </div>
+        <div class="top-wins">
+            <h3>Vittorie</h3>
+            <p id="top-wins">00</p>
+        </div>
+        <div class="top-scorepoint">
+            <h3>Punteggio</h3>
+            <p id="top-scorepoint">00</p>
+        </div>
+    </div>
+
+    <div class="playerspecs">
+        <p>Nome: <span class="dati" id="nome">placeholder</span></p>
+        <p>Cognome: <span class="dati" id="surname">placeholder</span></p>
+        <p>Email associata: <span class="dati" id="email">placeholder</span></p>
+        <p>Telefono: <span class="dati" id="phoneNumber">placeholder</span></p>
+        <p>Paese: <span class="dati" id="country">placeholder</span></p>
+        <p>Data di nascita: <span class="dati" id="datanascita">placeholder</span></p>
+    </div>
+
+    <div class="profilebuttons">
+        <button id="modifybutton">Modifica i tuoi dati</button>
+        <button id="deletebutton">Elimina account</button>
+    </div>
+
+    <div id="footer-container">
+        <footer class="footer">
+            <div class="nav-links">
+                <a href="#contatti">Contatti</a>
+            </div>
+            <div class="logo">
+                <img class="logo-image" src="../images/logo.png" alt="">
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

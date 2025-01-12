@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Fine Partita</title>
+
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/finepartita.css">
+    <script src="../script/endmatch.js"></script>
+    <link rel="icon" href="../images/logo.png">
+</head>
+<body>
+
+    <div id="header-container">
+        <header class="header">
+            <div class="logo">
+                <a title=""  href="/userHomepage" class="logo-image" id="logo-image">
+                    <img src="../images/logo.png" alt="">
+                </a>
+                <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="/rules">Regolamento</a>
+                <div class="logo">
+                    <a title=""  href="/consultazioneProfilo" class="logo-image" id="user-image">
+                        <img src="../images/user.png" alt="">
+                    </a>
+                </div>
+                <a href="/logout">Logout</a>
+            </nav>
+        </header>
+    </div>
+
+    <div class="container">
+        <div class="left">
+            <button class="top-button" id="homebutton" onclick="window.location.href='/userHomepage'">Home</button>
+            <div class="content">
+                <h1>Punteggio</h1>
+                <div class="scores">
+                    <div class="second">
+                        <p id="name2">nome2</p>
+                        <p>2°</p>
+                    </div>
+                    <div class="first">
+                        <p id="name1">nome1</p>
+                        <p>1°</p>
+                        <img class="trophy" src="../images/trophy.png" alt="Trofeo">
+                    </div>
+                    <div class="third" id="third">
+                        <p id="name3">nome3</p>
+                        <p>3°</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="top-button" id="playagainbutton">Gioca ancora</button>
+            <button class="top-button" id="feedback" onclick="window.location.href='/feedbacks'">Lascia un feedback</button>
+        </div>
+    </div>
+
+    <div id="footer-container">
+        <footer class="footer">
+            <div class="nav-links">
+                <a href="#contatti">Contatti</a>
+            </div>
+            <div class="logo">
+                <img class="logo-image" src="../images/logo.png" alt="">
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

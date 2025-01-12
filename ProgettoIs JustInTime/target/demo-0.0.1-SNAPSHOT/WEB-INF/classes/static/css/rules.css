@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+
+body {
+    margin-top: 100px;
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    display: flex;
+    height: 100%;
+    width: 99%;
+    margin-bottom: 150px;
+}
+
+#title {
+    font-size: 60px;
+    color: #FFEDDC;
+}
+
+.rules-container{
+    text-align: left;
+    color: #2d3b1f;
+    font-size: 30px;
+    width: 70%;
+}
+
+b{
+    color: #FFEDDC;
+}

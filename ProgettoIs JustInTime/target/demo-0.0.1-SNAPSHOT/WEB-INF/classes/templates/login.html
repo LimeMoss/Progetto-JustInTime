@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JustInTime</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="icon" href="../images/logo.png">
+</head>
+
+<body>
+  <div id="header-container">
+    <header class="header">
+      <div class="logo">
+        <a title="" href="/" class="logo-image" id="logo-image">
+          <img src="../images/logo.png" alt="">
+        </a>
+        <div class="logo-text"><span style="color: #FFEDDC;">Just</span><span style="color: #DDA15E;">In</span><span style="color: #E48826;">Time</span></div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/rules">Regolamento</a>
+      </nav>
+    </header>
+  </div>
+
+  <main>
+    <div class="login-container">
+      <h1 class="login-title">Login</h1>
+      <form id="login-form">
+        <div class="input-group">
+          <label for="username">Username/email</label>
+          <input type="text" id="username" name="usernameOrEmail" placeholder="Inserisci il tuo username o la tua email" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Inserisci password" required>
+        </div>
+      </form>
+      <div class="action-section">
+        <button type="button" class="login-button" onclick="handleLogin()">Accedi</button>
+        <span class="no-account">Non hai un account?</span>
+        <a href="/registrazione" class="register-button">Registrati</a>
+      </div>
+      <p id="error-message" style="color:red; font-size: 20px; margin-top: 10px"></p>
+    </div>
+  </main>
+
+  <div id="footer-container">
+    <footer class="footer">
+      <div class="nav-links">
+        <a href="#contatti">Contatti</a>
+      </div>
+      <div class="logo">
+        <img class="logo-image" src="../images/logo.png" alt="">
+      </div>
+    </footer>
+  </div>
+  
+  <script>
+    async function handleLogin() {
+      const usernameOrEmail = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (!usernameOrEmail || !password) {
+        document.getElementById('error-message').textContent = 'Per favore, compila tutti i campi.';
+        return;
+      }
+
+      const loginData = new URLSearchParams();
+      loginData.append('usernameOrEmail', usernameOrEmail);
+      loginData.append('password', password);
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: loginData.toString()
+        });
+
+        if (response.ok) {
+          window.location.href = '/homepage';
+        } else {
+          const error = await response.json();
+          document.getElementById('error-message').textContent = error.message || 'Credenziali non valide.';
+        }
+      } catch (error) {
+        document.getElementById('error-message').textContent = 'Errore di connessione, riprova.';
+      }
+    }
+
+      </script>
+    </body>
+    </html>
+    

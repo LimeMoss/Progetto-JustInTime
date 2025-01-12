@@ -92,6 +92,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 turnoInCorso = false;
                 timeLeftLabel.textContent = 'Turno scaduto!';
                 showPopup('Il tuo tempo è terminato. Hai perso', 'Premi OK per passare il turno', false);
+                updateArray();
+                passTurnToNextPlayer();
             }
         }, 1000);
     }
@@ -211,30 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => console.error('Errore:', error.message));
     }
-
-    function terminaPartita() {
-        fetch('/game/termina-partita/', {
-            method: 'POST',
-            credentials: 'include',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(errorText => {
-                        throw new Error(errorText);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Partita terminata con successo:', data);
-                window.location.href = '/endMatch';
-            })
-            .catch(error => {
-                console.error('Errore durante la terminazione della partita:', error.message);
-                showPopup('Errore', 'Non è stato possibile terminare la partita. Riprova più tardi.', false);
-            });
-    }
-
 
     function showPopup(title, message, blurBackground) {
         popupContainer.innerHTML = `

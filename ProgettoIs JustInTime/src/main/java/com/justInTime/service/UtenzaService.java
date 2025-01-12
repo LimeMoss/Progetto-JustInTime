@@ -3,6 +3,7 @@ package com.justInTime.service;
 import com.justInTime.DTO.FullPlayerDataDTO;
 import com.justInTime.DTO.FullPlayerDataDTOPsw;
 import com.justInTime.DTO.paeseUtenzaDTO;
+import com.justInTime.model.Player;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.UtenzaRepository;
 
@@ -168,10 +169,20 @@ public class UtenzaService {
     @Transactional
     public void eliminaUtente(Long id) {
         Utente utente = trovaUtente(id);
+        
+        // Controlla se il Player esiste
+        if (utente.getPlayer() != null) {
+            // Salva esplicitamente il Player se non è già persistente
+            playerService.savePlayer(utente.getPlayer().getId());  // Assicurati che savePlayer salvi correttamente il Player
+        }
+        
+        // Elimina il Player associato
+     
+
+        // Elimina l'Utente
         utenzaRepository.delete(utente);
-        if(utente.getPlayer()!=null)
-        playerService.deletePlayer(utente.getPlayer().getId());
     }
+    
 
     /**
      * Registra un utente nuovo. Verifica che le credenziali fornite siano valide,

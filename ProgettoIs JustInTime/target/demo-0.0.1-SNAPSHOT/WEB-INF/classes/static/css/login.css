@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jua', Arial, sans-serif;
+    background-color: #8BAC4F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.login-container {
+    background-color: #2d3b1f;
+    border-radius: 20px;
+    padding: 40px;
+    width: fit-content;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-title {
+    font-size: 50px;
+    color: #F5ECD8;
+    margin-bottom: 10px;
+}
+
+.login-form {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+label {
+    font-size: 18px;
+    color: #F5ECD8;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff7f7;
+}
+
+button, .register-button{
+    background-color: #e48826;
+    color: #F5ECD8;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 120px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.action-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button:hover, .register-button:hover{
+    background-color: #d9773b;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.47);
+}
+
+.register-button {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.no-account {
+    margin-left: 30px;
+    margin-right: 5px;
+    color: #F5ECD8;
+}

@@ -26,7 +26,7 @@ public class Utente implements abstractUtente {
     private String username;
   
 
-    @OneToOne(mappedBy = "utente")  
+    @OneToOne(mappedBy = "utente", cascade = CascadeType.REMOVE,  orphanRemoval = true)  
     @PrimaryKeyJoinColumn
     private Player player;
 
