@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Devi essere loggato per avviare una nuova partita.');
             });
     });
-    updateRanking();
 
     function terminaPartita() {
         fetch('/game/termina-partita/', {
@@ -48,9 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
             .then(response => {
                 if (!response.ok) {
-                    return response.text().then(errorText => {
-                        throw new Error(errorText);
-                    });
+                    throw new Error('Errore nel recupero dei dati giocatori.');
                 }
                 return response.json();
             })
@@ -72,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }else{
             document.getElementById('third').style.display = 'none';
         }
-
-        terminaPartita();
     }
+
+    terminaPartita();
 });

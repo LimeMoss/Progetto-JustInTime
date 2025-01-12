@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.justInTime.DTO.FullPlayerDataDTO;
 import com.justInTime.model.Carta;
 import com.justInTime.model.EndGameState;
 import com.justInTime.model.GameState;
@@ -238,17 +239,17 @@ public void eseguiPauseStateAsync(Partita partita) {
      * 
      * @param partitaId l'id della partita da terminare
      */
-    public List<Player> terminaPartita(Partita partita) {
+    public List<FullPlayerDataDTO> terminaPartita(Partita partita) {
 
-        List <Player> podio= new ArrayList<>();
+        List <FullPlayerDataDTO> podio= new ArrayList<>();
         List<Player> giocatori = new ArrayList<>(partita.getGiocatori());
         giocatori.sort((p1, p2) -> Double.compare(playerService.estimateScore(p2), playerService.estimateScore(p1)));
-        podio.addAll(giocatori);
+       ;
 
 
       
         for (Player giocatore : giocatori) {
-            
+            podio.add(new FullPlayerDataDTO(giocatore.getUtente().getUsername()));
             giocatore.getPartite().remove(partita);
             playerService.savePlayer(giocatore.getId());
         }
@@ -260,6 +261,8 @@ public void eseguiPauseStateAsync(Partita partita) {
 
       
     }
+
+    
 
     /**
      * Imposta lo stato della partita specificata.

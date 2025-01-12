@@ -42,7 +42,7 @@ public class PartitaController {
             Partita partita = (Partita) session.getAttribute("partita");
             partita = partitaService.getPartita(partita.getId());    
             Carta carta = partitaService.giocaCarta(partita, cartaIndex); 
-     
+            System.out.println("Carta giocata: " + carta.getValore());
             return ResponseEntity.ok(carta);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -221,6 +221,7 @@ public class PartitaController {
             }
     
             Carta carta = partitaService.getLastCardScarto(partita);
+            System.out.println("Carta scartata: " + carta.getValore());
             
             if (carta == null) {
                 return ResponseEntity.status(HttpStatus.OK)

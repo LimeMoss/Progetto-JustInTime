@@ -30,7 +30,9 @@ public class PauseState implements GameState {
     @Qualifier("endGameState")
     @Lazy
     private GameState endGameState;
+  
     private static final long TIMEOUT = 60000;
+   
 
     /**
      * Esegue le operazioni necessarie per mettere in pausa una partita.
@@ -120,7 +122,7 @@ public class PauseState implements GameState {
 
     /**
      * Verifica se la partita è terminata.
-     */
+     
     private boolean isGameOver(Partita partita) {
         System.out.println("Verifica se la partita è terminata.");
         for (Player player : partita.getGiocatori()) {
@@ -134,6 +136,7 @@ public class PauseState implements GameState {
         System.out.println("La partita non è ancora terminata.");
         return false;
     }
+    */
 
     public Partita getPartita() {
         return Tpartita;

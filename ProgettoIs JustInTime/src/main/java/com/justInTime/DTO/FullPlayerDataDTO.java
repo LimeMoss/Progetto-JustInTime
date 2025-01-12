@@ -26,6 +26,11 @@ public class FullPlayerDataDTO {
             this.dataNascita = dataNascita;
         }
 
+        public FullPlayerDataDTO(String username) {
+            this.username = username;
+      
+        }
+
         public String getUsername() {
             return username;
         }

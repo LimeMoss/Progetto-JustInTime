@@ -74,7 +74,6 @@ public class Partita {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-          System.out.println("L'id della partita: "+this.id+ "Gamestate:" +gameState.toString());
     
         
     }

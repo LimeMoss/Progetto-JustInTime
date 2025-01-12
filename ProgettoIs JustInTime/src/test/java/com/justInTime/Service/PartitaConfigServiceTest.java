@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +27,7 @@ import com.justInTime.model.Player;
 import com.justInTime.model.Utente;
 import com.justInTime.repository.PartitaRepository;
 import com.justInTime.service.PartitaConfigService;
+import com.justInTime.service.PartitaService;
 import com.justInTime.service.PlayerService;
 import com.justInTime.service.UtenzaService;
 
@@ -247,7 +249,7 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
     //TC 3.2_2
     @Test
     void testCreazionePartita_Successful() {
-        
+        PartitaService partitaService = mock(PartitaService.class);
         Utente SessionUser= mock(Utente.class);
         when(SessionUser.getId()).thenReturn(2L);
 
@@ -282,6 +284,7 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
         partitaConfigService.aggiungiGiocatoreConfig(usernameOrEmail, password, session);
         Partita partita = mock(Partita.class);
         doNothing().when(partita).setGameState(any());
+        doNothing().when(partitaService).addPartita(anyLong(), any(Partita.class));
         partita = partitaConfigService.creaPartita(session);
 
         assertNotNull(partita);
