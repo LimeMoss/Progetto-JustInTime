@@ -47,9 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
             .then(response => {
                 if (!response.ok) {
-                    return response.text().then(errorText => {
-                        throw new Error(errorText);
-                    });
+                    throw new Error('Errore nel recupero dei dati giocatori.');
                 }
                 return response.json();
             })
