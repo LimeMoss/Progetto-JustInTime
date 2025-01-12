@@ -71,7 +71,7 @@ public class Player implements abstractPlayer {
     @Transient
     private boolean escluso;
 
-    @ManyToMany(mappedBy = "giocatori", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "giocatori", fetch = FetchType.EAGER)
     private List<Partita> partite;
 
     @OneToOne(cascade = CascadeType.ALL,  orphanRemoval = true)
