@@ -1,5 +1,6 @@
 package com.justInTime.controller;
 
+import com.justInTime.DTO.FullPlayerDataDTO;
 import com.justInTime.model.Carta;
 import com.justInTime.model.Partita;
 import com.justInTime.model.PauseState;
@@ -95,8 +96,9 @@ public class PartitaController {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
             partita = partitaService.getPartita(partita.getId());    
+            List <FullPlayerDataDTO> podio = partitaService.terminaPartita(partita);
     
-            return ResponseEntity.ok(partitaService.terminaPartita(partita));
+            return ResponseEntity.ok(podio);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }

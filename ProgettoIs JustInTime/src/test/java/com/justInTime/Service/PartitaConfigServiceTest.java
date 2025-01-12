@@ -46,8 +46,12 @@ public class PartitaConfigServiceTest{
     @Mock
     private PlayerService playerService;
 
+    @Mock
+private PartitaService partitaService;
+
     @InjectMocks
     private PartitaConfigService partitaConfigService;
+    
 
 
 
@@ -249,7 +253,7 @@ public void AggiungiGiocatoreConfig_MaxGiocatoriRaggiunto() {
     //TC 3.2_2
     @Test
     void testCreazionePartita_Successful() {
-        PartitaService partitaService = mock(PartitaService.class);
+
         Utente SessionUser= mock(Utente.class);
         when(SessionUser.getId()).thenReturn(2L);
 
