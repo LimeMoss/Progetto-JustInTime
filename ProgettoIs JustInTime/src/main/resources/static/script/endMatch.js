@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateRanking(players) {
-        document.getElementById('name1').textContent = players[0].username;
-        document.getElementById('name2').textContent = players[1].username;
+        document.getElementById('name1').textContent = players[0];
+        document.getElementById('name2').textContent = players[1];
         if (players.length > 2) {
             document.getElementById('name3').textContent = players[2].username;
         }else{

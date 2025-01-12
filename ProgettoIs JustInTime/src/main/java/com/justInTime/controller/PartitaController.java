@@ -95,10 +95,10 @@ public class PartitaController {
     public ResponseEntity<?> terminaPartita(HttpSession session) {
         try {
             Partita partita = (Partita) session.getAttribute("partita");
-            partita = partitaService.getPartita(partita.getId());    
-            partitaService.terminaPartita(partita);
-    
-            return ResponseEntity.ok(partitaService.terminaPartita(partita));
+            partita = partitaService.getPartita(partita.getId());
+            List<String> podio = partitaService.terminaPartita(partita);  // Salviamo il podio
+
+            return ResponseEntity.ok(podio);  // Restituiamo solo il podio
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore: " + e.getMessage());
         }
