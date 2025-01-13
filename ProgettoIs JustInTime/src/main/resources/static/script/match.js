@@ -118,6 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let players = JSON.parse(localStorage.getItem('playersPreGame')) || []; // Array per memorizzare i giocatori
     fixFunction();
     function fixFunction() {
+
+        console.log(' giocatore prima di shiftt:', players);
         players.shift();
     }
 
